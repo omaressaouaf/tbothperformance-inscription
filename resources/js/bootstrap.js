@@ -1,34 +1,63 @@
-import _ from 'lodash';
+import axios from "axios";
+import * as _ from "lodash";
+import { Inertia } from "@inertiajs/inertia";
+import NProgress from "nprogress";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import objectSupport from "dayjs/plugin/objectSupport";
+import "dayjs/locale/fr";
+
+// Lodash
 window._ = _;
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-import axios from 'axios';
+// Axios config
 window.axios = axios;
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// Inertia events
+let timeout = null;
+NProgress.configure({
+    trickleRate: 0.05,
+    trickleSpeed: 20,
+    showSpinner: false,
+});
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
+Inertia.on("start", () => {
+    timeout = setTimeout(() => NProgress.start(), 250);
+});
 
-// import Echo from 'laravel-echo';
+Inertia.on("finish", (event) => {
+    clearTimeout(timeout);
+    if (!NProgress.isStarted()) {
+        return;
+    } else if (event.detail.visit.completed) {
+        NProgress.done();
+    } else if (event.detail.visit.interrupted) {
+        NProgress.set(0);
+    } else if (event.detail.visit.cancelled) {
+        NProgress.done();
+        NProgress.remove();
+    }
+});
 
-// import Pusher from 'pusher-js';
+Inertia.on("progress", (event) => {
+    if (NProgress.isStarted() && event.detail.progress.percentage) {
+        NProgress.set((event.detail.progress.percentage / 100) * 0.9);
+    }
+});
+
+// Days js
+dayjs.extend(objectSupport);
+dayjs.extend(relativeTime);
+dayjs.extend(LocalizedFormat);
+dayjs.locale(window._locale);
+
+//Pusher & Echo config
 // window.Pusher = Pusher;
-
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-//     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-//     enabledTransports: ['ws', 'wss'],
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+//     forceTLS: true
 // });

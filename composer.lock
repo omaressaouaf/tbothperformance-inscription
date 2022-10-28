@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a781fbe633bd017e4868878988554f0b",
+    "content-hash": "cbf61b49a71b3c3a3940da329360f151",
     "packages": [
         {
             "name": "brick/math",
@@ -2904,6 +2904,82 @@
                 }
             ],
             "time": "2022-09-16T03:22:46+00:00"
+        },
+        {
+            "name": "spatie/laravel-blade-javascript",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-blade-javascript.git",
+                "reference": "1a0d5daaf91e123799b0250b216f75d30264502a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-blade-javascript/zipball/1a0d5daaf91e123799b0250b216f75d30264502a",
+                "reference": "1a0d5daaf91e123799b0250b216f75d30264502a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.2|^8.0|^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
+                "phpunit/phpunit": "^8.5.22|^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\BladeJavaScript\\BladeJavaScriptServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\BladeJavaScript\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Blade directive to export variables to JavaScript",
+            "homepage": "https://github.com/spatie/laravel-blade-javascript",
+            "keywords": [
+                "blade",
+                "directive",
+                "javascript",
+                "laravel",
+                "laravel-blade-javascript",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-blade-javascript/issues",
+                "source": "https://github.com/spatie/laravel-blade-javascript/tree/2.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-01-13T09:19:35+00:00"
         },
         {
             "name": "symfony/console",
