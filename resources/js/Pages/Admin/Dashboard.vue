@@ -1,10 +1,6 @@
 <template>
     <Head title="Dashboard" />
-    <!-- <template #header>
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __("Dashboard") }}
-        </h2>
-    </template> -->
+    
     <Breadcrumb :page-title="__('Dashboard')" />
 
     <div class="py-12">
@@ -20,5 +16,6 @@
 </template>
 
 <script>
-export default {};
+export default {
+};
 </script>

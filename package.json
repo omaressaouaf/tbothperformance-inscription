@@ -23,7 +23,9 @@
         "@zhuowenli/vue-feather-icons": "^5.0.2",
         "dayjs": "^1.11.6",
         "format-money-js": "^1.5.5",
+        "mitt": "^3.0.0",
         "nprogress": "^0.2.0",
+        "vform": "^2.1.2",
         "vue3-click-away": "^1.2.4"
     }
 }

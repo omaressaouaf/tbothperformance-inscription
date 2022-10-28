@@ -12,6 +12,7 @@ import bladeToJs from "./mixins/bladeToJs";
 import translate from "@/mixins/translate";
 import printPlaceholder from "@/mixins/printPlaceholder";
 import VueClickAway from "vue3-click-away";
+import mitt from "mitt";
 import {
     formatDate,
     formatDateTime,
@@ -51,7 +52,9 @@ createInertiaApp({
         vueApp.use(plugin);
         vueApp.use(VueClickAway);
         vueApp.use(ZiggyVue, Ziggy);
-
+        window.emitter = mitt();
+        vueApp.config.globalProperties.$emitter = emitter;
+        
         // Mixins
         vueApp.mixin({ methods: { route } });
         vueApp.mixin(bladeToJs);
