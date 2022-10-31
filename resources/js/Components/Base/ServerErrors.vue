@@ -1,10 +1,10 @@
 <template>
     <div v-if="hasErrors">
-        <div class="font-medium text-red-600">
+        <div class="font-medium text-primary-3">
             {{ __("Whoops! Something went wrong.") }}
         </div>
 
-        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+        <ul class="mt-3 list-disc list-inside text-sm text-primary-3">
             <li v-for="(error, key) in errors" :key="key">
                 {{ Array.isArray(error) ? error[0] : error }}
             </li>

@@ -27,26 +27,21 @@ const submit = () => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="password" :value="__('Password')" />
-            <TextInput
-                id="password"
+            <label class="form-label">{{ __("Password") }}</label>
+            <input
                 type="password"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('password')"
                 v-model="form.password"
                 required
                 autocomplete="current-password"
-                autofocus
             />
         </div>
 
         <div class="flex justify-end mt-4">
-            <PrimaryButton
-                class="ml-4"
-                :class="{ 'opacity-25': form.processing }"
-                :disabled="form.processing"
-            >
+            <button :disabled="form.processing" class="btn btn-primary">
                 {{ __("Confirm") }}
-            </PrimaryButton>
+            </button>
         </div>
     </form>
 </template>

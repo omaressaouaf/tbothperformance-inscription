@@ -1,5 +1,5 @@
+import "../sass/app.scss";
 import "./bootstrap";
-import "../css/app.css";
 import "nprogress/nprogress.css";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
@@ -12,6 +12,7 @@ import bladeToJs from "./mixins/bladeToJs";
 import translate from "@/mixins/translate";
 import printPlaceholder from "@/mixins/printPlaceholder";
 import VueClickAway from "vue3-click-away";
+import store from "@/store";
 import mitt from "mitt";
 import {
     formatDate,
@@ -50,11 +51,12 @@ createInertiaApp({
 
         // Global config
         vueApp.use(plugin);
+        vueApp.use(store);
         vueApp.use(VueClickAway);
         vueApp.use(ZiggyVue, Ziggy);
         window.emitter = mitt();
         vueApp.config.globalProperties.$emitter = emitter;
-        
+
         // Mixins
         vueApp.mixin({ methods: { route } });
         vueApp.mixin(bladeToJs);

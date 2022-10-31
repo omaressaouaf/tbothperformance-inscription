@@ -41,13 +41,9 @@ const verificationLinkSent = computed(
 
     <form @submit.prevent="submit">
         <div class="mt-4 flex items-center justify-between">
-            <PrimaryButton
-                :class="{ 'opacity-25': form.processing }"
-                :disabled="form.processing"
-            >
+            <button :disabled="form.processing" class="btn btn-primary">
                 {{ __("Resend Verification Email") }}
-            </PrimaryButton>
-
+            </button>
             <Link
                 :href="route('logout')"
                 method="post"

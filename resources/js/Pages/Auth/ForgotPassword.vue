@@ -33,11 +33,11 @@ const submit = () => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="email" :value="__('Email')" />
-            <TextInput
-                id="email"
+            <label class="form-label">{{ __("Email") }}</label>
+            <input
                 type="email"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('email')"
                 v-model="form.email"
                 required
                 autofocus
@@ -46,12 +46,9 @@ const submit = () => {
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <PrimaryButton
-                :class="{ 'opacity-25': form.processing }"
-                :disabled="form.processing"
-            >
-                {{ __("Email Password Reset Link") }}
-            </PrimaryButton>
+            <button :disabled="form.processing" class="btn btn-primary">
+                  {{ __("Email Password Reset Link") }}
+            </button>
         </div>
     </form>
 </template>

@@ -22,6 +22,7 @@
    @inertia
 
    @javascript([
+       '_baseUrl' => url(''),
        '_appName' => config('app.name'),
        '_locale' => app()->getLocale(),
        '_supportedLocales' => config('app.supported_locales'),

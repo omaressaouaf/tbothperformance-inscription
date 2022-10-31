@@ -1,0 +1,22 @@
+.multiselect {
+    .multiselect__select::before {
+        @apply dark:border-transparent;
+    }
+    .multiselect__content-wrapper, .multiselect__option--selected {
+        @apply dark:bg-dark-2 dark:text-gray-500;
+    }
+    .multiselect__option--selected:hover {
+        @apply dark:bg-dark-5;
+    }
+    .multiselect__tags,
+    .multiselect__input,
+    .multiselect__single {
+        @apply placeholder-gray-500 dark:bg-dark-2 dark:border-transparent;
+    }
+    .multiselect__spinner {
+        @apply dark:bg-dark-2;
+    }
+    .multiselect__single {
+        @apply dark:text-gray-500;
+    }
+}

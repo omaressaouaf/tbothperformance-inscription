@@ -27,11 +27,11 @@ const submit = () => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="email" :value="__('Email')" />
-            <TextInput
-                id="email"
+            <label class="form-label">{{ __("Email") }}</label>
+            <input
                 type="email"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('email')"
                 v-model="form.email"
                 required
                 autofocus
@@ -40,11 +40,11 @@ const submit = () => {
         </div>
 
         <div class="mt-4">
-            <InputLabel for="password" :value="__('Password')" />
-            <TextInput
-                id="password"
+            <label class="form-label">{{ __("New Password") }}</label>
+            <input
                 type="password"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('password')"
                 v-model="form.password"
                 required
                 autocomplete="new-password"
@@ -52,14 +52,11 @@ const submit = () => {
         </div>
 
         <div class="mt-4">
-            <InputLabel
-                for="password_confirmation"
-                :value="__('Confirm Password')"
-            />
-            <TextInput
-                id="password_confirmation"
+            <label class="form-label">{{ __("Confirm Password") }}</label>
+            <input
                 type="password"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('password')"
                 v-model="form.password_confirmation"
                 required
                 autocomplete="new-password"
@@ -67,12 +64,9 @@ const submit = () => {
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <PrimaryButton
-                :class="{ 'opacity-25': form.processing }"
-                :disabled="form.processing"
-            >
+            <button :disabled="form.processing" class="btn btn-primary">
                 {{ __("Reset Password") }}
-            </PrimaryButton>
+            </button>
         </div>
     </form>
 </template>

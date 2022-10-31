@@ -1,13 +1,15 @@
 <template>
-    <header class="bg-gradient-to-r from-purple-800 to-indigo-600 shadow mt-0.5">
-        <div
-            class="max-w-7xl mx-auto flex justify-between py-6 px-4 sm:px-6 lg:px-8"
-        >
-            <h2 class="font-semibold text-xl text-gray-100 leading-tight">
-                {{ pageTitle }}
-            </h2>
+    <div class="breadcrumb me-auto hidden sm:flex mt-5">
+        <h2 class="text-xl text-gray-800 dark:text-gray-400 hidden md:block">
+            {{ pageTitle }}
+        </h2>
+        <div class="ms-auto">
+            <Link :href="route('admin.dashboard')">{{ __("Dashboard") }}</Link>
+            <ChevronRightIcon class="breadcrumb__icon" />
+            <slot />
+            <a href="#" class="breadcrumb--active">{{ pageTitle }}</a>
         </div>
-    </header>
+    </div>
 </template>
 
 <script>

@@ -30,11 +30,11 @@ const submit = () => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="email" :value="__('Email')" />
-            <TextInput
-                id="email"
+            <label class="form-label">{{ __("Email") }}</label>
+            <input
                 type="email"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('email')"
                 v-model="form.email"
                 required
                 autofocus
@@ -42,12 +42,12 @@ const submit = () => {
             />
         </div>
 
-        <div class="mt-4">
-            <InputLabel for="password" :value="__('Password')" />
-            <TextInput
-                id="password"
+        <div class="mt-5">
+            <label class="form-label">{{ __("Password") }}</label>
+            <input
                 type="password"
-                class="mt-1 block w-full"
+                class="form-control py-3 px-4"
+                :placeholder="printPlaceholder('password')"
                 v-model="form.password"
                 required
                 autocomplete="current-password"
@@ -56,14 +56,19 @@ const submit = () => {
 
         <div class="block mt-4">
             <label class="flex items-center">
-                <Checkbox name="remember" v-model:checked="form.remember" />
+                <input
+                    id="remember-me"
+                    type="checkbox"
+                    v-model="form.remember"
+                    class="form-check-input me-2"
+                />
                 <span class="ml-2 text-sm text-gray-600">{{
                     __("Remember me")
                 }}</span>
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-between mt-4">
             <Link
                 v-if="canResetPassword"
                 :href="route('password.request')"
@@ -72,13 +77,12 @@ const submit = () => {
                 {{ __("Forgot your password?") }}
             </Link>
 
-            <PrimaryButton
-                class="ml-4"
-                :class="{ 'opacity-25': form.processing }"
+            <button
                 :disabled="form.processing"
+                class="btn btn-primary"
             >
-                {{ __("Log in") }}
-            </PrimaryButton>
+                {{ __("Login") }}
+            </button>
         </div>
     </form>
 </template>

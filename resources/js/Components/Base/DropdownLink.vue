@@ -1,9 +1,33 @@
-<script setup>
-import { Link } from '@inertiajs/inertia-vue3';
-</script>
-
 <template>
-    <Link class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-        <slot />
-    </Link>
+    <Component
+        :is="anchor ? 'a' : 'Link'"
+        data-dismiss="dropdown"
+        class="dropdown-menu-link"
+        :class="{
+            'bg-gray-200 dark:bg-dark-3': active,
+        }"
+    >
+        <Component
+            v-if="icon"
+            :is="icon"
+            class="w-4 h-4"
+            :class="{ 'me-2': title }"
+        />
+        <template v-if="title">
+            {{ title }}
+        </template>
+        <slot v-else />
+    </Component>
 </template>
+
+<script>
+export default {
+    props: {
+        icon: String,
+        title: String,
+        icon: String,
+        anchor: Boolean,
+        active: Boolean,
+    },
+};
+</script>

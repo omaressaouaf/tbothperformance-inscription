@@ -1,3 +1,10 @@
+import "@left4code/tw-starter/dist/js/svg-loader";
+import "@left4code/tw-starter/dist/js/accordion";
+import "@left4code/tw-starter/dist/js/alert";
+import "@left4code/tw-starter/dist/js/dropdown";
+import "@left4code/tw-starter/dist/js/modal";
+import "@left4code/tw-starter/dist/js/tab";
+import "zoom-vanilla.js/dist/zoom-vanilla.min.js";
 import axios from "axios";
 import * as _ from "lodash";
 import { Inertia } from "@inertiajs/inertia";
@@ -10,6 +17,58 @@ import "dayjs/locale/fr";
 
 // Lodash
 window._ = _;
+
+// Axios config
+window.axios = axios;
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (!error?.response?.config?.headers["X-Inertia"]) {
+            const status = error?.response?.status;
+            var message =
+                error?.response?.data?.message ||
+                __("Unexpected error happened");
+
+            switch (status) {
+                case 401:
+                    message =
+                        __("This action is unauthorized.") +
+                        " " +
+                        __("Please refresh the page and try again");
+                    break;
+                case 403:
+                    message =
+                        __("Forbidden") +
+                        ". " +
+                        __("Please refresh the page and try again");
+                    break;
+                case 404:
+                    message = __("Not Found");
+                    break;
+                case 422:
+                    if (error.response.config.headers["X-VForm"]) {
+                        fireToast({
+                            icon: "XCircleIcon",
+                            title: __("Please validate the data"),
+                        });
+                    }
+                    break;
+                case 503:
+                    message =
+                        __("Service Unavailable") +
+                        ". " +
+                        __("Please refresh the page and try again");
+            }
+
+            if (error.response) {
+                error.response.data.message = message;
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 // Axios config
 window.axios = axios;

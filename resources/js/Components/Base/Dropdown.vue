@@ -1,71 +1,64 @@
-<script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-
-const props = defineProps({
-    align: {
-        default: 'right'
-    },
-    width: {
-        default: '48'
-    },
-    contentClasses: {
-        default: () => ['py-1', 'bg-white']
-    }
-});
-
-const closeOnEscape = (e) => {
-    if (open.value && e.key === 'Escape') {
-        open.value = false;
-    }
-};
-
-onMounted(() => document.addEventListener('keydown', closeOnEscape));
-onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
-
-const widthClass = computed(() => {
-    return {
-        '48': 'w-48',
-    }[props.width.toString()];
-});
-
-const alignmentClasses = computed(() => {
-    if (props.align === 'left') {
-        return 'origin-top-left left-0';
-    } else if (props.align === 'right') {
-        return 'origin-top-right right-0';
-    } else {
-        return 'origin-top';
-    }
-});
-
-const open = ref(false);
-</script>
-
 <template>
-    <div class="relative">
-        <div @click="open = ! open">
+    <div
+        class="dropdown"
+        :data-placement="`bottom-${_locale === 'ar' ? 'end' : 'start'}`"
+        :ref="`dropdown-${componentId}`"
+    >
+        <div
+            class="dropdown-toggle"
+            @keydown.tab.exact="closeDropdown"
+            :ref="`dropdown-toggle-${componentId}`"
+        >
             <slot name="trigger" />
         </div>
-
-        <!-- Full Screen Dropdown Overlay -->
-        <div v-show="open" class="fixed inset-0 z-40" @click="open = false"></div>
-
-        <transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="transform opacity-0 scale-95"
-            enter-to-class="transform opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
-            leave-from-class="transform opacity-100 scale-100"
-            leave-to-class="transform opacity-0 scale-95">
-            <div v-show="open"
-                    class="absolute z-50 mt-2 rounded-md shadow-lg"
-                    :class="[widthClass, alignmentClasses]"
-                    style="display: none;"
-                    @click="open = false">
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
-                </div>
+        <slot name="dropdown-menu" />
+        <div
+            class="dropdown-menu w-72 fixed"
+            :class="[width ? `md:w-${width}` : 'md:w-80']"
+        >
+            <div class="dropdown-menu__content box dark:bg-dark-6">
+                <slot name="content" />
             </div>
-        </transition>
+        </div>
     </div>
 </template>
+
+<script>
+import { onElementAttributeChange } from "@/helpers";
+import cash from "cash-dom";
+
+export default {
+    props: {
+        width: String,
+    },
+    data() {
+        return {
+            componentId: _.uniqueId(),
+        };
+    },
+    methods: {
+        registerTriggerAriaExpandedListener() {
+            onElementAttributeChange(
+                this.$refs[`dropdown-toggle-${this.componentId}`],
+                "aria-expanded",
+                (node) => {
+                    if (node.getAttribute("aria-expanded") === "false") {
+                        setTimeout(() => this.$emit("dropdownClosed"), 200); //wait for fade out animation
+                    } else {
+                        this.$emit("dropdownOpened");
+                    }
+                }
+            );
+        },
+        closeDropdown() {
+            cash(this.$refs[`dropdown-${this.componentId}`]).dropdown("hide");
+        },
+    },
+    mounted() {
+        this.registerTriggerAriaExpandedListener();
+    },
+    beforeUnmount() {
+        this.closeDropdown();
+    },
+};
+</script>
