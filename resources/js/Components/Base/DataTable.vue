@@ -21,7 +21,7 @@
                         v-for="(format, index) in supportedExportFormats"
                         :key="index"
                         :href="
-                            route('bulk.export', {
+                            route('admin.bulk.export', {
                                 table: tableToExport,
                                 format: format,
                                 page: pagination.currentPage,
@@ -157,7 +157,7 @@
                                     />
                                     <button>
                                         <SearchIcon
-                                            class="cursor-pointer w-4 h-4 absolute my-auto inset-y-0 me-3 end-0"
+                                            class="cursor-pointer w-4 h-4 absolute my-auto inset-y-0 me-3 right-0"
                                         />
                                     </button>
                                 </form>

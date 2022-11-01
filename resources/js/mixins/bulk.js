@@ -1,4 +1,4 @@
-// import { fireTextConfirmationModal } from "@/helpers";
+import { fireConfirmationModal } from "@/helpers";
 
 export default {
     data() {
@@ -32,8 +32,8 @@ export default {
         handleBulkDelete(table) {
             if (!this.selectedItems.length) return;
 
-            // fireTextConfirmationModal(() => {
-                this.$inertia.delete(route("bulk.destroy", { table }), {
+            fireConfirmationModal(() => {
+                this.$inertia.delete(route("admin.bulk.destroy", { table }), {
                     data: { ids: this.selectedItems },
                     onBefore: () => (this.bulkDeleteLoading = true),
                     onFinish: () => {
@@ -41,7 +41,7 @@ export default {
                         this.selectedItems = [];
                     },
                 });
-            // }, __("I understand"));
+            });
         },
     },
 };

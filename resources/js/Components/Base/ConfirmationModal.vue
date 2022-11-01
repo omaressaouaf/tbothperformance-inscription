@@ -4,7 +4,6 @@
         size="modal-md"
         :show-close-button="false"
         :body-padding="false"
-        :static-backdrop="false"
         @modalClosed="handleModalClosed"
     >
         <div class="p-5 text-center">
@@ -57,14 +56,14 @@
 </template>
 <script>
 import VForm from "@/libs/vform";
-import cash from 'cash-dom';
+import cash from "cash-dom";
 
 export default {
     data() {
         return {
             onDelete: () => {},
             options: new VForm({
-                icon: "AlertCircleIcon",
+                icon: "XCircleIcon",
                 title: __("Are you sure?"),
                 description: __("This process cannot be undone."),
                 textToEnter: null,

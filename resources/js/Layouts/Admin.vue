@@ -10,6 +10,9 @@
                 <ConfirmationModal />
                 <TopBar />
                 <slot />
+                <div class="absolute bottom-2 right-0 px-7 font-semibold text-xs">
+                    &#169; {{ __("All rights reserved.") }} {{ _appName }}
+                </div>
             </div>
         </div>
     </div>
@@ -35,6 +38,11 @@ export default {
                     icon: "ActivityIcon",
                 },
                 "divider",
+                {
+                    url: route("admin.course-categories.index"),
+                    title: __("Categories"),
+                    icon: "GridIcon",
+                },
             ],
         };
     },

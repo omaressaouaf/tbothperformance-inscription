@@ -25,7 +25,7 @@ export default {
         icon: String,
         marginTop: {
             type: String,
-            default: "16",
+            default: "12",
         },
         showBackground: {
             type: Boolean,
