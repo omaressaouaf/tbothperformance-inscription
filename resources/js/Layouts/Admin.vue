@@ -10,7 +10,7 @@
                 <ConfirmationModal />
                 <TopBar />
                 <slot />
-                <div class="absolute bottom-2 right-0 px-7 font-semibold text-xs">
+                <div class="absolute bottom-2 right-0 px-7 font-semibold text-xs text-gray-700 dark:text-gray-400">
                     &#169; {{ __("All rights reserved.") }} {{ _appName }}
                 </div>
             </div>
