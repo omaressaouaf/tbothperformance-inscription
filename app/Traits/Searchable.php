@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\QueryBuilderRequest;
 
@@ -23,8 +24,14 @@ trait Searchable
 
     public function scopeSearchThroughColumns(Builder $query, string $term)
     {
+        $casts = $this->getCasts();
+
         foreach ($this->getSearchableColumns() as $column) {
-            $query->orWhere($column, "like", '%' . $term . '%');
+            if (isset($casts[$column]) && $casts[$column] === "array") {
+                $query->orWhere(DB::raw("lower({$column})"), "like", "%" . strtolower($term) . "%");
+            } else {
+                $query->orWhere($column, "like", '%' . $term . '%');
+            }
         }
 
         return $query;

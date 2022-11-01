@@ -10,9 +10,11 @@
                 <ConfirmationModal />
                 <TopBar />
                 <slot />
-                <div class="absolute bottom-2 right-0 px-7 font-semibold text-xs text-gray-700 dark:text-gray-400">
+                <!-- <div
+                    class="sticky bottom-0 end-0 px-7 font-semibold text-xs text-gray-700 dark:text-gray-400"
+                >
                     &#169; {{ __("All rights reserved.") }} {{ _appName }}
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -38,6 +40,11 @@ export default {
                     icon: "ActivityIcon",
                 },
                 "divider",
+                {
+                    url: route("admin.plans.index"),
+                    title: __("Plans"),
+                    icon: "ListIcon",
+                },
                 {
                     url: route("admin.course-categories.index"),
                     title: __("Categories"),

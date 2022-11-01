@@ -1,6 +1,5 @@
 const state = {
     currentCourseCategory: null,
-    courseCategories: [],
 };
 
 const mutations = {

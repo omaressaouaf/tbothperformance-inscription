@@ -25,7 +25,7 @@
 
 <script>
 import Toastify from "toastify-js";
-import cash from 'cash-dom';
+import cash from "cash-dom";
 
 export default {
     data() {
@@ -53,7 +53,7 @@ export default {
                                 icon: this.flashMessagesTypes[key],
                                 title: flash[key],
                             };
-
+                        
                             this.handleFireToast(toastOptions);
                         }
                     });

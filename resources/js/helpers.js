@@ -117,6 +117,6 @@ export const formatDateForInput = (date, time = false) => {
  */
 export const formatMoney = (number) => {
     return (
-        new FormatMoney({ decimals: 2 }).from(Number(number)) + " " + __("DHS")
+        new FormatMoney({ decimals: 2 }).from(Number(number)) + " " + __("€")
     );
 };

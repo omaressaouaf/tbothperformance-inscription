@@ -19,11 +19,7 @@ class Plan extends Model
 
     public $searchable = ["name", "price", "features", "created_at"];
 
-    public $exactFilters = ["name", "price", "created_at"];
-
     public $defaultSort = "-created_at";
-
-    public $sorts = ["created_at", "updated_at"];
 
     public function courses(): BelongsToMany
     {

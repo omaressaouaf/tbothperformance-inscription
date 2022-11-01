@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BulkController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Admin\CourseCategoryController;
+use App\Http\Controllers\Admin\PlanController;
 
 Route::get('/', function () {
     return inertia('Welcome');
@@ -26,7 +27,11 @@ Route::middleware(["locale"])->group(function () {
         });
 
         // Course categories
-        Route::resource("course-categories", CourseCategoryController::class);
+        Route::resource("course-categories", CourseCategoryController::class)->except(["create", "show", "edit"]);
+
+        // Plans
+        Route::resource("plans", PlanController::class)->except(["create", "show", "edit"]);
+        
     });
 
     require __DIR__ . '/auth.php';
