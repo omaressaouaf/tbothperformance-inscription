@@ -232,7 +232,10 @@ return [
         "category_id" => "category",
         "category" => "category",
         "cpf_link" => "cpf link",
-        "features" => "features"
+        "features" => "features",
+        "plans.*.pivot.cpf_link" => "cpf link",
+        "plans" => "plans",
+        "plan" => "plan"
     ],
 
     /*

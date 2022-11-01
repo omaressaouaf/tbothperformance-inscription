@@ -47,7 +47,7 @@
                     /></Th>
                     <Th> {{ __("ID") }} </Th>
                     <Th> {{ __("Name") }} </Th>
-                    <Th> {{ __("Created at") }} </Th>
+                    <Th> {{ __("Creation date") }} </Th>
                     <Th> {{ __("Actions") }} </Th>
                 </tr>
             </template>

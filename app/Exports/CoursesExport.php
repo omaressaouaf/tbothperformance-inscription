@@ -25,7 +25,7 @@ class CoursesExport implements FromCollection, WithMapping, WithHeadings
             $course->certificate,
             $course->eligible_for_cpf ? __("Yes") : __("No"),
             $course->category?->name,
-            $course->formatPlansForExport($course->plans),
+            $this->formatPlansForExport($course->plans),
             Date::dateTimeFromTimestamp($course->created_at),
         ];
     }
@@ -44,6 +44,10 @@ class CoursesExport implements FromCollection, WithMapping, WithHeadings
 
     private function formatPlansForExport(mixed $plans): string
     {
-        return $plans->reduce(fn ($carry, $plan) => "{$plan->name} ({$plan->price}) - $carry", "");
+        return $plans->reduce(function ($carry, $plan) {
+            $price = format_money($plan->price);
+
+            return "{$plan->name} ({$price}) - $carry";
+        }, "");
     }
 }

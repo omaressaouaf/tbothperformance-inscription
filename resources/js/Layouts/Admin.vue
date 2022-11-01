@@ -50,6 +50,11 @@ export default {
                     title: __("Categories"),
                     icon: "GridIcon",
                 },
+                {
+                    url: route("admin.courses.index"),
+                    title: __("Courses"),
+                    icon: "BookIcon",
+                },
             ],
         };
     },

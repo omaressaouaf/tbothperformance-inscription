@@ -135,7 +135,7 @@ function as_decimal(mixed $value, int $decimals = 2): string
  */
 function format_money(mixed $number): string
 {
-    return number_format($number, 2) . " " . __("DHS");
+    return number_format($number, 2) . " " . __("€");
 }
 
 /**

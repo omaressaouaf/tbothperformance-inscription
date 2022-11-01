@@ -49,7 +49,7 @@
                     <Th> {{ __("Name") }} </Th>
                     <Th> {{ __("Price") }} </Th>
                     <Th> {{ __("Features") }} </Th>
-                    <Th> {{ __("Created at") }} </Th>
+                    <Th> {{ __("Creation date") }} </Th>
                     <Th> {{ __("Actions") }} </Th>
                 </tr>
             </template>
@@ -69,9 +69,7 @@
                     {{ plan.name }}
                 </Td>
                 <Td>
-                    <Badge class="bg-primary-1">
-                        {{ $filters.formatMoney(plan.price) }}
-                    </Badge>
+                    {{ $filters.formatMoney(plan.price) }}
                 </Td>
                 <Td>
                     <ShowMore :max-nodes="2" content-type="nodes">

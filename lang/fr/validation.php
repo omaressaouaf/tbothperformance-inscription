@@ -228,7 +228,10 @@ return [
         "category_id" => "catégorie",
         "category" => "catégorie",
         "cpf_link" => "lien CPF",
-        "features" => "traits"
+        "features" => "traits",
+        "plans.*.pivot.cpf_link" => "lien CPF",
+        "plans" => "formules",
+        "plan" => "formule"
     ],
 
     /*
