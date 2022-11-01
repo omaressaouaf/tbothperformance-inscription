@@ -226,7 +226,16 @@ return [
         "tax_rate" => "tax rate",
         "discount_value" => "discount value",
         "discount_type" => "discount type",
-        "amount" => "amount"
+        "amount" => "amount",
+        "certificate" => "certificate",
+        "eligible_for_cpf" => "eligible for cpf",
+        "category_id" => "category",
+        "category" => "category",
+        "cpf_link" => "cpf link",
+        "features" => "features",
+        "plans.*.pivot.cpf_link" => "cpf link",
+        "plans" => "plans",
+        "plan" => "plan"
     ],
 
     /*

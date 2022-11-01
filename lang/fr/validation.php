@@ -223,6 +223,15 @@ return [
         "tax_rate" => "TVA",
         "discount_value" => "valeur de remise",
         "discount_type" => "type de remise",
+        "certificate" => "certificat",
+        "eligible_for_cpf" => "éligible au CPF",
+        "category_id" => "catégorie",
+        "category" => "catégorie",
+        "cpf_link" => "lien CPF",
+        "features" => "traits",
+        "plans.*.pivot.cpf_link" => "lien CPF",
+        "plans" => "formules",
+        "plan" => "formule"
     ],
 
     /*

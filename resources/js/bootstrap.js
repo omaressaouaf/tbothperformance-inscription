@@ -14,6 +14,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import objectSupport from "dayjs/plugin/objectSupport";
 import "dayjs/locale/fr";
+import { fireToast } from "./helpers";
 
 // Lodash
 window._ = _;
@@ -48,6 +49,7 @@ window.axios.interceptors.response.use(
                     break;
                 case 422:
                     if (error.response.config.headers["X-VForm"]) {
+                        console.log("hahah");
                         fireToast({
                             icon: "XCircleIcon",
                             title: __("Please validate the data"),

@@ -12,6 +12,10 @@
     }
 }
 
+.form-file {
+    @apply text-xs text-gray-500 file:mr-3 file:py-2 file:px-6 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-blue-50 file:dark:bg-dark-3 file:dark:text-gray-300 file:text-blue-700 hover:file:cursor-pointer;
+}
+
 .div-form-control {
     @apply form-control bg-gray-100 dark:bg-dark-2;
     word-wrap: break-word;

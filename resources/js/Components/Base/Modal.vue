@@ -51,7 +51,7 @@ export default {
         },
         staticBackdrop: {
             type: Boolean,
-            default: true,
+            default: false,
         },
     },
     emits: ["modalOpened", "modalClosed"],

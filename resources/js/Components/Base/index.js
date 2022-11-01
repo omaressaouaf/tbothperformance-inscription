@@ -1,10 +1,12 @@
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import MultiSelect from "vue-multiselect";
 import * as featherIcons from "@zhuowenli/vue-feather-icons";
 const baseComponents = import.meta.glob("./*.vue", { eager: true });
 
 export default (app) => {
     app.component("Head", Head)
-        .component("Link", Link);
+        .component("Link", Link)
+        .component("MultiSelect", MultiSelect);
 
     for (const [iconName, icon] of Object.entries(featherIcons)) {
         icon.props.size.default = "20";
