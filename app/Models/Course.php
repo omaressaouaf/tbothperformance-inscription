@@ -61,7 +61,7 @@ class Course extends Model
         return Attribute::get(
             fn ($value, $attributes) => $attributes["image_path"]
                 ? url('storage/' . $attributes["image_path"])
-                : url("/images/course-default.jpg")
+                : "https://via.placeholder.com/400x250?text=Formation"
         );
     }
 
