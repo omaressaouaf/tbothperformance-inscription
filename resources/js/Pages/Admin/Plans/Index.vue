@@ -3,7 +3,7 @@
     <Breadcrumb :page-title="title" />
     <CrudWrapper
         :title="__(':resources list', { resources: __('Plans') })"
-        icon="GridIcon"
+        icon="ListIcon"
     >
         <DataTable
             :pagination="{
