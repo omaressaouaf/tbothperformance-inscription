@@ -18,6 +18,10 @@ class Course extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        "eligible_for_cpf" => "boolean"
+    ];
+
     protected $appends = ["image_url"];
 
     public $searchable = ["title", "certificate", "created_at"];
