@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        "lead" => [
+            "driver" => "session",
+            "provider" => "leads"
+        ],
     ],
 
     /*
@@ -63,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'leads' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Lead::class,
         ],
 
         // 'users' => [
@@ -89,6 +99,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'leads' => [
+            'provider' => 'leads',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

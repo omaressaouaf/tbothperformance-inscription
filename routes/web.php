@@ -2,14 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BulkController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Admin\CourseCategoryController;
-use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\Admin\PlanController;
 
-Route::get('/', function () {
-    return inertia('Welcome');
-});
+Route::inertia('/', "Welcome");
 
 // Localization
 Route::put("/locale/switch", SwitchLocaleController::class)->name("locale.switch");
