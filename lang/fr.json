@@ -904,6 +904,7 @@
     "Eligible for CPF": "Eligible au CPF",
     "Category": "Catégorie",
     "CPF link": "Lien CPF",
+    "CPF": "CPF",
     "Features": "Traits",
     "Course": "Formation",
     "Courses": "Formations",
@@ -915,5 +916,11 @@
     "Plan": "Formule",
     "Plans": "Formules",
     "a plan": "une formule",
-    "Update date": "Date de mise à jour"
+    "Update date": "Date de mise à jour",
+    "Enroll": "Inscrire",
+    "Personal information": "Informations personnelles",
+    "Financing type": "Type de financement",
+    "Financing": "Financement",
+    "Validation": "Validation",
+    "The course": "La formation"
 }

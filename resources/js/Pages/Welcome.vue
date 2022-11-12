@@ -7,14 +7,21 @@
                 v-if="$page.props.auth.user"
                 :href="route('admin.dashboard')"
                 class="text-sm text-gray-700 dark:text-gray-500 underline"
+                >{{ __("Administrator") }}</Link
+            >
+
+            <Link
+                v-if="$page.props.auth.lead"
+                :href="route('admin.dashboard')"
+                class="text-sm text-gray-700 dark:text-gray-500 underline"
                 >{{ __("Dashboard") }}</Link
             >
 
-            <template v-else>
+            <template v-if="!$page.props.auth.lead">
                 <Link
-                    :href="route('login')"
+                    :href="route('lead.enroll')"
                     class="text-sm text-gray-700 dark:text-gray-500 underline"
-                    >{{ __("Log in") }}</Link
+                    >{{ __("Enroll") }}</Link
                 >
             </template>
         </div>
@@ -28,3 +35,9 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    layout: null,
+};
+</script>

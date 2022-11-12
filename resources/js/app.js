@@ -5,6 +5,7 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
+import AppLayout from "@/Layouts/App.vue";
 import AuthLayout from "@/Layouts/Auth.vue";
 import AdminLayout from "@/Layouts/Admin.vue";
 import registerBaseComponents from "@/Components/Base";
@@ -32,7 +33,9 @@ createInertiaApp({
             )
         ).default;
 
-        if (!page.layout) {
+        if (page.layout === undefined) {
+            page.layout = AppLayout;
+
             if (name.startsWith("Auth/")) {
                 page.layout = AuthLayout;
             }

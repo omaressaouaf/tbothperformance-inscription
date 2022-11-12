@@ -37,7 +37,7 @@ class Authenticate extends Middleware
 
             foreach ($guards as $guard) {
                 if ($guard === "lead") {
-                    return "/";
+                    return route("lead.enroll");
                 }
 
                 return route('login');

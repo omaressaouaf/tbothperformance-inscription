@@ -9,10 +9,18 @@ use App\Http\Controllers\Admin\CourseCategoryController;
 
 Route::inertia('/', "Welcome");
 
-// Localization
-Route::put("/locale/switch", SwitchLocaleController::class)->name("locale.switch");
-
 Route::middleware(["locale"])->group(function () {
+    /**
+     * Leads routes
+     */
+    Route::prefix("/lead")->name("lead.")->group(function () {
+        Route::inertia("/enroll", "Leads/Enroll")->middleware("guest:lead")->name("enroll");
+
+        Route::middleware(["auth:lead"])->group(function () {
+            Route::inertia("/", "Leads/Dashboard")->name("dashboard");
+        });
+    });
+
     /**
      * Admin routes
      */
@@ -35,5 +43,9 @@ Route::middleware(["locale"])->group(function () {
         Route::resource("courses", CourseController::class)->except(["show"]);
     });
 
+    // Auth
     require __DIR__ . '/auth.php';
 });
+
+// Localization
+Route::put("/locale/switch", SwitchLocaleController::class)->name("locale.switch");

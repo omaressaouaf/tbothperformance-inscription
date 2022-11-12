@@ -19,7 +19,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/admin';
 
-    public const LEAD_HOME = '/';
+    /**
+     * The path to the "home" route for your application leads.
+     *
+     * @var string
+     */
+    public const LEAD_HOME = '/lead';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
