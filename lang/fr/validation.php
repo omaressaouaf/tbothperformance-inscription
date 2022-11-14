@@ -231,7 +231,10 @@ return [
         "features" => "traits",
         "plans.*.pivot.cpf_link" => "lien CPF",
         "plans" => "formules",
-        "plan" => "formule"
+        "plan" => "formule",
+        "years_worked_in_france" => "années travaillées en france",
+        "professional_situation" => "situation professionnelle",
+        "terms" => "termes et conditions"
     ],
 
     /*

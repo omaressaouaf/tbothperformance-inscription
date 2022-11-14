@@ -1,11 +1,7 @@
 export default {
     methods: {
         printPlaceholder(attr) {
-            return (
-                __("Enter") +
-                " " +
-                __("validation.attributes." + attr)
-            );
+            return _.capitalize(__("validation.attributes." + attr));
         },
     },
 };

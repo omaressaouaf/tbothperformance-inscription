@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Admin\CourseCategoryController;
+use App\Http\Controllers\Lead\AuthenticatedSessionController;
+use App\Http\Controllers\Lead\EnrollmentCourseController;
+use App\Http\Controllers\Lead\LeadController;
 
 Route::inertia('/', "Welcome");
 
@@ -14,10 +17,27 @@ Route::middleware(["locale"])->group(function () {
      * Leads routes
      */
     Route::prefix("/lead")->name("lead.")->group(function () {
-        Route::inertia("/enroll", "Leads/Enroll")->middleware("guest:lead")->name("enroll");
+        Route::middleware("guest:lead")->group(function () {
+            // Lead enrollment
+            Route::get("/enroll", [LeadController::class, "enroll"])->name("enroll");
+            Route::post("/", [LeadController::class, "store"])->name("store");
+
+            // Passwordless link
+            Route::get("/passwordless-link", [AuthenticatedSessionController::class, "passwordlessLink"])
+                ->name("passwordless-link");
+            Route::post("/passwordless-link", [AuthenticatedSessionController::class, "sendPasswordlessLink"])
+                ->name("passwordless-link.send");
+        });
 
         Route::middleware(["auth:lead"])->group(function () {
-            Route::inertia("/", "Leads/Dashboard")->name("dashboard");
+            Route::inertia("/", "Lead/Dashboard")->name("dashboard");
+
+            // Auth
+            Route::post("/logout", [AuthenticatedSessionController::class, "destroy"])->name("logout");
+
+            // Enrollment
+            Route::get("/enrollments/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
+                ->name("enrollments.course.edit");
         });
     });
 

@@ -235,7 +235,10 @@ return [
         "features" => "features",
         "plans.*.pivot.cpf_link" => "cpf link",
         "plans" => "plans",
-        "plan" => "plan"
+        "plan" => "plan",
+        "years_worked_in_france" => "years worked in france",
+        "professional_situation" => "professional situation",
+        "terms" => "terms and conditions"
     ],
 
     /*

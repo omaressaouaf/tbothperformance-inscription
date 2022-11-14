@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->json("lead_data");
+            $table->json("lead_data")->nullable();
             $table->string("financing_type")->default(FinancingType::CPF->value);
             $table->string("cpf_amount")->nullable();
             $table->string("cpf_dossier_number")->nullable();

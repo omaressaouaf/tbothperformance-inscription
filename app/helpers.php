@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
@@ -141,9 +142,9 @@ function format_money(mixed $number): string
 /**
  * Get auth user
  *
- * @return \App\Models\User|null
+ * @return \App\Models\User|\App\Models\Lead|null
  */
-function auth_user(): User|null
+function auth_user(): User|Lead|null
 {
     return auth()->user();
 }
