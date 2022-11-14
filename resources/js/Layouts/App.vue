@@ -47,6 +47,11 @@
                             class="p-2 border-t border-black border-opacity-5 dark:border-dark-3"
                         >
                             <DropdownLink
+                                :href="route('lead.dashboard')"
+                                icon="HomeIcon"
+                                :title="__('Dashboard')"
+                            />
+                            <DropdownLink
                                 :href="route('lead.logout')"
                                 icon="PowerIcon"
                                 :title="__('Log Out')"

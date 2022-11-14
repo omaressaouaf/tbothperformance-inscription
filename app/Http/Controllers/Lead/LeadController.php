@@ -6,7 +6,7 @@ use App\Models\Lead;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Lead\StoreLeadRequest;
+use App\Http\Requests\Lead\StoreUpdateLeadRequest;
 use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +17,7 @@ class LeadController extends Controller
         return inertia("Lead/Enroll");
     }
 
-    public function store(StoreLeadRequest $request)
+    public function store(StoreUpdateLeadRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -42,5 +42,12 @@ class LeadController extends Controller
 
             return back()->with('errorMessage',  __('Unexpected error happened'));
         }
+    }
+
+    public function update(StoreUpdateLeadRequest $request, Lead $lead)
+    {
+        $lead->update($request->validated());
+        
+        return back()->with("successMessage", __("Item updated successfully"));
     }
 }

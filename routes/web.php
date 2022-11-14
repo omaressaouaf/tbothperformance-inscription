@@ -32,6 +32,9 @@ Route::middleware(["locale"])->group(function () {
         Route::middleware(["auth:lead"])->group(function () {
             Route::inertia("/", "Lead/Dashboard")->name("dashboard");
 
+            // Update
+            Route::put("/{lead}", [LeadController::class, "update"])->name("update");
+
             // Auth
             Route::post("/logout", [AuthenticatedSessionController::class, "destroy"])->name("logout");
 
