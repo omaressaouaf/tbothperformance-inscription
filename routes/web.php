@@ -41,15 +41,23 @@ Route::middleware(["locale"])->group(function () {
             // Auth
             Route::post("/logout", [AuthenticatedSessionController::class, "destroy"])->name("logout");
 
-            Route::middleware(["enrollment"])->group(function () {
-                // Enrollment
-                Route::get("/enrollments/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
-                    ->name("enrollments.course.edit");
-                Route::get("/enrollments/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
-                    ->name("enrollments.financing.edit");
-                Route::get("/enrollments/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
-                    ->name("enrollments.validation.edit");
-            });
+            // Enrollment
+            Route::prefix("/enrollments")
+                ->as("enrollments.")
+                ->middleware(["enrollment"])
+                ->group(function () {
+                    Route::get("/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
+                        ->name("course.edit");
+
+                    Route::patch("/{enrollment}/course", [EnrollmentCourseController::class, "update"])
+                        ->name("course.update");
+
+                    Route::get("/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
+                        ->name("financing.edit");
+
+                    Route::get("/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
+                        ->name("validation.edit");
+                });
         });
     });
 

@@ -960,5 +960,9 @@
     "Pending enrollment": "Inscription ouverte",
     "Not selected": "Non séléctionné",
     "manual": "manuel",
-    "CPF and Financing": "CPF et Financement"
+    "CPF and Financing": "CPF et Financement",
+    "Choose course": "Choisissez la formation",
+    "Choose financing": "Choisissez la financement",
+    "Validate enrollment": "Valider l'inscription",
+    "Selected": "Sélectionnée"
 }

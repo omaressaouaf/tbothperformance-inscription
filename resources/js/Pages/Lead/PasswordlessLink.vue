@@ -1,5 +1,5 @@
 <template>
-    <Head :title="__('Enroll')" />
+    <Head :title="__('Passwordless login')" />
 
     <div class="mb-10">
         <div class="mx-auto max-w-2xl">
