@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string("first_name");
             $table->string("last_name");
-            $table->string("email");
+            $table->string("email")->unique();
             $table->string("phone");
             $table->string("years_worked_in_france")->default(YearsWorkedInFrance::Between1And2Years->value);
             $table->string("professional_situation")->default(ProfessionalSituation::Employee->value);

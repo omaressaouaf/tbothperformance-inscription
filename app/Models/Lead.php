@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Enums\ProfessionalSituation;
 use App\Enums\YearsWorkedInFrance;
-use Grosv\LaravelPasswordlessLogin\Traits\PasswordlessLogin;
+use Illuminate\Support\Facades\DB;
+use App\Enums\ProfessionalSituation;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Grosv\LaravelPasswordlessLogin\Traits\PasswordlessLogin;
 
 class Lead extends Authenticatable
 {
@@ -27,6 +28,15 @@ class Lead extends Authenticatable
         "professional_situation" => ProfessionalSituation::class
     ];
 
+    public static function booted()
+    {
+        static::updated(function ($lead) {
+            DB::afterCommit(function () use ($lead) {
+                $lead->syncEnrollmentLeadData();
+            });
+        });
+    }
+
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
@@ -37,12 +47,12 @@ class Lead extends Authenticatable
         Enrollment::where("lead_id", $this->id)
             ->update([
                 "lead_data" => [
-                    "first_name" => $this->lead->first_name,
-                    "last_name" => $this->lead->last_name,
-                    "email" => $this->lead->email,
-                    "phone" => $this->lead->phone,
-                    "years_worked_in_france" => $this->lead->years_worked_in_france,
-                    "professional_situation" => $this->lead->professional_situation,
+                    "first_name" => $this->first_name,
+                    "last_name" => $this->last_name,
+                    "email" => $this->email,
+                    "phone" => $this->phone,
+                    "years_worked_in_france" => $this->years_worked_in_france,
+                    "professional_situation" => $this->professional_situation,
                 ]
             ]);
     }
