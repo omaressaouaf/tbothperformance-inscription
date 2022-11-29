@@ -13,7 +13,7 @@ class SwitchLocaleController extends Controller
             "locale" => ["required", Rule::in(array_keys(config('app.supported_locales')))]
         ]);
 
-        if (auth()->check()) {
+        if (auth("web")->check()) {
             $user = auth_user();
 
             $user->locale = $request->locale;

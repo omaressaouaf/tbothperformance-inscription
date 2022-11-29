@@ -9,7 +9,7 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check()) {
+        if (auth("web")->check()) {
             $locale = auth_user()->locale ?? config("app.locale");
 
             session()->put("locale", $locale);
