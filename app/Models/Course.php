@@ -33,7 +33,7 @@ class Course extends Model
 
     public $filters = ["title", "certificate", "created_at", "category.name", "plans.name"];
 
-    public $exactFilters = ["eligible_for_cpf"];
+    public $exactFilters = ["eligible_for_cpf", "category_id"];
 
     public $defaultSort = "-created_at";
 
