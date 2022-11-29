@@ -9,43 +9,26 @@
             class="wizard flex flex-col lg:flex-row justify-center px-5 sm:px-20"
         >
             <div
-                class="intro-x lg:text-center flex items-center lg:block flex-1 z-10"
+                v-for="(step, index) in steps"
+                class="lg:text-center flex items-center lg:block flex-1 z-10"
             >
-                <button class="w-10 h-10 rounded-full btn btn-primary">
-                    1
-                </button>
+                <Component
+                    class="w-10 h-10 rounded-full btn"
+                    :class="[
+                        index + 1 > currentStep
+                            ? 'btn-secondary'
+                            : 'btn-primary',
+                    ]"
+                    :is="index + 1 > enrollment.next_step ? 'button' : 'Link'"
+                    :href="step.url"
+                    :disabled="index + 1 > enrollment.next_step"
+                >
+                    {{ index + 1 }}
+                </Component>
                 <div
                     class="lg:w-32 font-medium text-base lg:mt-3 ml-3 lg:mx-auto"
                 >
-                    {{ __("The course") }}
-                </div>
-            </div>
-            <div
-                class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10"
-            >
-                <button
-                    class="w-10 h-10 rounded-full btn text-gray-600 bg-gray-200 dark:bg-dark-1"
-                >
-                    2
-                </button>
-                <div
-                    class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700 dark:text-gray-600"
-                >
-                    {{ __("CPF") }} {{ __("and") }} {{ __("Financing") }}
-                </div>
-            </div>
-            <div
-                class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10"
-            >
-                <button
-                    class="w-10 h-10 rounded-full btn text-gray-600 bg-gray-200 dark:bg-dark-1"
-                >
-                    3
-                </button>
-                <div
-                    class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700 dark:text-gray-600"
-                >
-                    {{ __("Validation") }}
+                    {{ __(step.title) }}
                 </div>
             </div>
             <div
@@ -61,5 +44,46 @@
 </template>
 
 <script>
-export default {};
+export default {
+    props: {
+        enrollment: Object,
+    },
+    data() {
+        return {
+            steps: [
+                {
+                    title: "The course",
+                    url: route("lead.enrollments.course.edit", [
+                        this.enrollment.id,
+                    ]),
+                },
+                {
+                    title: "CPF and Financing",
+                    url: route("lead.enrollments.financing.edit", [
+                        this.enrollment.id,
+                    ]),
+                },
+                {
+                    title: "Validation",
+                    url: route("lead.enrollments.validation.edit", [
+                        this.enrollment.id,
+                    ]),
+                },
+            ],
+        };
+    },
+    computed: {
+        currentStep() {
+            if (route().current("lead.enrollments.validation.edit")) {
+                return 3;
+            }
+
+            if (route().current("lead.enrollments.financing.edit")) {
+                return 2;
+            }
+
+            return 1;
+        },
+    },
+};
 </script>

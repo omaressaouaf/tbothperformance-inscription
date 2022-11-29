@@ -7,7 +7,10 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Lead\AuthenticatedSessionController;
-use App\Http\Controllers\Lead\EnrollmentCourseController;
+use App\Http\Controllers\Lead\DashboardController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentCourseController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 use App\Http\Controllers\Lead\LeadController;
 
 Route::inertia('/', "Welcome");
@@ -30,7 +33,7 @@ Route::middleware(["locale"])->group(function () {
         });
 
         Route::middleware(["auth:lead"])->group(function () {
-            Route::inertia("/", "Lead/Dashboard")->name("dashboard");
+            Route::get("/", [DashboardController::class, "index"])->name("dashboard");
 
             // Update
             Route::put("/{lead}", [LeadController::class, "update"])->name("update");
@@ -38,9 +41,15 @@ Route::middleware(["locale"])->group(function () {
             // Auth
             Route::post("/logout", [AuthenticatedSessionController::class, "destroy"])->name("logout");
 
-            // Enrollment
-            Route::get("/enrollments/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
-                ->name("enrollments.course.edit");
+            Route::middleware(["enrollment"])->group(function () {
+                // Enrollment
+                Route::get("/enrollments/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
+                    ->name("enrollments.course.edit");
+                Route::get("/enrollments/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
+                    ->name("enrollments.financing.edit");
+                Route::get("/enrollments/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
+                    ->name("enrollments.validation.edit");
+            });
         });
     });
 

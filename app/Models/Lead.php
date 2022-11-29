@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EnrollmentStatus;
 use App\Enums\YearsWorkedInFrance;
 use Illuminate\Support\Facades\DB;
 use App\Enums\ProfessionalSituation;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Grosv\LaravelPasswordlessLogin\Traits\PasswordlessLogin;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Lead extends Authenticatable
 {
@@ -40,6 +42,11 @@ class Lead extends Authenticatable
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function pendingEnrollment(): HasOne
+    {
+        return $this->hasOne(Enrollment::class)->where("status", EnrollmentStatus::Pending)->oldestOfMany();
     }
 
     public function syncEnrollmentLeadData(): void

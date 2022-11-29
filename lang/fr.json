@@ -954,5 +954,11 @@
     "Send login link": "Envoyer le lien de connexion",
     "Enter your email if you already filled the enrollment form. we are gonna send you a quick login link so you can check your enrollments, support tickets and more ...": "Entrez votre email si vous avez déjà rempli le formulaire d'inscription. nous allons vous envoyer un lien de connexion rapide afin que vous puissiez vérifier vos inscriptions, vos tickets d'assistance et plus encore...",
     "Create new request": "Créer une nouvelle demande",
-    "A login email was sent. check your inbox": "Un e-mail de connexion a été envoyé. vérifier votre boîte de réception"
+    "A login email was sent. check your inbox": "Un e-mail de connexion a été envoyé. vérifier votre boîte de réception",
+    "Enrollment": "Inscription",
+    "Enrollments": "Inscriptions",
+    "Pending enrollment": "Inscription ouverte",
+    "Not selected": "Non séléctionné",
+    "manual": "manuel",
+    "CPF and Financing": "CPF et Financement"
 }

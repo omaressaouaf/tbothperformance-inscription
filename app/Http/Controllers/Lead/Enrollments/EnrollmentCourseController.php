@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Lead;
+namespace App\Http\Controllers\Lead\Enrollments;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;

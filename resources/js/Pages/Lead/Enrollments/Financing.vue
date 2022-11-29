@@ -1,7 +1,5 @@
 <template>
-    <EnrollmentsWizard :enrollment="enrollment">
-
-    </EnrollmentsWizard>
+    <EnrollmentsWizard :enrollment="enrollment"> </EnrollmentsWizard>
 </template>
 
 <script>
