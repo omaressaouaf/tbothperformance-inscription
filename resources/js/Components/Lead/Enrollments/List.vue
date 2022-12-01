@@ -7,7 +7,9 @@
         <DataTable :simple-table="true" class="mt-5 intro-x">
             <template #headings>
                 <tr class="bg-gray-200 dark:bg-dark-2 text-gray-700">
-                    <Th>#</Th>
+                    <Th class="whitespace-nowrap">{{
+                        __("Enrollment No.")
+                    }}</Th>
                     <Th>{{ __("Course") }}</Th>
                     <Th>
                         {{ __("Financing") }}
@@ -47,10 +49,14 @@
                     <div class="flex">
                         <Link
                             :href="pendingEnrollment.next_edit_url"
-                            class="flex items-center hover:underline me-3 text-theme-20"
+                            class="flex items-center me-3 text-theme-20"
                         >
-                            <LogInIcon class="w-4 h-4 me-2" />
-                            {{ __("Continue") }}
+                            <Tippy
+                                tag="span"
+                                :content="__('Complete your enrollment')"
+                            >
+                                <LogInIcon class="w-4 h-4 me-2 font-semibold" />
+                            </Tippy>
                         </Link>
                     </div>
                 </Td>

@@ -1,9 +1,27 @@
 <template>
-    <div class="box pb-10 pt-5 sm:pb-20 sm:pt-14 mt-5 shadow rounded-xl">
+    <div class="box pt-5 sm:pt-14 mt-5 shadow rounded-xl mb-10">
         <div
-            class="text-gray-700 dark:text-gray-300 text-center text-2xl mb-10"
+            class="text-gray-700 dark:text-gray-300 text-center text-3xl mb-10 px-2 md:px-0"
         >
             {{ __("Complete your enrollment") }}
+            <p v-if="enrollment.course" class="text-base mt-5">
+                <span class="font-semibold text-primary-11"
+                    >{{ __("Course") }} :
+                </span>
+                {{ enrollment.course.title }}
+            </p>
+            <p class="text-sm mt-1">
+                <span class="font-semibold text-primary-11"
+                    >{{ __("Enrollment No.") }}
+                </span>
+                {{ enrollment.id }}
+            </p>
+        </div>
+        <div
+            v-if="$page.props.flash.enrollmentSuccessMessage"
+            class="mx-4 md:mx-16 2xl:mx-48"
+        >
+            <LeadLoggedInAlert />
         </div>
         <div
             class="wizard flex flex-col lg:flex-row justify-center px-5 sm:px-20"
@@ -40,11 +58,39 @@
         >
             <slot />
         </div>
+        <div
+            class="self-end bg-gray-100 dark:bg-dark-2 border border-gray-300 dark:border-dark-2 mt-20 px-10 py-8"
+        >
+            <div
+                class="flex items-center flex-col md:flex-row space-y-8 md:space-y-0 justify-between"
+            >
+                <img
+                    src="/images/logo-qualiopi.png"
+                    alt="qualiopi"
+                    class="w-auto h-20"
+                />
+                <img
+                    src="/images/logo-mcpf.png"
+                    alt="moncompteformation"
+                    class="w-auto h-20"
+                />
+                <img
+                    src="/images/logo-fc.svg"
+                    alt="franceconnect"
+                    class="w-auto h-20"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import LeadLoggedInAlert from "@/Components/Lead/LoggedInAlert.vue";
+
 export default {
+    components: {
+        LeadLoggedInAlert,
+    },
     props: {
         enrollment: Object,
     },

@@ -9,9 +9,9 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth("web")->check()) {
+        if (auth()->check()) {
             $locale = auth_user()->locale ?? config("app.locale");
-
+            
             session()->put("locale", $locale);
 
             app()->setLocale($locale);

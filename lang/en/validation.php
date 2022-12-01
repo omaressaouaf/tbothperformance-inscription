@@ -238,7 +238,8 @@ return [
         "plan" => "plan",
         "years_worked_in_france" => "years worked in france",
         "professional_situation" => "professional situation",
-        "terms" => "terms and conditions"
+        "terms" => "terms and conditions",
+        "cpf_amount" => "cpf amount"
     ],
 
     /*

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string("years_worked_in_france")->default(YearsWorkedInFrance::Between1And2Years->value);
             $table->string("professional_situation")->default(ProfessionalSituation::Employee->value);
             $table->boolean("terms");
+            $table->string("locale")->nullable()->default(config("app.locale"));
             $table->rememberToken();
             $table->timestamps();
         });

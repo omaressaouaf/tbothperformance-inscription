@@ -142,9 +142,11 @@ function format_money(mixed $number): string
 /**
  * Get auth user
  *
+ * @param string|null $guard
+ *
  * @return \App\Models\User|\App\Models\Lead|null
  */
-function auth_user(): User|Lead|null
+function auth_user(string|null $guard = null): User|Lead|null
 {
-    return auth()->user();
+    return auth($guard)->user();
 }

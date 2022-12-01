@@ -2,6 +2,9 @@
     <Head :title="__('Dashboard')" />
 
     <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <LeadLoggedInAlert />
+        </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-2 gap-8">
             <div class="col-span-2 xl:col-span-1">
                 <h2
@@ -43,11 +46,13 @@
 <script>
 import LeadCreateEdit from "@/Components/Lead/CreateEdit.vue";
 import EnrollmentsList from "@/Components/Lead/Enrollments/List.vue";
+import LeadLoggedInAlert from "@/Components/Lead/LoggedInAlert.vue";
 
 export default {
     components: {
         LeadCreateEdit,
         EnrollmentsList,
+        LeadLoggedInAlert,
     },
     props: {
         pendingEnrollment: Object,

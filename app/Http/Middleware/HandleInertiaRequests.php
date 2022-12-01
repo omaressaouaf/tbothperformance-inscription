@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'infoMessage' => fn () => $request->session()->get('infoMessage'),
                 'warningMessage' => fn () => $request->session()->get('warningMessage'),
                 'errorMessage' => fn () => $request->session()->get('errorMessage'),
+                'enrollmentSuccessMessage' => fn () => $request->session()->get('enrollmentSuccessMessage'),
             ],
         ]);
     }

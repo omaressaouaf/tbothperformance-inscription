@@ -14,7 +14,7 @@ class EnrollmentCourseController extends Controller
     {
         return inertia("Lead/Enrollments/Course", [
             "enrollment" => $enrollment,
-            "courses" => Course::orderBy("category_id", "desc")->queryFromRequest()->get(),
+            "courses" => Course::with("category")->orderBy("category_id", "desc")->queryFromRequest()->get(),
             "courseCategories" => CourseCategory::latest()->get()
         ]);
     }

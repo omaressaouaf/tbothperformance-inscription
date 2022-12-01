@@ -32,7 +32,9 @@ class LeadController extends Controller
 
             DB::commit();
 
-            return redirect()->route("lead.enrollments.course.edit", ["enrollment" => $enrollment->id]);
+            return redirect()
+                ->route("lead.enrollments.course.edit", ["enrollment" => $enrollment->id])
+                ->with("enrollmentSuccessMessage", __("Success"));
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -47,7 +49,7 @@ class LeadController extends Controller
     public function update(StoreUpdateLeadRequest $request, Lead $lead)
     {
         $lead->update($request->validated());
-        
+
         return back()->with("successMessage", __("Item updated successfully"));
     }
 }
