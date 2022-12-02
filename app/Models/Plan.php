@@ -14,6 +14,7 @@ class Plan extends Model
     protected $guarded = [];
 
     protected $casts = [
+        "price" => "decimal:2",
         "features" => "array"
     ];
 

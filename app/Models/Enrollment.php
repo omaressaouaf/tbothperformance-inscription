@@ -19,7 +19,10 @@ class Enrollment extends Model
     protected $casts = [
         "lead_data" => "array",
         "financing_type" => FinancingType::class,
-        "status" => EnrollmentStatus::class
+        "status" => EnrollmentStatus::class,
+        "cpf_amount" => "decimal:2",
+        "cpf_start_date" => "date:Y-m-d",
+        "completed_at" => "datetime:Y-m-d H:i:s"
     ];
 
     protected $appends = ["next_step", "next_edit_url"];
@@ -53,6 +56,10 @@ class Enrollment extends Model
                     return -1;
                 }
 
+                if ($attributes["plan_id"]) {
+                    return 4;
+                }
+
                 if ($attributes["financing_type"]) {
                     return 3;
                 }
@@ -74,8 +81,12 @@ class Enrollment extends Model
                     return null;
                 }
 
-                if ($this->next_step === 3) {
+                if ($this->next_step === 4) {
                     return route("lead.enrollments.validation.edit", [$attributes["id"]]);
+                }
+
+                if ($this->next_step === 3) {
+                    return route("lead.enrollments.plan.edit", [$attributes["id"]]);
                 }
 
                 if ($this->next_step === 2) {

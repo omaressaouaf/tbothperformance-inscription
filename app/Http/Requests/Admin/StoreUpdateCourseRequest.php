@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateCourseRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class StoreUpdateCourseRequest extends FormRequest
             "category_id" => "nullable",
             "plans" => "required|array",
             "plans.*.id" => "required",
-            "plans.*.pivot.cpf_link" => "nullable|url"
+            "plans.*.pivot.cpf_link" => ["nullable", "url", Rule::requiredIf($this->eligible_for_cpf)]
         ];
     }
 }

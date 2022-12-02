@@ -235,7 +235,8 @@ return [
         "years_worked_in_france" => "années travaillées en france",
         "professional_situation" => "situation professionnelle",
         "terms" => "termes et conditions",
-        "cpf_amount" => "montant cpf"
+        "cpf_amount" => "montant cpf",
+        "cpf_start_date" => "date de début de formation"
     ],
 
     /*

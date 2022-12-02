@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import objectSupport from "dayjs/plugin/objectSupport";
+import weekday from "dayjs/plugin/weekday";
 import "dayjs/locale/fr";
 import { fireToast } from "./helpers";
 
@@ -49,7 +50,6 @@ window.axios.interceptors.response.use(
                     break;
                 case 422:
                     if (error.response.config.headers["X-VForm"]) {
-                        console.log("hahah");
                         fireToast({
                             icon: "XCircleIcon",
                             title: __("Please validate the data"),
@@ -108,10 +108,18 @@ Inertia.on("progress", (event) => {
     }
 });
 
+Inertia.on("error", () => {
+    fireToast({
+        icon: "XCircleIcon",
+        title: __("Please validate the data"),
+    });
+});
+
 // Days js
 dayjs.extend(objectSupport);
 dayjs.extend(relativeTime);
 dayjs.extend(LocalizedFormat);
+dayjs.extend(weekday);
 dayjs.locale(window._locale);
 
 //Pusher & Echo config

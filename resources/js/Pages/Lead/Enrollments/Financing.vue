@@ -1,6 +1,7 @@
 <template>
     <Head :title="__('Choose financing')" />
     <EnrollmentsWizard :enrollment="enrollment">
+        <ServerErrors class="mb-4 mt-5" />
         <div
             v-if="enrollment.course.eligible_for_cpf"
             class="flex flex-col items-center justify-center"
@@ -214,6 +215,9 @@
                                             <div class="accordion-body md:p-5">
                                                 <EnrollmentsCpfAmountForm
                                                     v-model="form.cpf_amount"
+                                                    @cpf-amount-submitted="
+                                                        handleSubmit('cpf')
+                                                    "
                                                 />
                                             </div>
                                         </div>
@@ -247,6 +251,9 @@
                                                 <button
                                                     class="btn btn-secondary btn-lg flex items-start md:block"
                                                     type="button"
+                                                    @click="
+                                                        handleSubmit('manual')
+                                                    "
                                                 >
                                                     <CreditCardIcon
                                                         class="w-6 h-6 me-2 mt-1 md:mt-0"
@@ -270,7 +277,10 @@
                     v-if="knowsCpfAmount === true"
                     class="intro-y md:w-1/2 mt-5"
                 >
-                    <EnrollmentsCpfAmountForm v-model="form.cpf_amount" />
+                    <EnrollmentsCpfAmountForm
+                        v-model="form.cpf_amount"
+                        @cpf-amount-submitted="handleSubmit('cpf')"
+                    />
                 </div>
             </div>
 
@@ -278,6 +288,7 @@
                 <button
                     class="btn btn-secondary btn-lg flex items-start md:block"
                     type="button"
+                    @click="handleSubmit('manual')"
                 >
                     <CreditCardIcon class="w-6 h-6 me-2 mt-1 md:mt-0" />
                     {{ __("Finance the course myself") }}
@@ -291,6 +302,7 @@
             <button
                 class="btn btn-primary btn-lg flex items-start md:block mt-5"
                 type="button"
+                @click="handleSubmit('manual')"
             >
                 <CreditCardIcon class="w-6 h-6 me-2 mt-1 md:mt-0" />
                 {{ __("Finance the course on your own") }}
@@ -313,12 +325,29 @@ export default {
     },
     data() {
         return {
-            knowsCpfAmount: null,
-            form: {
-                financing_type: null,
-                cpf_amount: "",
-            },
+            knowsCpfAmount:
+                this.enrollment.financing_type === "cpf" ? true : null,
+            form: this.$inertia.form({
+                financing_type: this.enrollment.financing_type,
+                cpf_amount: this.enrollment.cpf_amount,
+            }),
         };
+    },
+    methods: {
+        handleSubmit(financingType) {
+            if (financingType === "manual") {
+                this.form.cpf_amount = "";
+            }
+
+            this.form.financing_type = financingType;
+
+            this.form.patch(
+                route("lead.enrollments.financing.update", [this.enrollment]),
+                {
+                    preserveScroll: true,
+                }
+            );
+        },
     },
 };
 </script>

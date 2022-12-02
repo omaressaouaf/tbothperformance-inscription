@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Lead\Enrollments;
 
 use App\Models\Course;
 use App\Models\Enrollment;
-use Illuminate\Http\Request;
 use App\Models\CourseCategory;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Lead\Enrollments\UpdateEnrollmentCourseRequest;
 
 class EnrollmentCourseController extends Controller
 {
@@ -19,13 +19,9 @@ class EnrollmentCourseController extends Controller
         ]);
     }
 
-    public function update(Request $request, Enrollment $enrollment)
+    public function update(UpdateEnrollmentCourseRequest $request, Enrollment $enrollment)
     {
-        $validated = $request->validate([
-            "course_id" => "required",
-        ]);
-
-        $enrollment->update($validated);
+        $enrollment->update($request->validated());
 
         return redirect()->route("lead.enrollments.financing.edit", [$enrollment]);
     }

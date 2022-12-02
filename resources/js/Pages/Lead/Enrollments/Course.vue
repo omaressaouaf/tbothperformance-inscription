@@ -12,10 +12,9 @@
                     :key="course.id"
                     class="col-span-3 lg:col-span-1 dark:bg-dark-2 rounded-md cursor-pointer shadow dark:shadow-none hover:shadow-xl hover:scale-105 transition-all duration-200 border mb-3 flex flex-col"
                     :class="{
-                        'shadow-xl scale-105':
-                            enrollment.course_id == course.id,
+                        'shadow-xl scale-105': course.id == form.course_id,
                     }"
-                    @click="handleSelectCourse(course)"
+                    @click="handleSubmit(course)"
                 >
                     <div class="w-full h-100 relative">
                         <img
@@ -69,12 +68,22 @@ export default {
         courses: Array,
         courseCategories: Array,
     },
+    data() {
+        return {
+            form: this.$inertia.form({
+                course_id: this.enrollment.course_id,
+            }),
+        };
+    },
     methods: {
-        handleSelectCourse(course) {
-            const form = this.$inertia.form({ course_id: course.id });
+        handleSubmit(course) {
+            this.form.course_id = course.id;
 
-            form.patch(
-                route("lead.enrollments.course.update", [this.enrollment])
+            this.form.patch(
+                route("lead.enrollments.course.update", [this.enrollment]),
+                {
+                    preserveScroll: true,
+                }
             );
         },
     },

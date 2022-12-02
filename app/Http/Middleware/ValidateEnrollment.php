@@ -26,6 +26,10 @@ class ValidateEnrollment
     private function currentStep(Request $request)
     {
         if ($request->routeIs("lead.enrollments.validation.*")) {
+            return 4;
+        }
+
+        if ($request->routeIs("lead.enrollments.plan.*")) {
             return 3;
         }
 

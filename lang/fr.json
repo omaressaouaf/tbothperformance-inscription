@@ -985,5 +985,14 @@
     "If you found some CPF amount": "Si vous avez trouvé un montant CPF",
     "Otherwise": "Sinon",
     "Finance the course on your own": "Financez vous-même la formation",
-    "This course is not eligible for CPF": "Cette formation n'est pas éligible au CPF"
+    "This course is not eligible for CPF": "Cette formation n'est pas éligible au CPF",
+    "Choose plan": "Choisissez la formule",
+    "Simulate my financing": "Simuler mon financement",
+    "Plan price": "Prix de formule",
+    "CPF amount": "Montant CPF",
+    "Remaining charges": "Reste à charge",
+    "Course start date": "Date de début de formation",
+    "The law imposes a period of 14 days between registration and the start of training": "La loi impose un délai de 14 jours entre l'inscription et le début de formation",
+    "Starting from": "À partir du",
+    "The start date should be after": "La date de début doit être postérieure à"
 }

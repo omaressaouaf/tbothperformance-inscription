@@ -2,7 +2,6 @@
     <form @submit.prevent="handleSubmit">
         <label class="form-label text-lg">
             {{ __("Enter your CPF amount") }}
-            <span class="text-theme-21">*</span>
         </label>
         <div class="w-full flex items-center flex-col md:flex-row gap-2">
             <input

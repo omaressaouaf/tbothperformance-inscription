@@ -40,6 +40,7 @@
                     :is="index + 1 > enrollment.next_step ? 'button' : 'Link'"
                     :href="step.url"
                     :disabled="index + 1 > enrollment.next_step"
+                    preserve-scroll
                 >
                     {{ index + 1 }}
                 </Component>
@@ -110,6 +111,12 @@ export default {
                     ]),
                 },
                 {
+                    title: "Plan",
+                    url: route("lead.enrollments.plan.edit", [
+                        this.enrollment.id,
+                    ]),
+                },
+                {
                     title: "Validation",
                     url: route("lead.enrollments.validation.edit", [
                         this.enrollment.id,
@@ -121,6 +128,10 @@ export default {
     computed: {
         currentStep() {
             if (route().current("lead.enrollments.validation.edit")) {
+                return 4;
+            }
+
+            if (route().current("lead.enrollments.plan.edit")) {
                 return 3;
             }
 
