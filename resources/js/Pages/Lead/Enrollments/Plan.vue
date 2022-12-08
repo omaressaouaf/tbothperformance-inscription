@@ -43,9 +43,6 @@
                     <button
                         class="btn btn-primary rounded font-semibold"
                         @click="handleSelectPlan(plan)"
-                        :class="{
-                            'pointer-events-none': plan.id === form.plan_id,
-                        }"
                     >
                         {{
                             plan.id === form.plan_id

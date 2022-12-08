@@ -240,7 +240,8 @@ return [
         "professional_situation" => "professional situation",
         "terms" => "terms and conditions",
         "cpf_amount" => "cpf amount",
-        "cpf_start_date" => "course start date"
+        "cpf_start_date" => "course start date",
+        "cpf_dossier_number" => "dossier number"
     ],
 
     /*

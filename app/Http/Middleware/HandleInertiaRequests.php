@@ -50,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'warningMessage' => fn () => $request->session()->get('warningMessage'),
                 'errorMessage' => fn () => $request->session()->get('errorMessage'),
                 'enrollmentSuccessMessage' => fn () => $request->session()->get('enrollmentSuccessMessage'),
+                "openCpfLink" => fn () => $request->session()->get("openCpfLink")
             ],
         ]);
     }

@@ -236,7 +236,8 @@ return [
         "professional_situation" => "situation professionnelle",
         "terms" => "termes et conditions",
         "cpf_amount" => "montant cpf",
-        "cpf_start_date" => "date de début de formation"
+        "cpf_start_date" => "date de début de formation",
+        "cpf_dossier_number" => "numéro de dossier"
     ],
 
     /*

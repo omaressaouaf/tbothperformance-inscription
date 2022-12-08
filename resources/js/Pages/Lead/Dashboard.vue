@@ -5,8 +5,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <LeadLoggedInAlert />
         </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-2 gap-8">
-            <div class="col-span-2 xl:col-span-1">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-7 gap-5">
+            <div class="col-span-7 xl:col-span-3">
                 <h2
                     class="font-semibold text-xl mb-6 flex items-center px-2 text-gray-700 dark:text-gray-200"
                 >
@@ -21,7 +21,7 @@
                     <LeadCreateEdit :lead="$page.props.auth.lead" />
                 </div>
             </div>
-            <div class="col-span-2 xl:col-span-1">
+            <div class="col-span-7 xl:col-span-4">
                 <h2
                     class="font-semibold text-xl mb-6 flex items-center px-2 text-gray-700 dark:text-gray-200"
                 >

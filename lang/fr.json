@@ -994,5 +994,20 @@
     "Course start date": "Date de début de formation",
     "The law imposes a period of 14 days between registration and the start of training": "La loi impose un délai de 14 jours entre l'inscription et le début de formation",
     "Starting from": "À partir du",
-    "The start date should be after": "La date de début doit être postérieure à"
+    "The start date should be after": "La date de début doit être postérieure à",
+    "Validate your enrollment": "Validez votre inscription",
+    "Complete your enrollment in moncompteformation.gouv.fr": "Complétez votre inscription sur moncompteformation.gouv.fr",
+    "Congrats. you have completed the first step of your enrollment. all is left is to enroll in moncompteformation.gouv.fr and come back and enter your dossier number": "Félicitations. vous avez terminé la première étape de votre inscription. il ne vous reste plus qu'à vous inscrire sur moncompteformation.gouv.fr et à revenir saisir votre numéro de dossier",
+    "Show me how to find my dossier number": "Montrez-moi comment trouver mon numéro de dossier",
+    "Validate my enrollment without dossier number": "Valider mon inscription sans mon numéro de dossier",
+    "Follow this enrollment link": "Suivez ce lien d'inscription",
+    "Enrollment link": "Lien d'inscription",
+    "Once you complete your enrollment in moncompteformation.gouv.fr. you will find your enrollment dossier number in 'Mes dossiers'": "Une fois votre inscription terminée sur moncompteformation.gouv.fr. vous trouverez votre numéro de dossier d'inscription dans 'Mes dossiers'",
+    "Return to this page after consulting your dossier number": "Revenez sur cette page après avoir consulté votre numéro de dossier",
+    "Enter your dossier number": "Saisissez votre numéro de dossier",
+    "All enrollments": "Toutes les inscriptions",
+    "pending": "en cours",
+    "canceled": "annulée",
+    "complete": "terminée",
+    "Status": "Statut"
 }

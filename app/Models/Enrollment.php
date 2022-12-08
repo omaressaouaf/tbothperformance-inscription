@@ -25,7 +25,7 @@ class Enrollment extends Model
         "completed_at" => "datetime:Y-m-d H:i:s"
     ];
 
-    protected $appends = ["next_step", "next_edit_url"];
+    protected $appends = ["next_step", "next_edit_url", "cpf_link"];
 
     protected $with = ["course"];
 
@@ -48,11 +48,16 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
     protected function nextStep(): Attribute
     {
         return Attribute::get(
             function ($value, $attributes) {
-                if ($attributes["completed_at"]) {
+                if ($attributes["status"] !== EnrollmentStatus::Pending->value) {
                     return -1;
                 }
 
@@ -94,6 +99,15 @@ class Enrollment extends Model
                 }
 
                 return route("lead.enrollments.course.edit", [$attributes["id"]]);
+            }
+        );
+    }
+
+    protected function cpfLink(): Attribute
+    {
+        return Attribute::get(
+            function () {
+                return $this->plan ? $this->course->plans($this->plan->id)->first()->pivot->cpf_link : null;
             }
         );
     }
