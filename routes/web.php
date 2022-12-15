@@ -1,18 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\Lead\LeadController;
 use App\Http\Controllers\Admin\BulkController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
+use App\Http\Controllers\Lead\DashboardController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Lead\AuthenticatedSessionController;
-use App\Http\Controllers\Lead\DashboardController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentPlanController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentCourseController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
-use App\Http\Controllers\Lead\Enrollments\EnrollmentPlanController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
-use App\Http\Controllers\Lead\LeadController;
 
 Route::inertia('/', "Welcome");
 
@@ -66,6 +68,9 @@ Route::middleware(["locale"])->group(function () {
                         ->name("validation.edit");
                     Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
                         ->name("validation.update");
+
+                    Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "edit"])
+                        ->name("payment.edit");
                 });
         });
     });
@@ -98,3 +103,9 @@ Route::middleware(["locale"])->group(function () {
 
 // Localization
 Route::put("/locale/switch", SwitchLocaleController::class)->name("locale.switch");
+
+// Files
+Route::get("/files/{path}", [FileController::class, "serve"])
+    ->where('path', '(.*)')
+    ->name("files.serve")
+    ->middleware(["auth:lead"]);

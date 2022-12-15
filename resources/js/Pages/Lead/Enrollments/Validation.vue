@@ -1,6 +1,9 @@
 <template>
     <Head :title="__('Validate your enrollment')" />
-    <EnrollmentsWizard :enrollment="enrollment">
+    <EnrollmentsWizard
+        :enrollment="enrollment"
+        :class="enrollment.financing_type === 'manual' ? '!px-0' : ''"
+    >
         <ServerErrors class="mb-4 mt-5" />
         <div
             v-if="enrollment.financing_type === 'cpf'"
@@ -37,10 +40,7 @@
                     {{ __("Show me how to find my dossier number") }}
                 </button>
                 <button
-                    @click="
-                        wantsToValidateWithDossierNumber = false;
-                        form.cpf_dossier_number = '';
-                    "
+                    @click="validateWithoutDossierNumber"
                     class="btn btn-lg"
                     :class="[
                         wantsToValidateWithDossierNumber === false
@@ -147,32 +147,37 @@
                                             )
                                         "
                                     />
+                                    <button
+                                        @click="handleSubmit"
+                                        :disabled="form.processing"
+                                        class="btn btn-lg btn-primary w-full mt-5"
+                                    >
+                                        {{ __("Validate") }}
+                                    </button>
                                 </div>
                             </div>
                         </li>
                     </ol>
                 </div>
             </div>
-            <div class="mt-7 w-full md:w-3/4 intro-y">
-                <div>
-                    <label class="form-label text-lg">
-                        {{ __("Notes") }}
-                    </label>
-                    <textarea
-                        class="form-control"
-                        v-model="form.notes"
-                        rows="5"
-                        :placeholder="printPlaceholder('notes')"
-                    ></textarea>
-                </div>
-                <button
-                    @click="handleSubmit"
-                    :disabled="form.processing"
-                    class="btn btn-lg btn-primary w-full mt-5"
+        </div>
+        <div v-if="enrollment.financing_type === 'manual'" class="w-full">
+            <div class="px-5 sm:px-20">
+                <p
+                    class="alert alert-secondary show text-base font-semibold mb-5"
                 >
-                    {{ __("Validate") }}
-                </button>
+                    <InfoIcon class="w-4 h-4 me-1" />
+                    {{
+                        __(
+                            "Sign the contract below in order to pay and obtain the course"
+                        )
+                    }}
+                </p>
             </div>
+            <div
+                id="iframe-container"
+                class="w-full min-h-screen relative"
+            ></div>
         </div>
     </EnrollmentsWizard>
 </template>
@@ -192,16 +197,37 @@ export default {
             wantsToValidateWithDossierNumber: true,
             form: this.$inertia.form({
                 cpf_dossier_number: this.enrollment.cpf_dossier_number,
-                notes: this.enrollment.notes,
             }),
         };
     },
     methods: {
+        validateWithoutDossierNumber() {
+            this.wantsToValidateWithDossierNumber = false;
+            this.form.cpf_dossier_number = "";
+
+            this.handleSubmit();
+        },
         handleSubmit() {
             this.form.patch(
                 route("lead.enrollments.validation.update", [this.enrollment])
             );
         },
+    },
+    mounted() {
+        if (this.enrollment.financing_type === "manual") {
+            const yousign = new Yousign({
+                signatureLink:
+                    this.enrollment.signature_request_data.signature_link,
+                iframeContainerId: "iframe-container",
+                isSandbox: true,
+            });
+
+            yousign.onSuccess(() => {
+                if (this.enrollment.next_step == 4) {
+                    this.handleSubmit();
+                }
+            });
+        }
     },
 };
 </script>

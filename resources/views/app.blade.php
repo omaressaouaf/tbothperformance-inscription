@@ -16,6 +16,8 @@
    @routes
    @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
    @inertiaHead
+
+   <script src="https://cdn.yousign.tech/iframe-sdk-1.1.0.min.js"></script>
 </head>
 
 <body class="font-sans antialiased">

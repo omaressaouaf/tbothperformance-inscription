@@ -12,7 +12,7 @@ class ValidateEnrollment
     {
         $enrollment = $request->enrollment;
 
-        if ($enrollment->status !== EnrollmentStatus::Pending) {
+        if ($enrollment->status === EnrollmentStatus::Complete) {
             abort(404);
         }
 
@@ -25,6 +25,10 @@ class ValidateEnrollment
 
     private function currentStep(Request $request)
     {
+        if ($request->routeIs("lead.enrollments.payment.*")) {
+            return 5;
+        }
+
         if ($request->routeIs("lead.enrollments.validation.*")) {
             return 4;
         }

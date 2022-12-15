@@ -1009,5 +1009,7 @@
     "pending": "en cours",
     "canceled": "annulée",
     "complete": "terminée",
-    "Status": "Statut"
+    "contract signed": "contrat signé",
+    "Status": "Statut",
+    "Sign the contract below in order to pay and obtain the course": "Signez le contrat ci-dessous pour payer et obtenir la formation"
 }

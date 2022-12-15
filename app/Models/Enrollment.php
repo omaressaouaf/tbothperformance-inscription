@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\EnrollmentStatus;
+use App\Yousign\Yousign;
 use App\Enums\FinancingType;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\EnrollmentStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,6 +24,7 @@ class Enrollment extends Model
         "status" => EnrollmentStatus::class,
         "cpf_amount" => "decimal:2",
         "cpf_start_date" => "date:Y-m-d",
+        "signature_request_data" => "array",
         "completed_at" => "datetime:Y-m-d H:i:s"
     ];
 
@@ -57,8 +60,12 @@ class Enrollment extends Model
     {
         return Attribute::get(
             function ($value, $attributes) {
-                if ($attributes["status"] !== EnrollmentStatus::Pending->value) {
+                if ($attributes["status"] === EnrollmentStatus::Complete->value) {
                     return -1;
+                }
+
+                if ($attributes["status"] === EnrollmentStatus::ContractSigned->value) {
+                    return 5;
                 }
 
                 if ($attributes["plan_id"]) {
@@ -84,6 +91,10 @@ class Enrollment extends Model
             function ($value, $attributes) {
                 if ($this->next_step === -1) {
                     return null;
+                }
+
+                if ($this->next_step === 5) {
+                    return route("lead.enrollments.payment.edit", [$attributes["id"]]);
                 }
 
                 if ($this->next_step === 4) {
@@ -126,5 +137,108 @@ class Enrollment extends Model
 
             $this->save();
         }
+    }
+
+    public function prepareSignatureRequestForContract()
+    {
+        if (!$this->lead_data || !is_array($this->lead_data)) {
+            throw new \LogicException("Lead data is required for the contract");
+        }
+
+        $yousign = app(Yousign::class);
+
+        if (isset($this->signature_request_data["id"]) && !is_null($this->signature_request_data["id"])) {
+            $signatureRequest = $yousign->getSignatureRequest($this->signature_request_data["id"]);
+
+            if ($signatureRequest["status"] === "expired") {
+                $this->activateSignatureRequest($signatureRequest, true);
+            }
+
+            return $this->signature_request_data;
+        } else {
+            $signatureRequest = $this->createAndInitiateSignatureRequest();
+
+            $this->activateSignatureRequest($signatureRequest);
+
+            return $this->signature_request_data;
+        }
+    }
+
+    private function createAndInitiateSignatureRequest(): array
+    {
+        $yousign = app(Yousign::class);
+
+        $document = $yousign->uploadDocument("signable_document", public_path("contrat.pdf"));
+
+        $signatureRequestParams = [
+            "name" => sprintf(
+                "%s %s - %s %s",
+                __("Enrollment No."),
+                $this->id,
+                $this->lead_data["first_name"],
+                $this->lead_data["last_name"]
+            ),
+            "delivery_mode" =>  "none",
+            "expiration_date" => today()->addMonths(6)->toDateString(),
+            "timezone" => "Europe/Paris",
+            "documents" => [$document["id"]],
+            "external_id" => "{$this->id}",
+            "signers" => [
+                [
+                    "info" => [
+                        "first_name" => $this->lead["first_name"],
+                        "last_name" => $this->lead["last_name"],
+                        "email" => $this->lead["email"],
+                        "phone_number" => $this->lead["phone"],
+                        "locale" => $this->lead["locale"]
+                    ],
+                    "signature_level" => "electronic_signature",
+                    "signature_authentication_mode" => "no_otp"
+                ]
+            ]
+        ];
+
+        return $yousign->initiateSignatureRequest($signatureRequestParams);
+    }
+
+    private function activateSignatureRequest(array $signatureRequest, bool $reactivate = false): void
+    {
+        $yousign = app(Yousign::class);
+
+        $signatureRequestActivation =  $reactivate
+            ? $yousign->reactivateSignatureRequest(
+                $signatureRequest["id"],
+                ["expiration_date" => today()->addMonths(6)->toDateString()]
+            )
+            : $yousign->activateSignatureRequest($signatureRequest["id"]);
+
+        $this->update(["signature_request_data" => [
+            "id" => $signatureRequestActivation["id"],
+            "signature_link" => $signatureRequestActivation["signers"][0]["signature_link"]
+        ]]);
+    }
+
+    public function syncSignatureRequestFile(): void
+    {
+        $yousign = app(Yousign::class);
+
+        $signatureRequest = $yousign->getSignatureRequest($this->signature_request_data["id"]);
+
+        if ($signatureRequest["status"] !== "done") {
+            throw new \LogicException("Signature request is not done yet");
+        }
+
+        $response = $yousign->downloadSignatureRequestFile(
+            $this->signature_request_data["id"],
+            ["version" => "completed", "archive" => "true"]
+        );
+
+        $path = "enrollments/{$this->id}/contrat.zip";
+
+        Storage::put($path, $response->getBody());
+
+        $this->update([
+            "signature_request_data->file_path" => $path
+        ]);
     }
 }

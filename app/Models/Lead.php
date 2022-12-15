@@ -46,7 +46,7 @@ class Lead extends Authenticatable
 
     public function pendingEnrollment(): HasOne
     {
-        return $this->hasOne(Enrollment::class)->where("status", EnrollmentStatus::Pending)->oldestOfMany();
+        return $this->hasOne(Enrollment::class)->where("status", "!=", EnrollmentStatus::Complete)->oldestOfMany();
     }
 
     public function syncEnrollmentLeadData(): void

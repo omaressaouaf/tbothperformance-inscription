@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Lead\Enrollments;
 
+use App\Enums\FinancingType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ValidateEnrollmentRequest extends FormRequest
@@ -17,6 +18,20 @@ class ValidateEnrollmentRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->financing_type === FinancingType::Manual->value) {
+            $this->merge([
+                "cpf_dossier_number" => null
+            ]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -25,7 +40,6 @@ class ValidateEnrollmentRequest extends FormRequest
     {
         return [
             "cpf_dossier_number" => "nullable",
-            "notes" => "nullable"
         ];
     }
 }

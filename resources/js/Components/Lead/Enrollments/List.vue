@@ -116,6 +116,8 @@
                         :class="{
                             'bg-gray-300 text-gray-800':
                                 enrollment.status === 'pending',
+                            'bg-orange-600':
+                                enrollment.status === 'contract signed',
                             'bg-green-600': enrollment.status === 'complete',
                             'bg-theme-21': enrollment.status === 'canceled',
                         }"
