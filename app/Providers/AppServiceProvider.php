@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Lead;
+use Laravel\Cashier\Cashier;
 use Illuminate\Support\ServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderRequest;
 
@@ -25,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Set spatie query builder value delimiter
         QueryBuilderRequest::setArrayValueDelimiter('|');
+
+        // Cashier billable model
+        Cashier::useCustomerModel(Lead::class);
     }
 }

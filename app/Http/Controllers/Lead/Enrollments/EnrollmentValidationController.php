@@ -52,7 +52,7 @@ class EnrollmentValidationController extends Controller
 
             $enrollment->update(["status" => EnrollmentStatus::ContractSigned]);
 
-            return redirect()->route("lead.enrollments.payment.edit", [$enrollment]);
+            return redirect()->route("lead.enrollments.payment.checkout", [$enrollment]);
         } catch (\LogicException $e) {
             throw ValidationException::withMessages([
                 'contract' => __("validation.required", ["attribute" => __("validation.attributes.contract")])

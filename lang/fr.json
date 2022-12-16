@@ -965,7 +965,7 @@
     "Choose financing": "Choisissez la financement",
     "Validate enrollment": "Valider l'inscription",
     "Selected": "Sélectionnée",
-    "Enrollment No.": "N° d'Inscription",
+    "Enrollment No.": "Inscription N°",
     "Lead account": "Compte Lead",
     "You are logged in now. you can complete your enrollment, see all past enrollments, ask for support...": "Vous êtes connecté maintenant. vous pouvez terminer votre inscription, voir toutes les inscriptions passées, demander de support...",
     "If you are ever logged out. just enter your email. and you'll be automatically logged in": "Si vous êtes déconnecté. entrez simplement votre e-mail. et vous serez automatiquement connecté",
@@ -1011,5 +1011,11 @@
     "complete": "terminée",
     "contract signed": "contrat signé",
     "Status": "Statut",
-    "Sign the contract below in order to pay and obtain the course": "Signez le contrat ci-dessous pour payer et obtenir la formation"
+    "Sign the contract below in order to pay and obtain the course": "Signez le contrat ci-dessous pour payer et obtenir la formation",
+    "Enrollment in plan": "Inscription au formule",
+    "Pay for your enrollment": "Payer votre inscription",
+    "Your payment for :enrollment was successful": "Votre paiement pour :enrollment a été effectué avec succès",
+    "You will be contacted and receive an email shortly with confirmation of your order": "Vous serez contacté et recevrez un e-mail sous peu avec la confirmation de votre commande",
+    "Go back to dashboard": "Revenir au tableau de bord",
+    "Choose klarna if you want to split your payments into 3 installments monthly without interest": "Choisissez klarna si vous souhaitez diviser vos paiements en 3 versements mensuels sans intérêts"
 }

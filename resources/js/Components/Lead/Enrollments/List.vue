@@ -49,17 +49,24 @@
                 </Td>
                 <Td>
                     <div class="flex">
-                        <Link
+                        <Component
+                            :is="
+                                pendingEnrollment.next_step == 5 ? 'a' : 'Link'
+                            "
                             :href="pendingEnrollment.next_edit_url"
                             class="flex items-center me-3 text-theme-20"
                         >
                             <Tippy
                                 tag="span"
-                                :content="__('Complete your enrollment')"
+                                :content="
+                                    pendingEnrollment.next_step == 5
+                                        ? __('Pay for your enrollment')
+                                        : __('Complete your enrollment')
+                                "
                             >
                                 <LogInIcon class="w-4 h-4 me-2 font-semibold" />
                             </Tippy>
-                        </Link>
+                        </Component>
                     </div>
                 </Td>
             </Tr>

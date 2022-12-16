@@ -2,20 +2,22 @@
 
 namespace App\Models;
 
+use Laravel\Cashier\Billable;
 use App\Enums\EnrollmentStatus;
 use App\Enums\YearsWorkedInFrance;
 use Illuminate\Support\Facades\DB;
 use App\Enums\ProfessionalSituation;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Grosv\LaravelPasswordlessLogin\Traits\PasswordlessLogin;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Lead extends Authenticatable
 {
-    use HasFactory, Notifiable, PasswordlessLogin;
+    use HasFactory, Notifiable, PasswordlessLogin, Billable;
 
     protected $guard = "lead";
 
@@ -35,6 +37,10 @@ class Lead extends Authenticatable
         static::updated(function ($lead) {
             DB::afterCommit(function () use ($lead) {
                 $lead->syncEnrollmentLeadData();
+
+                if ($lead->hasStripeId()) {
+                    $lead->syncStripeCustomerDetails();
+                }
             });
         });
     }
@@ -47,6 +53,13 @@ class Lead extends Authenticatable
     public function pendingEnrollment(): HasOne
     {
         return $this->hasOne(Enrollment::class)->where("status", "!=", EnrollmentStatus::Complete)->oldestOfMany();
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::get(
+            fn ($value, $attributes) => $attributes["first_name"] . " " . $attributes["last_name"]
+        );
     }
 
     public function syncEnrollmentLeadData(): void
@@ -62,5 +75,15 @@ class Lead extends Authenticatable
                     "professional_situation" => $this->professional_situation,
                 ]
             ]);
+    }
+
+    public function stripeName()
+    {
+        return $this->full_name;
+    }
+
+    public function stripePreferredLocales()
+    {
+        return [$this->locale];
     }
 }

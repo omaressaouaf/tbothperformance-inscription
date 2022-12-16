@@ -69,8 +69,10 @@ Route::middleware(["locale"])->group(function () {
                     Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
                         ->name("validation.update");
 
-                    Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "edit"])
-                        ->name("payment.edit");
+                    Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
+                        ->name("payment.checkout");
+                    Route::get("/{enrollment}/success", [EnrollmentPaymentController::class, "success"])
+                        ->name("payment.success");
                 });
         });
     });

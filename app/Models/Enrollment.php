@@ -28,7 +28,7 @@ class Enrollment extends Model
         "completed_at" => "datetime:Y-m-d H:i:s"
     ];
 
-    protected $appends = ["next_step", "next_edit_url", "cpf_link"];
+    protected $appends = ["next_step", "next_edit_url", "cpf_link", "total", "label"];
 
     protected $with = ["course"];
 
@@ -94,7 +94,7 @@ class Enrollment extends Model
                 }
 
                 if ($this->next_step === 5) {
-                    return route("lead.enrollments.payment.edit", [$attributes["id"]]);
+                    return route("lead.enrollments.payment.checkout", [$attributes["id"]]);
                 }
 
                 if ($this->next_step === 4) {
@@ -117,9 +117,23 @@ class Enrollment extends Model
     protected function cpfLink(): Attribute
     {
         return Attribute::get(
-            function () {
-                return $this->plan ? $this->course->plans($this->plan->id)->first()->pivot->cpf_link : null;
-            }
+            fn ()  => $this->plan ? $this->course->plans($this->plan->id)->first()->pivot->cpf_link : null
+        );
+    }
+
+    protected function total(): Attribute
+    {
+        return Attribute::get(
+            fn () => $this->plan ? $this->plan->price : null
+        );
+    }
+
+    protected function label(): Attribute
+    {
+        return Attribute::get(
+            fn ()  => $this->course && $this->plan
+                ? sprintf("%s - %s", $this->course->title, $this->plan->name)
+                : null
         );
     }
 
@@ -171,13 +185,7 @@ class Enrollment extends Model
         $document = $yousign->uploadDocument("signable_document", public_path("contrat.pdf"));
 
         $signatureRequestParams = [
-            "name" => sprintf(
-                "%s %s - %s %s",
-                __("Enrollment No."),
-                $this->id,
-                $this->lead_data["first_name"],
-                $this->lead_data["last_name"]
-            ),
+            "name" => $this->label,
             "delivery_mode" =>  "none",
             "expiration_date" => today()->addMonths(6)->toDateString(),
             "timezone" => "Europe/Paris",
