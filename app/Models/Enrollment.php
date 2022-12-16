@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Yousign\Yousign;
 use App\Enums\FinancingType;
 use App\Enums\EnrollmentStatus;
+use App\Enums\PaymentMethod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,9 @@ class Enrollment extends Model
         "cpf_amount" => "decimal:2",
         "cpf_start_date" => "date:Y-m-d",
         "signature_request_data" => "array",
-        "completed_at" => "datetime:Y-m-d H:i:s"
+        "completed_at" => "datetime:Y-m-d H:i:s",
+        "paid_at" => "datetime:Y-m-d H:i:s",
+        "payment_method" => PaymentMethod::class
     ];
 
     protected $appends = ["next_step", "next_edit_url", "cpf_link", "total", "label"];
@@ -54,6 +57,11 @@ class Enrollment extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function paymentApprover(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "payment_approver_id");
     }
 
     protected function nextStep(): Attribute

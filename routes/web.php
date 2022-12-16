@@ -72,7 +72,7 @@ Route::middleware(["locale"])->group(function () {
                     Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
                         ->name("payment.checkout");
                     Route::get("/{enrollment}/success", [EnrollmentPaymentController::class, "success"])
-                        ->name("payment.success");
+                        ->name("payment.success")->withoutMiddleware(["enrollment"]);
                 });
         });
     });

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Lead\Enrollments;
 
+use Inertia\Inertia;
 use App\Models\Enrollment;
 use App\Enums\FinancingType;
 use App\Enums\EnrollmentStatus;
+use App\Jobs\FulFillEnrollment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
@@ -32,11 +34,7 @@ class EnrollmentValidationController extends Controller
 
     private function handleCpfFinancingValidation(ValidateEnrollmentRequest $request, Enrollment $enrollment)
     {
-        $enrollment->update([
-            ...$request->validated(),
-            "completed_at" => now(),
-            "status" => EnrollmentStatus::Complete
-        ]);
+        FulFillEnrollment::dispatchSync($enrollment);
 
         if (!$enrollment->cpf_dossier_number) {
             session()->flash("openCpfLink", $enrollment->cpf_link);
@@ -52,7 +50,7 @@ class EnrollmentValidationController extends Controller
 
             $enrollment->update(["status" => EnrollmentStatus::ContractSigned]);
 
-            return redirect()->route("lead.enrollments.payment.checkout", [$enrollment]);
+            return Inertia::location(route("lead.enrollments.payment.checkout", [$enrollment]));
         } catch (\LogicException $e) {
             throw ValidationException::withMessages([
                 'contract' => __("validation.required", ["attribute" => __("validation.attributes.contract")])
