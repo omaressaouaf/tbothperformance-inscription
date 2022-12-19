@@ -10,10 +10,11 @@ use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Lead\DashboardController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Lead\AuthenticatedSessionController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPlanController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentCourseController;
-use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
+use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 
 Route::inertia('/', "Welcome");
@@ -47,32 +48,36 @@ Route::middleware(["locale"])->group(function () {
             // Enrollment
             Route::prefix("/enrollments")
                 ->as("enrollments.")
-                ->middleware(["enrollment"])
                 ->group(function () {
-                    Route::get("/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
-                        ->name("course.edit");
-                    Route::patch("/{enrollment}/course", [EnrollmentCourseController::class, "update"])
-                        ->name("course.update");
+                    Route::post("/", [EnrollmentController::class, "store"])->name("store");
 
-                    Route::get("/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
-                        ->name("financing.edit");
-                    Route::patch("/{enrollment}/financing", [EnrollmentFinancingController::class, "update"])
-                        ->name("financing.update");
+                    Route::middleware(["enrollment"])->group(function () {
+                        Route::get("/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
+                            ->name("course.edit");
+                        Route::patch("/{enrollment}/course", [EnrollmentCourseController::class, "update"])
+                            ->name("course.update");
 
-                    Route::get("/{enrollment}/plan", [EnrollmentPlanController::class, "edit"])
-                        ->name("plan.edit");
-                    Route::patch("/{enrollment}/plan", [EnrollmentPlanController::class, "update"])
-                        ->name("plan.update");
+                        Route::get("/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
+                            ->name("financing.edit");
+                        Route::patch("/{enrollment}/financing", [EnrollmentFinancingController::class, "update"])
+                            ->name("financing.update");
 
-                    Route::get("/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
-                        ->name("validation.edit");
-                    Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
-                        ->name("validation.update");
+                        Route::get("/{enrollment}/plan", [EnrollmentPlanController::class, "edit"])
+                            ->name("plan.edit");
+                        Route::patch("/{enrollment}/plan", [EnrollmentPlanController::class, "update"])
+                            ->name("plan.update");
 
-                    Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
-                        ->name("payment.checkout");
+                        Route::get("/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
+                            ->name("validation.edit");
+                        Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
+                            ->name("validation.update");
+
+                        Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
+                            ->name("payment.checkout");
+                    });
+
                     Route::get("/{enrollment}/success", [EnrollmentPaymentController::class, "success"])
-                        ->name("payment.success")->withoutMiddleware(["enrollment"]);
+                        ->name("payment.success");
                 });
         });
     });

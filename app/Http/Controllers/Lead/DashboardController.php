@@ -10,7 +10,7 @@ class DashboardController extends Controller
     {
         return inertia("Lead/Dashboard", [
             "pendingEnrollment" => request()->user("lead")->pendingEnrollment,
-            "enrollments" => request()->user("lead")->enrollments
+            "enrollments" => request()->user("lead")->enrollments()->latest()->get()
         ]);
     }
 }

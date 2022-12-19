@@ -73,12 +73,24 @@
         </DataTable>
     </div>
     <div v-if="enrollments.length" class="mt-5">
-        <h3
-            class="text-base font-semibold text-gray-700 dark:text-gray-200 flex gap-2 items-center"
-        >
-            <BookmarkIcon class="w-5 h-5" />
-            {{ __("All enrollments") }}
-        </h3>
+        <div class="flex items-center justify-between">
+            <h3
+                class="text-base font-semibold text-gray-700 dark:text-gray-200 flex gap-2 items-center"
+            >
+                <BookmarkIcon class="w-5 h-5" />
+                {{ __("All enrollments") }}
+            </h3>
+            <Link
+                v-if="!pendingEnrollment"
+                :href="route('lead.enrollments.store')"
+                method="post"
+                as="button"
+                class="btn btn-primary"
+            >
+                <PlusIcon class="w-4 h-4 me-2" />
+                {{ __("New enrollment") }}
+            </Link>
+        </div>
         <DataTable :simple-table="true" class="mt-5 intro-x">
             <template #headings>
                 <tr class="bg-gray-200 dark:bg-dark-2 text-gray-700">
@@ -104,7 +116,12 @@
                     {{ enrollment.number }}
                 </Td>
                 <Td>
-                    {{ enrollment.course?.title }}
+                    <span v-if="enrollment.course">
+                        {{ enrollment.course?.title }}
+                    </span>
+                    <span v-else class="text-theme-21">{{
+                        __("Not selected")
+                    }}</span>
                 </Td>
                 <Td>
                     <Badge
