@@ -72,7 +72,7 @@
             </Tr>
         </DataTable>
     </div>
-    <div v-if="enrollments.length" class="mt-5">
+    <div class="mt-5">
         <div class="flex items-center justify-between">
             <h3
                 class="text-base font-semibold text-gray-700 dark:text-gray-200 flex gap-2 items-center"
@@ -91,7 +91,7 @@
                 {{ __("New enrollment") }}
             </Link>
         </div>
-        <DataTable :simple-table="true" class="mt-5 intro-x">
+        <DataTable v-if="enrollments.length" :simple-table="true" class="mt-5 intro-x">
             <template #headings>
                 <tr class="bg-gray-200 dark:bg-dark-2 text-gray-700">
                     <Th class="whitespace-nowrap">{{

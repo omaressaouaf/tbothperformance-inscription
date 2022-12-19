@@ -109,6 +109,8 @@ trait RequiresContractSignature
     {
         $path = storage_path("app/enrollments/{$this->id}/contract-unsigned.pdf");
 
+        Storage::makeDirectory("enrollments/{$this->id}/");
+
         Pdf::loadView('contract')->save($path);
 
         return file_get_contents($path);
