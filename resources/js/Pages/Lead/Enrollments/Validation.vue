@@ -178,6 +178,15 @@
                 id="iframe-container"
                 class="w-full min-h-screen relative"
             ></div>
+            <div class="w-full px-5 flex justify-end">
+                <button
+                    @click="handleSubmit"
+                    class="mt-5 btn btn-lg btn-primary"
+                    v-if="showValidateContract"
+                >
+                    {{ __("Validate") }}
+                </button>
+            </div>
         </div>
     </EnrollmentsWizard>
 </template>
@@ -198,6 +207,7 @@ export default {
             form: this.$inertia.form({
                 cpf_dossier_number: this.enrollment.cpf_dossier_number,
             }),
+            showValidateContract: this.enrollment.status === "contract signed",
         };
     },
     methods: {
@@ -219,12 +229,16 @@ export default {
                 signatureLink:
                     this.enrollment.signature_request_data.signature_link,
                 iframeContainerId: "iframe-container",
-                isSandbox: true,
+                isSandbox: import.meta.env.VITE_YOUSIGN_ENV === "sandbox",
             });
 
             yousign.onSuccess(() => {
                 if (this.enrollment.next_step == 4) {
-                    this.handleSubmit();
+                    this.showValidateContract = true;
+
+                    setTimeout(() => {
+                        this.handleSubmit();
+                    }, 2000);
                 }
             });
         }
