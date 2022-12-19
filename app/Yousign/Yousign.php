@@ -4,7 +4,6 @@ namespace App\Yousign;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Arr;
 
 class Yousign
 {
@@ -76,13 +75,13 @@ class Yousign
         return $json ? $response->json() : $response;
     }
 
-    public function uploadDocument(string $nature = "attachment", string $path): mixed
+    public function uploadDocument(mixed $document, string $filename, array $data): mixed
     {
         return $this->makeRequest(
             "post",
             "documents",
-            ["nature" => $nature, "parse_anchors" => "true"],
-            fn ($client) => $client->attach('file', file_get_contents($path), basename($path))
+            $data,
+            fn ($client) => $client->attach('file', $document, $filename)
         );
     }
 
@@ -104,6 +103,16 @@ class Yousign
     public function getSignatureRequest(mixed $signatureRequestId): mixed
     {
         return $this->makeRequest("get", "signature_requests/{$signatureRequestId}");
+    }
+
+    public function cancelSignatureRequest(mixed $signatureRequestId, array $data): mixed
+    {
+        return $this->makeRequest("post", "signature_requests/{$signatureRequestId}/cancel", $data);
+    }
+
+    public function deleteSignatureRequest(mixed $signatureRequestId): mixed
+    {
+        return $this->makeRequest("delete", "signature_requests/{$signatureRequestId}");
     }
 
     public function downloadSignatureRequestFile(mixed $signatureRequestId, array $data): mixed

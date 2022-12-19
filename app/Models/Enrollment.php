@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use App\Yousign\Yousign;
 use App\Enums\FinancingType;
-use App\Enums\EnrollmentStatus;
 use App\Enums\PaymentMethod;
+use App\Enums\EnrollmentStatus;
+use App\Traits\RequiresContractSignature;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Enrollment extends Model
 {
-    use HasFactory;
+    use HasFactory, RequiresContractSignature;
 
     protected $guarded = [];
 
@@ -159,102 +158,5 @@ class Enrollment extends Model
 
             $this->save();
         }
-    }
-
-    public function prepareSignatureRequestForContract()
-    {
-        if (!$this->lead_data || !is_array($this->lead_data)) {
-            throw new \LogicException("Lead data is required for the contract");
-        }
-
-        $yousign = app(Yousign::class);
-
-        if (isset($this->signature_request_data["id"]) && !is_null($this->signature_request_data["id"])) {
-            $signatureRequest = $yousign->getSignatureRequest($this->signature_request_data["id"]);
-
-            if ($signatureRequest["status"] === "expired") {
-                $this->activateSignatureRequest($signatureRequest, true);
-            }
-
-            return $this->signature_request_data;
-        } else {
-            $signatureRequest = $this->createAndInitiateSignatureRequest();
-
-            $this->activateSignatureRequest($signatureRequest);
-
-            return $this->signature_request_data;
-        }
-    }
-
-    private function createAndInitiateSignatureRequest(): array
-    {
-        $yousign = app(Yousign::class);
-
-        $document = $yousign->uploadDocument("signable_document", public_path("contrat.pdf"));
-
-        $signatureRequestParams = [
-            "name" => $this->label,
-            "delivery_mode" =>  "none",
-            "expiration_date" => today()->addMonths(6)->toDateString(),
-            "timezone" => "Europe/Paris",
-            "documents" => [$document["id"]],
-            "external_id" => "{$this->id}",
-            "signers" => [
-                [
-                    "info" => [
-                        "first_name" => $this->lead["first_name"],
-                        "last_name" => $this->lead["last_name"],
-                        "email" => $this->lead["email"],
-                        "phone_number" => $this->lead["phone"],
-                        "locale" => $this->lead["locale"]
-                    ],
-                    "signature_level" => "electronic_signature",
-                    "signature_authentication_mode" => "no_otp"
-                ]
-            ]
-        ];
-
-        return $yousign->initiateSignatureRequest($signatureRequestParams);
-    }
-
-    private function activateSignatureRequest(array $signatureRequest, bool $reactivate = false): void
-    {
-        $yousign = app(Yousign::class);
-
-        $signatureRequestActivation =  $reactivate
-            ? $yousign->reactivateSignatureRequest(
-                $signatureRequest["id"],
-                ["expiration_date" => today()->addMonths(6)->toDateString()]
-            )
-            : $yousign->activateSignatureRequest($signatureRequest["id"]);
-
-        $this->update(["signature_request_data" => [
-            "id" => $signatureRequestActivation["id"],
-            "signature_link" => $signatureRequestActivation["signers"][0]["signature_link"]
-        ]]);
-    }
-
-    public function syncSignatureRequestFile(): void
-    {
-        $yousign = app(Yousign::class);
-
-        $signatureRequest = $yousign->getSignatureRequest($this->signature_request_data["id"]);
-
-        if ($signatureRequest["status"] !== "done") {
-            throw new \LogicException("Signature request is not done yet");
-        }
-
-        $response = $yousign->downloadSignatureRequestFile(
-            $this->signature_request_data["id"],
-            ["version" => "completed", "archive" => "true"]
-        );
-
-        $path = "enrollments/{$this->id}/contrat.zip";
-
-        Storage::put($path, $response->getBody());
-
-        $this->update([
-            "signature_request_data->file_path" => $path
-        ]);
     }
 }

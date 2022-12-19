@@ -64,7 +64,11 @@ class Lead extends Authenticatable
 
     public function syncEnrollmentLeadData(): void
     {
-        Enrollment::where("lead_id", $this->id)
+        $this
+            ->enrollments()
+            ->where("status", "!=", EnrollmentStatus::Complete)
+            ->get()
+            ->each
             ->update([
                 "lead_data" => [
                     "first_name" => $this->first_name,
