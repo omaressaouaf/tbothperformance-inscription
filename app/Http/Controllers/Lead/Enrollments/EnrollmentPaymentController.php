@@ -16,20 +16,13 @@ class EnrollmentPaymentController extends Controller
             "locale" => $lead->locale,
             "success_url" => route("lead.enrollments.payment.success", [$enrollment]) . '?sessionId={CHECKOUT_SESSION_ID}',
             "cancel_url" => route("lead.dashboard"),
-            "payment_method_options" => [
-                "card" => [
-                    "setup_future_usage" => "on_session"
-                ],
-                "klarna" => [
-                    "setup_future_usage" => "none"
-                ],
-            ],
+            "payment_method_types" => ["klarna"],
             "metadata" => [
                 "enrollment_id" => $enrollment->id
             ],
             "custom_text" => [
                 "submit" => [
-                    "message" => __("Choose klarna if you want to split your payments into 3 installments monthly without interest")
+                    "message" => __("Pay in 3 installments without interest with klarna")
                 ]
             ]
         ]);

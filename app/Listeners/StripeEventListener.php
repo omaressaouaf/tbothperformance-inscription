@@ -31,7 +31,7 @@ class StripeEventListener
 
         if ($enrollment && $checkoutSession->payment_status === "paid") {
             FulFillEnrollment::dispatchSync(
-                Enrollment::first(),
+                $enrollment,
                 PaymentMethod::tryFrom($paymentMethod) ?? PaymentMethod::Card
             );
         }
