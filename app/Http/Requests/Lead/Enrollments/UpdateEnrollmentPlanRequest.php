@@ -4,7 +4,6 @@ namespace App\Http\Requests\Lead\Enrollments;
 
 use App\Enums\FinancingType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateEnrollmentPlanRequest extends FormRequest
 {
@@ -19,20 +18,6 @@ class UpdateEnrollmentPlanRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        if ($this->financing_type === FinancingType::Manual->value) {
-            $this->merge([
-                "cpf_start_date" => null
-            ]);
-        }
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -41,12 +26,13 @@ class UpdateEnrollmentPlanRequest extends FormRequest
     {
         return [
             "plan_id" => "required",
-            "cpf_start_date" => [
-                'nullable',
-                Rule::requiredIf($this->enrollment->financing_type === FinancingType::CPF),
+            "start_date" => [
+                "required",
                 "date",
                 function ($attribute, $value, $fail) {
-                    $courseStartDateMin = today()->addWeekdays(14);
+                    $courseStartDateMin = today()->addWeekdays(
+                        $this->financing_type === FinancingType::CPF ? 14 : 1
+                    );
 
                     if (parse_date($value)->isBefore($courseStartDateMin)) {
                         $fail(

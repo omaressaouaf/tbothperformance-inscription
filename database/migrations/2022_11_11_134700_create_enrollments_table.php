@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string("number")->nullable()->unique();
             $table->json("lead_data")->nullable();
             $table->string("financing_type")->nullable();
+            $table->string("start_date")->nullable();
             $table->string("cpf_amount")->nullable();
             $table->string("cpf_dossier_number")->nullable();
-            $table->string("cpf_start_date")->nullable();
             $table->string("status")->default(EnrollmentStatus::Pending->value);
             $table->timestamp('completed_at')->nullable();
             $table->json("signature_request_data")->nullable();

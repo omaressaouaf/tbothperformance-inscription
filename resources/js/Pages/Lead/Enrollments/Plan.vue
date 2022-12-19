@@ -54,7 +54,7 @@
             </div>
         </div>
         <div
-            v-if="enrollment.financing_type === 'cpf' && selectedPlan"
+            v-if="selectedPlan"
             class="grid grid-cols-3 mt-14 place-content-end gap-9"
         >
             <div class="col-span-3 xl:col-span-1 xl:col-start-3 space-y-2">
@@ -66,38 +66,40 @@
                         {{ $filters.formatMoney(selectedPlan.price) }}
                     </div>
                 </div>
-                <div
-                    class="flex items-center justify-between w-full border-b pb-5"
-                >
-                    <div class="font-semibold text-xl">
-                        {{ __("CPF amount") }}
-                    </div>
-                    <div class="font-semibold text-lg">
-                        {{ $filters.formatMoney(enrollment.cpf_amount) }}
-                    </div>
-                </div>
-                <div class="flex items-center justify-between w-full py-5">
+                <template v-if="enrollment.financing_type === 'cpf'">
                     <div
-                        class="font-semibold text-xl"
-                        :class="[
-                            remainingCharges === 0
-                                ? 'text-theme-20'
-                                : 'text-theme-21',
-                        ]"
+                        class="flex items-center justify-between w-full border-b pb-5"
                     >
-                        {{ __("Remaining charges") }}
+                        <div class="font-semibold text-xl">
+                            {{ __("CPF amount") }}
+                        </div>
+                        <div class="font-semibold text-lg">
+                            {{ $filters.formatMoney(enrollment.cpf_amount) }}
+                        </div>
                     </div>
-                    <div
-                        class="font-semibold text-lg"
-                        :class="[
-                            remainingCharges === 0
-                                ? 'text-theme-20'
-                                : 'text-theme-21',
-                        ]"
-                    >
-                        {{ $filters.formatMoney(remainingCharges) }}
+                    <div class="flex items-center justify-between w-full py-5">
+                        <div
+                            class="font-semibold text-xl"
+                            :class="[
+                                remainingCharges === 0
+                                    ? 'text-theme-20'
+                                    : 'text-theme-21',
+                            ]"
+                        >
+                            {{ __("Remaining charges") }}
+                        </div>
+                        <div
+                            class="font-semibold text-lg"
+                            :class="[
+                                remainingCharges === 0
+                                    ? 'text-theme-20'
+                                    : 'text-theme-21',
+                            ]"
+                        >
+                            {{ $filters.formatMoney(remainingCharges) }}
+                        </div>
                     </div>
-                </div>
+                </template>
                 <form
                     @submit.prevent="handleSubmit"
                     class="w-full mt-5 border-t pt-5 pb-2"
@@ -107,7 +109,7 @@
                         {{ __("Course start date") }}
                     </label>
                     <input
-                        v-model="form.cpf_start_date"
+                        v-model="form.start_date"
                         type="date"
                         class="form-control form-control-lg"
                         required
@@ -118,7 +120,7 @@
                             {{ __("The start date should be after") }}
                             {{ $filters.formatDate(courseStartDateMin) }}.
                         </p>
-                        <p>
+                        <p v-if="enrollment.financing_type === 'cpf'">
                             {{
                                 __(
                                     "The law imposes a period of 14 days between registration and the start of training"
@@ -153,8 +155,8 @@ export default {
         return {
             form: this.$inertia.form({
                 plan_id: this.enrollment.plan_id,
-                cpf_start_date:
-                    this.enrollment.cpf_start_date ||
+                start_date:
+                    this.enrollment.start_date ||
                     this.$filters.formatDateForInput(this.courseStartDateMin),
             }),
         };
@@ -197,12 +199,6 @@ export default {
     methods: {
         handleSelectPlan(plan) {
             this.form.plan_id = plan.id;
-
-            if (this.enrollment.financing_type === "manual") {
-                this.form.cpf_start_date = null;
-
-                this.handleSubmit();
-            }
         },
         handleSubmit() {
             this.form.patch(

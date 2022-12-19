@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Lead\Enrollments;
 
 use App\Models\Enrollment;
+use App\Enums\FinancingType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Lead\Enrollments\UpdateEnrollmentPlanRequest;
 
@@ -12,7 +13,7 @@ class EnrollmentPlanController extends Controller
     {
         return inertia("Lead/Enrollments/Plan", [
             "enrollment" => $enrollment->load(["course.plans"]),
-            "courseStartDateMin" => today()->addWeekdays(14)
+            "courseStartDateMin" => today()->addWeekdays($enrollment->financing_type === FinancingType::CPF ? 14 : 1)
         ]);
     }
 
