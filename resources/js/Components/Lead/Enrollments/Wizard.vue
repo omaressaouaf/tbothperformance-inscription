@@ -14,7 +14,7 @@
                 <span class="font-semibold text-primary-11"
                     >{{ __("Enrollment No.") }}
                 </span>
-                {{ enrollment.id }}
+                {{ enrollment.number }}
             </p>
         </div>
         <div

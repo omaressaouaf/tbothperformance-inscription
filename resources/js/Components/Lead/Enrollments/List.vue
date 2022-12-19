@@ -21,7 +21,7 @@
             </template>
             <Tr class="!bg-white dark:!bg-dark-3">
                 <Td>
-                    {{ pendingEnrollment.id }}
+                    {{ pendingEnrollment.number }}
                 </Td>
                 <Td>
                     <span v-if="pendingEnrollment.course">
@@ -101,13 +101,14 @@
                 class="!bg-white dark:!bg-dark-3"
             >
                 <Td>
-                    {{ enrollment.id }}
+                    {{ enrollment.number }}
                 </Td>
                 <Td>
                     {{ enrollment.course?.title }}
                 </Td>
                 <Td>
                     <Badge
+                        v-if="enrollment.financing_type"
                         :class="[
                             enrollment.financing_type === 'cpf'
                                 ? 'bg-primary-1'
@@ -117,6 +118,9 @@
                     >
                         {{ __(enrollment.financing_type) }}
                     </Badge>
+                    <span v-else class="text-theme-21">{{
+                        __("Not selected")
+                    }}</span>
                 </Td>
                 <Td>
                     <Badge

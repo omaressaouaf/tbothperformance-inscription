@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\FinancingType;
 use App\Enums\PaymentMethod;
 use App\Enums\EnrollmentStatus;
+use App\Services\IdGeneratorService;
 use App\Traits\RequiresContractSignature;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,10 @@ class Enrollment extends Model
 
     public static function booted()
     {
+        static::creating(function ($enrollment) {
+            $enrollment->number = IdGeneratorService::generate(static::class, "number", 5, "INS-");
+        });
+
         static::created(function ($enrollment) {
             DB::afterCommit(function () use ($enrollment) {
                 $enrollment->syncLeadData();
