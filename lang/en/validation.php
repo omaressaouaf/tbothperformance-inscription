@@ -239,9 +239,10 @@ return [
         "years_worked_in_france" => "years worked in france",
         "professional_situation" => "professional situation",
         "terms" => "terms and conditions",
-        "start_date" => "course start date",
+        "course_start_date" => "course start date",
         "cpf_amount" => "cpf amount",
-        "cpf_dossier_number" => "dossier number"
+        "cpf_dossier_number" => "dossier number",
+        "lead" => "lead"
     ],
 
     /*

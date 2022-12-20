@@ -26,7 +26,7 @@ class UpdateEnrollmentPlanRequest extends FormRequest
     {
         return [
             "plan_id" => "required",
-            "start_date" => [
+            "course_start_date" => [
                 "required",
                 "date",
                 function ($attribute, $value, $fail) {

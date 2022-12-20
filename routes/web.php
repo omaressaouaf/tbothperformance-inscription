@@ -16,6 +16,7 @@ use App\Http\Controllers\Lead\Enrollments\EnrollmentCourseController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
+use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
 
 Route::inertia('/', "Welcome");
 
@@ -102,6 +103,9 @@ Route::middleware(["locale"])->group(function () {
 
         // Courses
         Route::resource("courses", CourseController::class)->except(["show"]);
+
+        // Enrollments
+        Route::resource("enrollments", AdminEnrollmentController::class)->only(["index", "show", "destroy"]);
     });
 
     // Auth

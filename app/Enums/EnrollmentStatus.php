@@ -8,5 +8,4 @@ enum EnrollmentStatus: string
     case ContractSigned = "contract signed";
     case Complete = "complete";
     case Canceled = "canceled";
-    case Failed = "failed";
 }

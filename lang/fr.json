@@ -420,7 +420,7 @@
     "Payment Cancelled": "Paiement annulé",
     "Payment Confirmation": "Confirmation de paiement",
     "Payment Information": "Information de paiement",
-    "Payment Method": "Moyen de paiement",
+    "Payment method": "Moyen de paiement",
     "Payment Successful": "Paiement effectué",
     "Pending Team Invitations": "Invitations d'équipe en attente",
     "Per Page": "Par Page",
@@ -905,6 +905,7 @@
     "Category": "Catégorie",
     "CPF link": "Lien CPF",
     "CPF": "CPF",
+    "cpf": "CPF",
     "Features": "Traits",
     "Course": "Formation",
     "Courses": "Formations",
@@ -1019,5 +1020,14 @@
     "Go back to dashboard": "Revenir au tableau de bord",
     "Choose klarna if you want to split your payments into 3 installments monthly without interest": "Choisissez klarna si vous souhaitez diviser vos paiements en 3 versements mensuels sans intérêts",
     "Pay in 3 installments without interest with klarna": "Payez en 3 versements sans intérêt avec klarna",
-    "New enrollment": "Nouvelle inscription"
+    "New enrollment": "Nouvelle inscription",
+    "Dossier number": "Numéro de dossier",
+    "Paid at": "Payé à",
+    "Leads": "Leads",
+    "Lead": "Lead",
+    "a lead": "un lead",
+    "Start date": "Date de début",
+    "Finish date": "Date de fin",
+    "Started at": "Commencé à",
+    "Finished at": "Terminé à"
 }

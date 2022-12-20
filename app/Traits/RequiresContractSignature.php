@@ -76,7 +76,6 @@ trait RequiresContractSignature
                         "first_name" => $this->lead["first_name"],
                         "last_name" => $this->lead["last_name"],
                         "email" => $this->lead["email"],
-                        "phone_number" => $this->lead["phone"],
                         "locale" => $this->lead["locale"]
                     ],
                     "signature_level" => "electronic_signature",

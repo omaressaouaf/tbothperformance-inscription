@@ -109,7 +109,7 @@
                         {{ __("Course start date") }}
                     </label>
                     <input
-                        v-model="form.start_date"
+                        v-model="form.course_start_date"
                         type="date"
                         class="form-control form-control-lg"
                         required
@@ -155,8 +155,8 @@ export default {
         return {
             form: this.$inertia.form({
                 plan_id: this.enrollment.plan_id,
-                start_date:
-                    this.enrollment.start_date ||
+                course_start_date:
+                    this.enrollment.course_start_date ||
                     this.$filters.formatDateForInput(this.courseStartDateMin),
             }),
         };

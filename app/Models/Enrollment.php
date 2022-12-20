@@ -6,6 +6,7 @@ use App\Enums\FinancingType;
 use App\Enums\PaymentMethod;
 use App\Enums\EnrollmentStatus;
 use App\Services\IdGeneratorService;
+use App\Traits\QueryableFromRequest;
 use App\Traits\RequiresContractSignature;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Enrollment extends Model
 {
-    use HasFactory, RequiresContractSignature;
+    use HasFactory, RequiresContractSignature, QueryableFromRequest;
 
     protected $guarded = [];
 
@@ -24,7 +25,7 @@ class Enrollment extends Model
         "lead_data" => "array",
         "financing_type" => FinancingType::class,
         "status" => EnrollmentStatus::class,
-        "start_date" => "date:Y-m-d",
+        "course_start_date" => "date:Y-m-d",
         "cpf_amount" => "decimal:2",
         "signature_request_data" => "array",
         "completed_at" => "datetime:Y-m-d H:i:s",
@@ -32,9 +33,32 @@ class Enrollment extends Model
         "payment_method" => PaymentMethod::class
     ];
 
-    protected $appends = ["next_step", "next_edit_url", "cpf_link", "total", "label"];
+    protected $appends = ["next_step", "next_edit_url", "cpf_link", "total", "cpf_remaining_charges", "label"];
 
     protected $with = ["course"];
+
+    public $searchable = ["number", "lead_data", "financing_type"];
+
+    public $searchableRelations = [
+        "course" => ["title"],
+        "plan" => ["name"],
+        "lead" => ["first_name", "last_name", "email"]
+    ];
+
+    public $filters = [
+        "number",
+        "lead_data",
+        "course.title",
+        "plan.name",
+        "created_at",
+        "completed_at",
+    ];
+
+    public $exactFilters = ["financing_type", "status"];
+
+    public $defaultSort = "-created_at";
+
+    public $sorts = ["created_at", "completed_at", "course_start_date"];
 
     public static function booted()
     {
@@ -144,6 +168,19 @@ class Enrollment extends Model
     {
         return Attribute::get(
             fn () => $this->plan ? $this->plan->price : null
+        );
+    }
+
+    protected function cpfRemainingCharges(): Attribute
+    {
+        return Attribute::get(
+            function ($value, $attributes) {
+                if ($this->total === null || $attributes["cpf_amount"] === null) return null;
+
+                if ($this->total <= $attributes["cpf_amount"]) return 0;
+
+                return as_decimal($this->total - $attributes["cpf_amount"]);
+            }
         );
     }
 

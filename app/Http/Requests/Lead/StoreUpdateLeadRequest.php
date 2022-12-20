@@ -30,7 +30,7 @@ class StoreUpdateLeadRequest extends FormRequest
         return [
             "first_name" => "required",
             "last_name" => "required",
-            "email" => ["required", Rule::unique('leads')->ignore($this->lead?->id)],
+            "email" => ["required", "email", Rule::unique('leads')->ignore($this->lead?->id)],
             "phone" => "required",
             "years_worked_in_france" => ["required", new Enum(YearsWorkedInFrance::class)],
             "professional_situation" => ["required", new Enum(ProfessionalSituation::class)],

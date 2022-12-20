@@ -55,6 +55,12 @@ export default {
                     title: __("Courses"),
                     icon: "BookIcon",
                 },
+                "divider",
+                {
+                    url: route("admin.enrollments.index"),
+                    title: __("Enrollments"),
+                    icon: "BookmarkIcon",
+                },
             ],
         };
     },
