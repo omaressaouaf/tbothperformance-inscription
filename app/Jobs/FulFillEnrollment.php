@@ -7,6 +7,7 @@ use App\Models\Enrollment;
 use App\Enums\FinancingType;
 use App\Enums\PaymentMethod;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Carbon;
 use App\Enums\EnrollmentStatus;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -24,6 +25,7 @@ class FulFillEnrollment implements ShouldQueue
     public function __construct(
         public Enrollment $enrollment,
         public ?PaymentMethod $paymentMethod = null,
+        public Carbon|string|null $paidAt = null,
         public ?User $paymentApprover = null
     ) {
     }
@@ -33,7 +35,7 @@ class FulFillEnrollment implements ShouldQueue
         if ($this->enrollment->financing_type === FinancingType::Manual) {
             $this->enrollment->payment_method = $this->paymentMethod;
             $this->enrollment->payment_approver_id = $this->paymentApprover?->id;
-            $this->enrollment->paid_at = now();
+            $this->enrollment->paid_at = $this->paidAt ?? now();
         }
 
         $this->enrollment->status = EnrollmentStatus::Complete;

@@ -1038,5 +1038,7 @@
     "Unsigned contract": "Contrat non signé",
     "Signed contract": "Contrat signé",
     "Signature request id": "ID de demande de signature",
-    "Signature link": "Lien de signature"
+    "Signature link": "Lien de signature",
+    "If for whatever reason the lead paid with another payment method. you can use this form to mark the enrollment as complete": "Si, pour une raison quelconque, le lead a payé avec un autre mode de paiement. vous pouvez utiliser ce formulaire pour marquer l'inscription comme terminée",
+    "Set as complete": "Marquer comme terminé"
 }

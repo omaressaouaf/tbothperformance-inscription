@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\EnrollmentStatus;
-use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
+use Illuminate\Http\Request;
+use App\Enums\EnrollmentStatus;
+use App\Enums\FinancingType;
+use App\Enums\PaymentMethod;
 use App\Services\DataTableService;
+use App\Http\Controllers\Controller;
+use App\Jobs\FulFillEnrollment;
+use Illuminate\Validation\Rules\Enum;
 
 class EnrollmentController extends Controller
 {
@@ -38,6 +43,29 @@ class EnrollmentController extends Controller
         );
 
         $enrollment->update(["status" => EnrollmentStatus::Canceled]);
+
+        return back();
+    }
+
+    public function complete(Request $request, Enrollment $enrollment)
+    {
+        abort_unless(
+            $enrollment->status === EnrollmentStatus::ContractSigned &&
+                $enrollment->financing_type === FinancingType::Manual,
+            403
+        );
+
+        $request->validate([
+            "payment_method" => ["required", new Enum(PaymentMethod::class), "not_in:klarna,card"],
+            "paid_at" => "required|date"
+        ]);
+
+        FulFillEnrollment::dispatchSync(
+            $enrollment,
+            PaymentMethod::tryFrom($request->payment_method),
+            $request->paid_at,
+            auth_user("web")
+        );
 
         return back();
     }

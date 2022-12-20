@@ -107,6 +107,8 @@ Route::middleware(["locale"])->group(function () {
         // Enrollments
         Route::put("/enrollments/{enrollment}/cancel", [AdminEnrollmentController::class, "cancel"])
             ->name("enrollments.cancel");
+        Route::put("/enrollments/{enrollment}/complete", [AdminEnrollmentController::class, "complete"])
+            ->name("enrollments.complete");
         Route::resource("enrollments", AdminEnrollmentController::class)->only(["index", "show", "destroy"]);
     });
 

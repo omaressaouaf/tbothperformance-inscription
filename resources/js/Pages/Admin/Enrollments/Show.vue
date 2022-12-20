@@ -11,12 +11,97 @@
             <div
                 class="max-w-[fit-content] ms-auto flex flex-col lg:flex-row space-y-2 lg:space-y-0"
             >
-                <button
+                <Dropdown
                     v-if="
-                        !['complete', 'canceled'].includes(enrollment.status)
+                        enrollment.status === 'contract signed' &&
+                        enrollment.financing_type === 'manual'
                     "
+                    class="me-2"
+                >
+                    <template #trigger>
+                        <button
+                            class="btn btn-success w-full"
+                            aria-expanded="false"
+                        >
+                            <CheckSquareIcon class="w-4 h-3 me-2" />
+                            {{ __("Set as complete") }}
+                        </button>
+                    </template>
+                    <template #content>
+                        <form
+                            @submit.prevent="handleSetAsComplete"
+                            class="p-5 space-y-5"
+                        >
+                            <div>
+                                <p
+                                    class="font-semibold text-xs text-gray-600 dark:text-gray-200"
+                                >
+                                    <AlertCircleIcon class="w-4 h-4 me-2" />{{
+                                        __(
+                                            "If for whatever reason the lead paid with another payment method. you can use this form to mark the enrollment as complete"
+                                        )
+                                    }}
+                                </p>
+                            </div>
+                            <div>
+                                <label class="form-label flex-shrink-o"
+                                    >{{ __("Paid at") }}
+                                    <span class="text-theme-21 ms-1">*</span>
+                                </label>
+                                <input
+                                    v-model="setAsCompleteForm.paid_at"
+                                    :placeholder="printPlaceholder('paid_at')"
+                                    class="form-control"
+                                    type="datetime-local"
+                                    required
+                                />
+                            </div>
+                            <div class="mt-5 flex items-center flex-wrap gap-4">
+                                <label class="form-label flex-shrink-o"
+                                    >{{ __("Payment method") }}
+                                    <span class="text-theme-21 ms-1">*</span>
+                                </label>
+                                <select
+                                    v-model="setAsCompleteForm.payment_method"
+                                    class="form-select"
+                                    required
+                                >
+                                    <option :value="null" selected>
+                                        {{ __("Choose an option") }}
+                                    </option>
+                                    <option
+                                        v-for="(paymentMethod, index) in [
+                                            'bank transfer',
+                                            'check',
+                                            'cash',
+                                            'other',
+                                        ]"
+                                        :key="index"
+                                        :value="paymentMethod"
+                                    >
+                                        {{ __(paymentMethod) }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex items-center">
+                                <button
+                                    :disabled="
+                                        setAsCompleteForm.busy ||
+                                        !setAsCompleteForm.payment_method
+                                    "
+                                    class="btn btn-primary ml-auto mt-3"
+                                    type="submit"
+                                >
+                                    {{ __("Save") }}
+                                </button>
+                            </div>
+                        </form>
+                    </template>
+                </Dropdown>
+                <button
+                    v-if="!['complete', 'canceled'].includes(enrollment.status)"
                     @click="handleCancel"
-                    class="btn btn-elevated-warning btn-outline shadow-md me-2"
+                    class="btn btn-elevated-warning shadow-md me-2"
                 >
                     {{ __("Cancel") }}
                 </button>
@@ -495,6 +580,14 @@ export default {
     props: {
         enrollment: Object,
     },
+    data() {
+        return {
+            setAsCompleteForm: this.$inertia.form({
+                payment_method: null,
+                paid_at: this.$filters.formatDateForInput(new Date(), true),
+            }),
+        };
+    },
     computed: {
         title() {
             return __("View :resource", {
@@ -521,6 +614,20 @@ export default {
                     route("admin.enrollments.destroy", [this.enrollment.id])
                 );
             });
+        },
+        handleSetAsComplete() {
+            fireConfirmationModal(
+                () => {
+                    this.setAsCompleteForm.put(
+                        route("admin.enrollments.complete", [
+                            this.enrollment.id,
+                        ])
+                    );
+                },
+                {
+                    confirmButtonText: __("Confirm"),
+                }
+            );
         },
     },
 };
