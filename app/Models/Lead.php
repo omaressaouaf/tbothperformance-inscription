@@ -52,7 +52,10 @@ class Lead extends Authenticatable
 
     public function pendingEnrollment(): HasOne
     {
-        return $this->hasOne(Enrollment::class)->where("status", "!=", EnrollmentStatus::Complete)->latestOfMany();
+        return $this
+            ->hasOne(Enrollment::class)
+            ->whereNotIn("status", [EnrollmentStatus::Complete, EnrollmentStatus::Canceled])
+            ->latestOfMany();
     }
 
     protected function fullName(): Attribute

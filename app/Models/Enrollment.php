@@ -104,7 +104,10 @@ class Enrollment extends Model
     {
         return Attribute::get(
             function ($value, $attributes) {
-                if ($attributes["status"] === EnrollmentStatus::Complete->value) {
+                if (in_array(
+                    $attributes["status"],
+                    [EnrollmentStatus::Complete->value, EnrollmentStatus::Canceled->value]
+                )) {
                     return -1;
                 }
 

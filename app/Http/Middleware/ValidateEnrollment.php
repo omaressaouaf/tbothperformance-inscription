@@ -12,8 +12,8 @@ class ValidateEnrollment
     {
         $enrollment = $request->enrollment;
 
-        if ($enrollment->status === EnrollmentStatus::Complete) {
-            abort(404);
+        if (in_array($enrollment->status, [EnrollmentStatus::Complete, EnrollmentStatus::Canceled])) {
+            return redirect(route("lead.dashboard"));
         }
 
         if ($this->currentStep($request) > $enrollment->next_step) {

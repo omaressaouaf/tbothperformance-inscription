@@ -12,6 +12,15 @@
                 class="max-w-[fit-content] ms-auto flex flex-col lg:flex-row space-y-2 lg:space-y-0"
             >
                 <button
+                    v-if="
+                        !['complete', 'canceled'].includes(enrollment.status)
+                    "
+                    @click="handleCancel"
+                    class="btn btn-elevated-warning btn-outline shadow-md me-2"
+                >
+                    {{ __("Cancel") }}
+                </button>
+                <button
                     @click="handleDelete"
                     class="btn btn-elevated-danger shadow-md me-2"
                 >
@@ -44,8 +53,24 @@
                                         class="w-5 h-5 me-2 text-primary-11"
                                     />
                                 </Tippy>
-                                <Badge class="bg-primary-11 text-xs">
+                                <Badge class="bg-primary-11 text-xs me-2">
                                     {{ enrollment.number }}
+                                </Badge>
+                                <Badge
+                                    :class="{
+                                        'bg-gray-300 text-gray-800':
+                                            enrollment.status === 'pending',
+                                        'bg-orange-600':
+                                            enrollment.status ===
+                                            'contract signed',
+                                        'bg-green-600':
+                                            enrollment.status === 'complete',
+                                        'bg-theme-21':
+                                            enrollment.status === 'canceled',
+                                    }"
+                                    class="bg-primary-11 text-xs"
+                                >
+                                    {{ __(enrollment.status) }}
                                 </Badge>
                             </div>
                             <div class="flex items-center">
@@ -478,6 +503,18 @@ export default {
         },
     },
     methods: {
+        handleCancel() {
+            fireConfirmationModal(
+                () => {
+                    this.$inertia.put(
+                        route("admin.enrollments.cancel", [this.enrollment.id])
+                    );
+                },
+                {
+                    confirmButtonText: __("Confirm"),
+                }
+            );
+        },
         handleDelete() {
             fireConfirmationModal(() => {
                 this.$inertia.delete(

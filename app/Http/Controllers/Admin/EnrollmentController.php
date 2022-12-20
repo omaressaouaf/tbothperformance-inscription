@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\EnrollmentStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Services\DataTableService;
@@ -27,5 +28,17 @@ class EnrollmentController extends Controller
         $enrollment->delete();
 
         return back()->with('successMessage',  __('Item deleted successfully'));
+    }
+
+    public function cancel(Enrollment $enrollment)
+    {
+        abort_if(
+            $enrollment->status === EnrollmentStatus::Complete || $enrollment->status === EnrollmentStatus::Canceled,
+            403
+        );
+
+        $enrollment->update(["status" => EnrollmentStatus::Canceled]);
+
+        return back();
     }
 }

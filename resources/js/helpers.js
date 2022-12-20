@@ -25,6 +25,7 @@ export const fireToast = (options) => {
  * @param {string} [options.icon]
  * @param {string} [options.title]
  * @param {string} [options.description]
+ * @param {string} [options.confirmButtonText]
  * @param {string} [options.textToEnter]
  */
 export const fireConfirmationModal = (onDelete, options) => {

@@ -42,7 +42,7 @@
                 <span v-if="options.textToEnter" class="me-2">
                     {{ __("I understand") }}.
                 </span>
-                {{ __("Remove") }}
+                {{ options.confirmButtonText }}
             </button>
             <button
                 type="button"
@@ -66,6 +66,7 @@ export default {
                 icon: "XCircleIcon",
                 title: __("Are you sure?"),
                 description: __("This process cannot be undone."),
+                confirmButtonText: __("Remove"),
                 textToEnter: null,
             }),
             enteredText: "",
@@ -83,6 +84,7 @@ export default {
                 icon = this.options.icon,
                 title = this.options.title,
                 description = this.options.description,
+                confirmButtonText = this.options.confirmButtonText,
                 textToEnter,
             } = {},
         }) {
@@ -92,6 +94,7 @@ export default {
                 icon,
                 title,
                 description,
+                confirmButtonText,
                 textToEnter,
             });
 
