@@ -1029,5 +1029,14 @@
     "Start date": "Date de début",
     "Finish date": "Date de fin",
     "Started at": "Commencé à",
-    "Finished at": "Terminé à"
+    "Finished at": "Terminé à",
+    "Lead last interaction": "Dernière interaction de lead",
+    "Years worked in france": "Années travaillées en France",
+    "Professional situation": "Situation actuelle",
+    "Payment approved by": "Paiement approuvé par",
+    "Contract": "Contrat",
+    "Unsigned contract": "Contrat non signé",
+    "Signed contract": "Contrat signé",
+    "Signature request id": "ID de demande de signature",
+    "Signature link": "Lien de signature"
 }

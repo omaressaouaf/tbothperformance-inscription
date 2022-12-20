@@ -28,6 +28,7 @@ class Enrollment extends Model
         "course_start_date" => "date:Y-m-d",
         "cpf_amount" => "decimal:2",
         "signature_request_data" => "array",
+        "contract_files" => "array",
         "completed_at" => "datetime:Y-m-d H:i:s",
         "paid_at" => "datetime:Y-m-d H:i:s",
         "payment_method" => PaymentMethod::class
@@ -58,7 +59,7 @@ class Enrollment extends Model
 
     public $defaultSort = "-created_at";
 
-    public $sorts = ["created_at", "completed_at", "course_start_date"];
+    public $sorts = ["created_at", "updated_at", "completed_at", "course_start_date"];
 
     public static function booted()
     {

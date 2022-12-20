@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string("status")->default(EnrollmentStatus::Pending->value);
             $table->timestamp('completed_at')->nullable();
             $table->json("signature_request_data")->nullable();
+            $table->json("contract_files")->nullable();
             $table->string("payment_method")->nullable();
             $table->timestamp("paid_at")->nullable();
             $table->foreignId("payment_approver_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");

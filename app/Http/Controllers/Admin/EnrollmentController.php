@@ -15,6 +15,13 @@ class EnrollmentController extends Controller
         ]);
     }
 
+    public function show(Enrollment $enrollment)
+    {
+        return inertia("Admin/Enrollments/Show", [
+            "enrollment" => $enrollment->load(["paymentApprover", "lead", "course", "plan"])
+        ]);
+    }
+
     public function destroy(Enrollment $enrollment)
     {
         $enrollment->delete();

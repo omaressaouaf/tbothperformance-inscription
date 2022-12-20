@@ -106,13 +106,19 @@ trait RequiresContractSignature
 
     private function generateContract(): mixed
     {
-        $path = storage_path("app/enrollments/{$this->id}/contract-unsigned.pdf");
+        $path = "enrollments/{$this->id}/contract-unsigned.pdf";
+
+        $storagePath = storage_path("app/{$path}");
 
         Storage::makeDirectory("enrollments/{$this->id}/");
 
-        Pdf::loadView('contract')->save($path);
+        Pdf::loadView('contract')->save($storagePath);
 
-        return file_get_contents($path);
+        $this->update([
+            "contract_files->unsigned" => $path,
+        ]);
+
+        return file_get_contents($storagePath);
     }
 
     public function abortSignatureRequest(bool $onlyLocally = false): void
@@ -153,15 +159,15 @@ trait RequiresContractSignature
 
         $response = $yousign->downloadSignatureRequestFile(
             $this->signature_request_data["id"],
-            ["version" => "completed", "archive" => "true"]
+            ["version" => "completed"]
         );
 
-        $path = "enrollments/{$this->id}/contract-signed.zip";
+        $path = "enrollments/{$this->id}/contract-signed.pdf";
 
         Storage::put($path, $response->getBody());
 
         $this->update([
-            "signature_request_data->file_path" => $path,
+            "contract_files->signed" => $path,
         ]);
     }
 }

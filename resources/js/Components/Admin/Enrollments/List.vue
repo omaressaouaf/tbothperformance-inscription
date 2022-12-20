@@ -14,6 +14,7 @@
         default-sort="-created_at"
         :sorts="[
             { text: 'Started at', column: 'created_at' },
+            { text: 'Lead last interaction', column: 'updated_at' },
             { text: 'Finished at', column: 'completed_at' },
             { text: 'Course start date', column: 'course_start_date' },
         ]"
@@ -67,7 +68,7 @@
                     <Component
                         :is="enrollment.lead_id ? 'Link' : 'span'"
                         :href="'#'"
-                        :class="[enrollment.lead_id ? 'text-primary-11' : '']"
+                        :class="[enrollment.lead_id ? 'text-primary-11 hover:underline' : '']"
                         >{{ enrollment.lead_data.first_name }}
                         {{ enrollment.lead_data.last_name }}</Component
                     >
@@ -93,7 +94,7 @@
                         :href="
                             route('admin.courses.edit', [enrollment.course_id])
                         "
-                        class="text-primary-11"
+                        class="text-primary-11 hover:underline"
                         >{{ enrollment.course.title }}</Link
                     >
                     <span class="text-xs" v-if="enrollment.plan">
