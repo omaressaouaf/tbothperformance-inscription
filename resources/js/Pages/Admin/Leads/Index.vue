@@ -42,7 +42,6 @@
                     <Th> {{ __("Career") }} </Th>
                     <Th> {{ __("Joined at") }} </Th>
                     <Th> {{ __("Enrollments") }} </Th>
-                    <Th> {{ __("Actions") }} </Th>
                 </tr>
             </template>
             <Tr v-for="lead in leads.data" :key="lead.id">
@@ -115,20 +114,32 @@
                     </Badge>
                 </Td>
                 <Td>
-                    <div class="flex">
-                        <Link
-                            :href="route('admin.leads.show', [lead])"
-                            class="flex items-center text-primary-11 me-3"
-                        >
-                            <EyeIcon class="w-4 h-4 me-1" />
-                        </Link>
-                        <button
-                            class="flex items-center text-theme-21"
-                            @click="handleDelete(lead)"
-                        >
-                            <Trash2Icon class="w-4 h-4 me-1" />
-                        </button>
-                    </div>
+                    <Dropdown>
+                        <template #trigger>
+                            <button>
+                                <MoreHorizontalIcon
+                                    class="w-6 h-6 text-gray-700 font-semibold"
+                                />
+                            </button>
+                        </template>
+                        <template #content>
+                            <div class="p-2">
+                                <DropdownLink
+                                    :href="route('admin.leads.show', [lead.id])"
+                                    icon="EyeIcon"
+                                    :title="__('View')"
+                                    class="text-primary-11"
+                                />
+                                <DropdownLink
+                                    href="#"
+                                    icon="Trash2Icon"
+                                    :title="__('Remove')"
+                                    class="text-theme-21"
+                                    @click="handleDelete(lead)"
+                                />
+                            </div>
+                        </template>
+                    </Dropdown>
                 </Td>
             </Tr>
         </DataTable>
