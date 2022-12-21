@@ -7,6 +7,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\YearsWorkedInFrance;
 use Illuminate\Support\Facades\DB;
 use App\Enums\ProfessionalSituation;
+use App\Traits\QueryableFromRequest;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Lead extends Authenticatable
 {
-    use HasFactory, Notifiable, PasswordlessLogin, Billable;
+    use HasFactory, Notifiable, PasswordlessLogin, Billable, QueryableFromRequest;
 
     protected $guard = "lead";
 
@@ -31,6 +32,31 @@ class Lead extends Authenticatable
         "years_worked_in_france" => YearsWorkedInFrance::class,
         "professional_situation" => ProfessionalSituation::class
     ];
+
+    protected $appends = ["full_name"];
+
+    public $searchable = [
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "years_worked_in_france",
+        "professional_situation"
+    ];
+
+    public $filters = [
+        "first_name",
+        "last_name",
+        "phone",
+        "email",
+        "created_at",
+    ];
+
+    public $exactFilters = ["years_worked_in_france", "professional_situation"];
+
+    public $defaultSort = "-created_at";
+
+    public $sorts = ["created_at"];
 
     public static function booted()
     {

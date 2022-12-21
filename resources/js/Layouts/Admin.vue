@@ -57,6 +57,11 @@ export default {
                 },
                 "divider",
                 {
+                    url: route("admin.leads.index"),
+                    title: __("Leads"),
+                    icon: "UsersIcon",
+                },
+                {
                     url: route("admin.enrollments.index"),
                     title: __("Enrollments"),
                     icon: "BookmarkIcon",

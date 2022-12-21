@@ -17,6 +17,7 @@ use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
+use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 
 Route::inertia('/', "Welcome");
 
@@ -110,6 +111,9 @@ Route::middleware(["locale"])->group(function () {
         Route::put("/enrollments/{enrollment}/complete", [AdminEnrollmentController::class, "complete"])
             ->name("enrollments.complete");
         Route::resource("enrollments", AdminEnrollmentController::class)->only(["index", "show", "destroy"]);
+
+        // Leads
+        Route::resource("leads", AdminLeadController::class)->only(["index", "show", "destroy"]);
     });
 
     // Auth
