@@ -67,7 +67,7 @@
                 >
                     <Component
                         :is="enrollment.lead_id ? 'Link' : 'span'"
-                        :href="'#'"
+                        :href="route('admin.leads.show', [enrollment.lead])"
                         :class="[
                             enrollment.lead_id
                                 ? 'text-primary-11 hover:underline'

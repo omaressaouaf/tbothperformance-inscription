@@ -253,7 +253,11 @@
                                 </Tippy>
                                 <Component
                                     :is="enrollment.lead ? 'Link' : 'span'"
-                                    :href="'#'"
+                                    :href="
+                                        route('admin.leads.show', [
+                                            enrollment.lead,
+                                        ])
+                                    "
                                     :class="[
                                         enrollment.lead
                                             ? 'text-primary-11 hover:underline'
