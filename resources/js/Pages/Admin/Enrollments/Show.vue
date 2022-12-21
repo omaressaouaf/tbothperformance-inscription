@@ -206,6 +206,34 @@
                                     }}
                                 </span>
                             </div>
+                            <div
+                                v-if="enrollment.completed_by"
+                                class="flex items-center gap-2"
+                            >
+                                <span class="text-primary-11">
+                                    {{ __("Completed manually by") }} :
+                                </span>
+                                <Link
+                                    :href="'#'"
+                                    class="text-primary-11 hover:underline"
+                                >
+                                    {{ enrollment.completed_by.name }}
+                                </Link>
+                            </div>
+                            <div
+                                v-if="enrollment.canceled_by"
+                                class="flex items-center gap-2"
+                            >
+                                <span class="text-primary-11">
+                                    {{ __("Canceled by") }} :
+                                </span>
+                                <Link
+                                    :href="'#'"
+                                    class="text-primary-11 hover:underline"
+                                >
+                                    {{ enrollment.canceled_by.name }}
+                                </Link>
+                            </div>
                         </div>
                     </div>
                     <div
@@ -459,20 +487,6 @@
                                         )
                                     }}
                                 </span>
-                            </div>
-                            <div
-                                v-if="enrollment.payment_approver"
-                                class="flex items-center gap-2"
-                            >
-                                <span class="text-primary-11">
-                                    {{ __("Payment approved by") }} :
-                                </span>
-                                <Link
-                                    :href="'#'"
-                                    class="text-primary-11 hover:underline"
-                                >
-                                    {{ enrollment.payment_approver.name }}
-                                </Link>
                             </div>
                         </div>
                     </div>

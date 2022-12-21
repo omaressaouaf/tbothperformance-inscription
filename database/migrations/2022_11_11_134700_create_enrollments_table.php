@@ -28,7 +28,8 @@ return new class extends Migration
             $table->json("contract_files")->nullable();
             $table->string("payment_method")->nullable();
             $table->timestamp("paid_at")->nullable();
-            $table->foreignId("payment_approver_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
+            $table->foreignId("completed_by_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
+            $table->foreignId("canceled_by_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
             $table->foreignId("course_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");
             $table->foreignId("plan_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");
             $table->foreignId("lead_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");

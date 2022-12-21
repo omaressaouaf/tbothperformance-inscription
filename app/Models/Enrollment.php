@@ -96,9 +96,14 @@ class Enrollment extends Model
         return $this->belongsTo(Plan::class);
     }
 
-    public function paymentApprover(): BelongsTo
+    public function completedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, "payment_approver_id");
+        return $this->belongsTo(User::class, "completed_by_id");
+    }
+
+    public function canceledBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "canceled_by_id");
     }
 
     protected function nextStep(): Attribute
@@ -219,16 +224,24 @@ class Enrollment extends Model
     public function markAsComplete(
         ?PaymentMethod $paymentMethod = null,
         Carbon|string|null $paidAt = null,
-        ?User $paymentApprover = null
+        ?User $completedBy = null
     ): void {
         if ($this->financing_type === FinancingType::Manual) {
             $this->payment_method = $paymentMethod;
-            $this->payment_approver_id = $paymentApprover?->id;
+            $this->completed_by_id = $completedBy?->id;
             $this->paid_at = $paidAt ?? now();
         }
 
         $this->status = EnrollmentStatus::Complete;
         $this->completed_at = now();
+
+        $this->save();
+    }
+
+    public function markAsCanceled()
+    {
+        $this->status = EnrollmentStatus::Canceled;
+        $this->canceled_by_id = auth_user("web")?->id;
 
         $this->save();
     }

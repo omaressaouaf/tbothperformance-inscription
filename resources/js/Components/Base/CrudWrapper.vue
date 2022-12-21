@@ -1,6 +1,6 @@
 <template>
     <div
-        class="relative col-span-12 p-5"
+        class="relative col-span-12 p-5 mt-12"
         :class="[
             `mt-${marginTop}`,
             showBackground ? 'bg-white dark:bg-dark-3 rounded-xl' : '',

@@ -24,7 +24,7 @@ class EnrollmentController extends Controller
     public function show(Enrollment $enrollment)
     {
         return inertia("Admin/Enrollments/Show", [
-            "enrollment" => $enrollment->load(["paymentApprover", "lead", "course", "plan"])
+            "enrollment" => $enrollment->load(["completedBy", "canceledBy", "lead", "course", "plan"])
         ]);
     }
 
@@ -42,7 +42,7 @@ class EnrollmentController extends Controller
             403
         );
 
-        $enrollment->update(["status" => EnrollmentStatus::Canceled]);
+        $enrollment->markAsCanceled();
 
         return back();
     }

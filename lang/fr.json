@@ -1044,5 +1044,7 @@
     "Career": "Carrière",
     "New completed enrollment": "Nouvelle inscription terminée",
     "View enrollment": "Voir l'inscription",
-    "Lead :lead has just completed an enrollment :enrollment": "Lead :lead a terminé une inscription :enrollment"
+    "Lead :lead has just completed an enrollment :enrollment": "Lead :lead a terminé une inscription :enrollment",
+    "Completed manually by": "Terminée manuellement par",
+    "Canceled by": "Annulée par"
 }

@@ -26,14 +26,16 @@ class FulFillEnrollment implements ShouldQueue
         public Enrollment $enrollment,
         public ?PaymentMethod $paymentMethod = null,
         public Carbon|string|null $paidAt = null,
-        public ?User $paymentApprover = null
+        public ?User $completedBy = null
     ) {
     }
 
     public function handle()
     {
-        $this->enrollment->markAsComplete($this->paymentMethod, $this->paidAt, $this->paymentApprover);
+        $this->enrollment->markAsComplete($this->paymentMethod, $this->paidAt, $this->completedBy);
 
-        Notification::send(User::all(), new EnrollmentCompletedNotification($this->enrollment));
+        if (!$this->completedBy) {
+            Notification::send(User::all(), new EnrollmentCompletedNotification($this->enrollment));
+        }
     }
 }
