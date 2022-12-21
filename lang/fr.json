@@ -1041,5 +1041,8 @@
     "Signature link": "Lien de signature",
     "If for whatever reason the lead paid with another payment method. you can use this form to mark the enrollment as complete": "Si, pour une raison quelconque, le lead a payé avec un autre mode de paiement. vous pouvez utiliser ce formulaire pour marquer l'inscription comme terminée",
     "Set as complete": "Marquer comme terminé",
-    "Career": "Carrière"
+    "Career": "Carrière",
+    "New completed enrollment": "Nouvelle inscription terminée",
+    "View enrollment": "Voir l'inscription",
+    "Lead :lead has just completed an enrollment :enrollment": "Lead :lead a terminé une inscription :enrollment"
 }

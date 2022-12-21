@@ -10,6 +10,7 @@
         </div>
         <LocaleSwitcher />
         <ThemeSwitcher />
+        <NotificationsDropdown />
         <Dropdown>
             <template #trigger>
                 <div
@@ -53,5 +54,11 @@
 </template>
 
 <script>
-export default {};
+import NotificationsDropdown from "@/Components/Admin/Notifications/Dropdown.vue";
+
+export default {
+    components: {
+        NotificationsDropdown,
+    },
+};
 </script>

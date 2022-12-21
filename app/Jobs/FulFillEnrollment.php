@@ -4,15 +4,15 @@ namespace App\Jobs;
 
 use App\Models\User;
 use App\Models\Enrollment;
-use App\Enums\FinancingType;
 use App\Enums\PaymentMethod;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Carbon;
-use App\Enums\EnrollmentStatus;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\EnrollmentCompletedNotification;
 
 class FulFillEnrollment implements ShouldQueue
 {
@@ -32,17 +32,8 @@ class FulFillEnrollment implements ShouldQueue
 
     public function handle()
     {
-        if ($this->enrollment->financing_type === FinancingType::Manual) {
-            $this->enrollment->payment_method = $this->paymentMethod;
-            $this->enrollment->payment_approver_id = $this->paymentApprover?->id;
-            $this->enrollment->paid_at = $this->paidAt ?? now();
-        }
+        $this->enrollment->markAsComplete($this->paymentMethod, $this->paidAt, $this->paymentApprover);
 
-        $this->enrollment->status = EnrollmentStatus::Complete;
-        $this->enrollment->completed_at = now();
-
-        $this->enrollment->save();
-
-        // TODO : send users & leads notifications
+        Notification::send(User::all(), new EnrollmentCompletedNotification($this->enrollment));
     }
 }

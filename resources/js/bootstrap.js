@@ -16,6 +16,8 @@ import objectSupport from "dayjs/plugin/objectSupport";
 import weekday from "dayjs/plugin/weekday";
 import "dayjs/locale/fr";
 import { fireToast } from "./helpers";
+import Pusher from "pusher-js";
+import Echo from "laravel-echo";
 
 // Lodash
 window._ = _;
@@ -123,10 +125,10 @@ dayjs.extend(weekday);
 dayjs.locale(window._locale);
 
 //Pusher & Echo config
-// window.Pusher = Pusher;
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: true,
+});

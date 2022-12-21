@@ -4,16 +4,17 @@ namespace App\Models;
 
 use App\Enums\FinancingType;
 use App\Enums\PaymentMethod;
+use Illuminate\Support\Carbon;
 use App\Enums\EnrollmentStatus;
+use Illuminate\Support\Facades\DB;
 use App\Services\IdGeneratorService;
 use App\Traits\QueryableFromRequest;
-use App\Traits\RequiresContractSignature;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use App\Traits\RequiresContractSignature;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Storage;
 
 class Enrollment extends Model
 {
@@ -213,5 +214,22 @@ class Enrollment extends Model
 
             $this->save();
         }
+    }
+
+    public function markAsComplete(
+        ?PaymentMethod $paymentMethod = null,
+        Carbon|string|null $paidAt = null,
+        ?User $paymentApprover = null
+    ): void {
+        if ($this->financing_type === FinancingType::Manual) {
+            $this->payment_method = $paymentMethod;
+            $this->payment_approver_id = $paymentApprover?->id;
+            $this->paid_at = $paidAt ?? now();
+        }
+
+        $this->status = EnrollmentStatus::Complete;
+        $this->completed_at = now();
+
+        $this->save();
     }
 }

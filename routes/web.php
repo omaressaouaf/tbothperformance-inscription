@@ -8,16 +8,17 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Lead\DashboardController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Lead\AuthenticatedSessionController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPlanController;
+use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentCourseController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
-use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 
 Route::inertia('/', "Welcome");
 
@@ -95,6 +96,16 @@ Route::middleware(["locale"])->group(function () {
             Route::delete("/", [BulkController::class, 'destroy'])->name("destroy");
             Route::get("/export", [BulkController::class, 'export'])->name("export");
         });
+
+        // Notifications
+        Route::prefix("notifications")->as("notifications.")->group(function () {
+            Route::get("/", [NotificationController::class, "index"])->name("index");
+            Route::put("/{notification}/mark-as-read", [NotificationController::class, "markAsRead"])
+                ->name("mark-as-read");
+            Route::put("/mark-all-as-read", [NotificationController::class, "markAllAsRead"])
+                ->name("mark-all-as-read");
+        });
+
 
         // Plans
         Route::resource("plans", PlanController::class)->except(["create", "show", "edit"]);
