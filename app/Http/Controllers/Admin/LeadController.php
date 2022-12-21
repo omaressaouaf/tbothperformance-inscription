@@ -16,6 +16,13 @@ class LeadController extends Controller
         ]);
     }
 
+    public function show(Lead $lead)
+    {
+        $lead->loadCount(["enrollments"])->loadRequestedTab(request("tab"));
+
+        return inertia("Admin/Leads/Show", compact("lead"));
+    }
+
     public function destroy(Lead $lead)
     {
         $lead->delete();

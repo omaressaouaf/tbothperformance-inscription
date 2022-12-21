@@ -317,10 +317,19 @@
                                             enrollment.course.id,
                                         ])
                                     "
-                                    class="text-primary-11 hover:underline capitalize"
+                                    class="text-primary-11 hover:underline capitalize me-2"
                                 >
                                     {{ enrollment.course?.title }}
                                 </Link>
+                                <a
+                                    v-if="enrollment.financing_type === 'cpf'"
+                                    :href="enrollment.cpf_link"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="text-primary-11 underline capitalize"
+                                >
+                                    {{ __("Enrollment link") }}
+                                </a>
                             </div>
                             <div
                                 v-if="enrollment.plan"

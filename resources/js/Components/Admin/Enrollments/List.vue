@@ -41,7 +41,7 @@
                         type="checkbox"
                 /></Th>
                 <Th> {{ __("Number") }} </Th>
-                <Th> {{ __("Lead") }} </Th>
+                <Th v-if="!currentLead"> {{ __("Lead") }} </Th>
                 <Th> {{ __("Course") }} </Th>
                 <Th>{{ __("Financing") }}</Th>
                 <Th>{{ __("Status") }}</Th>
@@ -61,14 +61,18 @@
                     {{ enrollment.number }}
                 </Badge>
             </Td>
-            <Td>
+            <Td v-if="!currentLead">
                 <p
                     class="flex flex-col space-y-1 font-semibold text-gray-800 dark:text-gray-400"
                 >
                     <Component
                         :is="enrollment.lead_id ? 'Link' : 'span'"
                         :href="'#'"
-                        :class="[enrollment.lead_id ? 'text-primary-11 hover:underline' : '']"
+                        :class="[
+                            enrollment.lead_id
+                                ? 'text-primary-11 hover:underline'
+                                : '',
+                        ]"
                         >{{ enrollment.lead_data.first_name }}
                         {{ enrollment.lead_data.last_name }}</Component
                     >

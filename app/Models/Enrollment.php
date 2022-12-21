@@ -164,7 +164,9 @@ class Enrollment extends Model
     protected function cpfLink(): Attribute
     {
         return Attribute::get(
-            fn ()  => $this->plan ? $this->course->plans($this->plan->id)->first()->pivot->cpf_link : null
+            fn ($value, $attributes)  => $this->plan && $attributes["financing_type"] === FinancingType::CPF->value
+                ? $this->course->plans($this->plan->id)->first()->pivot->cpf_link
+                : null
         );
     }
 

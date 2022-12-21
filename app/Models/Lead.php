@@ -7,6 +7,7 @@ use App\Enums\EnrollmentStatus;
 use App\Enums\YearsWorkedInFrance;
 use Illuminate\Support\Facades\DB;
 use App\Enums\ProfessionalSituation;
+use App\Traits\LoadsRequestedDashboardTab;
 use App\Traits\QueryableFromRequest;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Lead extends Authenticatable
 {
-    use HasFactory, Notifiable, PasswordlessLogin, Billable, QueryableFromRequest;
+    use HasFactory, Notifiable, PasswordlessLogin, Billable, QueryableFromRequest, LoadsRequestedDashboardTab;
 
     protected $guard = "lead";
 
@@ -118,5 +119,15 @@ class Lead extends Authenticatable
     public function stripePreferredLocales()
     {
         return [$this->locale];
+    }
+
+    public function loadRequestedTab(string|null $tab): static
+    {
+        if (!$tab) {
+            return $this->setTabRelation(
+                "enrollments",
+                fn ($query) => $query->with(["lead", "course", "plan"])
+            );
+        }
     }
 }

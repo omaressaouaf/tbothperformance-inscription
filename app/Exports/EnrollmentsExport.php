@@ -50,7 +50,7 @@ class EnrollmentsExport implements FromCollection, WithMapping, WithHeadings
                 : "",
             __($enrollment->status?->value),
             Date::dateTimeFromTimestamp($enrollment->created_at),
-            Date::dateTimeFromTimestamp($enrollment->completed_at),
+            $enrollment->completed_at ? Date::dateTimeFromTimestamp($enrollment->completed_at) : "",
         ];
     }
 
