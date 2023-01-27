@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("certificate")->nullable();
             $table->text("image_path")->nullable();
             $table->boolean("eligible_for_cpf")->default(true);
+            $table->longText("goals")->nullable();
             $table->foreignId("category_id")->nullable()->constrained("course_categories")->onDelete("set null")->onUpdate("cascade");
             $table->timestamps();
         });

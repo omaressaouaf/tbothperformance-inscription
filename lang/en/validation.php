@@ -243,7 +243,8 @@ return [
         "cpf_amount" => "cpf amount",
         "cpf_dossier_number" => "dossier number",
         "lead" => "lead",
-        "duration" => "duration"
+        "duration" => "duration",
+        "goals" => "goals"
     ],
 
     /*

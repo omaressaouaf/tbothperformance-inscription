@@ -29,6 +29,7 @@ class StoreUpdateCourseRequest extends FormRequest
             "certificate" => "nullable",
             "image" => "nullable|image|max:10000",
             "eligible_for_cpf" => "required|boolean",
+            "goals" => "nullable",
             "category_id" => "nullable",
             "plans" => "required|array",
             "plans.*.id" => "required",

@@ -239,7 +239,8 @@ return [
         "cpf_amount" => "montant cpf",
         "cpf_dossier_number" => "numéro de dossier",
         "lead" => "lead",
-        "duration" => "durée"
+        "duration" => "durée",
+        "goals" => "objectifs"
     ],
 
     /*

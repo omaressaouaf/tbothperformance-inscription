@@ -140,6 +140,16 @@
                 </div>
             </template>
 
+            <div class="form-inline">
+                <label class="form-label">{{ __("Goals") }} </label>
+                <textarea
+                    v-model="form.goals"
+                    :placeholder="printPlaceholder('goals')"
+                    class="form-control"
+                    rows="5"
+                ></textarea>
+            </div>
+
             <div class="flex justify-between">
                 <button :disabled="form.processing" class="btn btn-primary">
                     <LoadingIcon
@@ -180,6 +190,7 @@ export default {
                           title: "",
                           certificate: "",
                           image: "",
+                          goals: "",
                           category_id: null,
                           eligible_for_cpf: true,
                           plans: [],
