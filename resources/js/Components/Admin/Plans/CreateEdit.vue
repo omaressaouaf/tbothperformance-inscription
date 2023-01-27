@@ -41,6 +41,21 @@
                     <div class="input-group-text">{{ __("€") }}</div>
                 </div>
             </div>
+            <div class="form-inline">
+                <label class="form-label flex-shrink-0"
+                    >{{ __("Duration") }}
+                </label>
+                <div class="input-group w-full">
+                    <input
+                        v-model="form.duration"
+                        :placeholder="printPlaceholder('duration')"
+                        class="form-control"
+                        type="number"
+                        min="1"
+                    />
+                    <div class="input-group-text">{{ __("H") }}</div>
+                </div>
+            </div>
             <div
                 class="rounded shadow border border-gray-200 dark:border-gray-800 px-5 py-4"
             >
@@ -107,6 +122,7 @@ export default {
             form: new VForm({
                 name: "",
                 price: "",
+                duration: "",
                 features: [""],
             }),
         };

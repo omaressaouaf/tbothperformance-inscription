@@ -242,7 +242,8 @@ return [
         "course_start_date" => "course start date",
         "cpf_amount" => "cpf amount",
         "cpf_dossier_number" => "dossier number",
-        "lead" => "lead"
+        "lead" => "lead",
+        "duration" => "duration"
     ],
 
     /*

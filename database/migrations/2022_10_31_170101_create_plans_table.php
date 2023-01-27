@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->decimal("price");
+            $table->integer("duration")->nullable();
             $table->json("features")->nullable()->fulltext();
             $table->timestamps();
         });

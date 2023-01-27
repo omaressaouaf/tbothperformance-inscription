@@ -238,7 +238,8 @@ return [
         "course_start_date" => "date de début de formation",
         "cpf_amount" => "montant cpf",
         "cpf_dossier_number" => "numéro de dossier",
-        "lead" => "lead"
+        "lead" => "lead",
+        "duration" => "durée"
     ],
 
     /*

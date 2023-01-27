@@ -45,8 +45,7 @@
                             class="form-check-input bg-white"
                             type="checkbox"
                     /></Th>
-                    <Th> {{ __("ID") }} </Th>
-                    <Th> {{ __("Name") }} </Th>
+                    <Th> {{ __("General") }} </Th>
                     <Th> {{ __("Price") }} </Th>
                     <Th> {{ __("Features") }} </Th>
                     <Th> {{ __("Creation date") }} </Th>
@@ -63,10 +62,17 @@
                     />
                 </Td>
                 <Td>
-                    {{ plan.id }}
-                </Td>
-                <Td>
-                    {{ plan.name }}
+                    <p
+                        class="flex flex-col font-semibold text-gray-800 dark:text-gray-400"
+                    >
+                        <span>{{ plan.name }}</span>
+                        <span v-if="plan.duration" class="text-xs"
+                            >{{ __("Duration") }} : {{ plan.duration }} H</span
+                        >
+                        <span class="text-xs"
+                            >{{ __("ID") }} : {{ plan.id }}</span
+                        >
+                    </p>
                 </Td>
                 <Td>
                     {{ $filters.formatMoney(plan.price) }}

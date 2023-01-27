@@ -27,7 +27,8 @@ class StoreUpdatePlanRequest extends FormRequest
             "name" => "required",
             "price" => "required|numeric|min:0",
             "features" => "array|required",
-            "features.*" => "required|string"
+            "features.*" => "required|string",
+            "duration" => "nullable|numeric|integer|min:1"
         ];
     }
 }

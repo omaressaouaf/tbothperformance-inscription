@@ -60,6 +60,14 @@
             <div class="col-span-3 xl:col-span-1 xl:col-start-3 space-y-2">
                 <div class="flex items-center justify-between w-full">
                     <div class="font-semibold text-xl">
+                        {{ __("Duration") }}
+                    </div>
+                    <div class="font-semibold text-lg">
+                        {{ selectedPlan.duration }} H
+                    </div>
+                </div>
+                <div class="flex items-center justify-between w-full">
+                    <div class="font-semibold text-xl">
                         {{ __("Plan price") }}
                     </div>
                     <div class="font-semibold text-lg">
