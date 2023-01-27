@@ -205,6 +205,15 @@ class Enrollment extends Model
         );
     }
 
+    protected function courseEndDate(): Attribute
+    {
+        return Attribute::get(
+            fn ($value, $attributes) => isset($attributes["course_start_date"])
+                ? parse_date($attributes["course_start_date"])->addMonths(3)
+                : null
+        );
+    }
+
     public function syncLeadData(): void
     {
         if ($this->lead) {

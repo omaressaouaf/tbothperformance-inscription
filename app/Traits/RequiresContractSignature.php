@@ -112,7 +112,7 @@ trait RequiresContractSignature
 
         Storage::makeDirectory("enrollments/{$this->id}/");
 
-        Pdf::loadView('contract')->save($storagePath);
+        Pdf::loadView('pdfs.contract', ["enrollment" => $this])->setPaper('a3')->save($storagePath);
 
         $this->update([
             "contract_files->unsigned" => $path,
