@@ -57,7 +57,7 @@ class Enrollment extends Model
         "completed_at",
     ];
 
-    public $exactFilters = ["financing_type", "status", "processed"];
+    public $exactFilters = ["financing_type", "status", "processed", "responsible_user_id"];
 
     public $defaultSort = "-created_at";
 
@@ -105,6 +105,11 @@ class Enrollment extends Model
     public function canceledBy(): BelongsTo
     {
         return $this->belongsTo(User::class, "canceled_by_id");
+    }
+
+    public function responsibleUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "responsible_user_id");
     }
 
     protected function nextStep(): Attribute

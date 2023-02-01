@@ -117,6 +117,8 @@ Route::middleware(["locale"])->group(function () {
         Route::resource("courses", CourseController::class)->except(["show"]);
 
         // Enrollments
+        Route::put("/enrollments/{enrollment}/responsible-user", [AdminEnrollmentController::class, "updateResponsibleUser"])
+            ->name("enrollments.responsible-user.update");
         Route::put("/enrollments/{enrollment}/toggle-processed", [AdminEnrollmentController::class, "toggleProcessed"])
             ->name("enrollments.toggle-processed");
         Route::put("/enrollments/{enrollment}/cancel", [AdminEnrollmentController::class, "cancel"])

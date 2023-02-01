@@ -172,23 +172,6 @@
                                     }}
                                 </span>
                             </div>
-                            <div class="flex items-center">
-                                <Tippy
-                                    tag="span"
-                                    :content="__('Lead last interaction')"
-                                >
-                                    <ActivityIcon
-                                        class="w-5 h-5 me-2 text-primary-11"
-                                    />
-                                </Tippy>
-                                <span>
-                                    {{
-                                        $filters.formatDateTime(
-                                            enrollment.updated_at
-                                        )
-                                    }}
-                                </span>
-                            </div>
                             <div
                                 v-if="enrollment.completed_at"
                                 class="flex items-center"
@@ -213,6 +196,17 @@
                                 <span class="text-primary-11">
                                     {{ __("Completed manually by") }} :
                                 </span>
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit"
+                                >
+                                    <img
+                                        :alt="
+                                            responsibleUserForm.responsible_user
+                                                ?.name
+                                        "
+                                        src="/images/avatar.png"
+                                    />
+                                </div>
                                 <Link
                                     :href="'#'"
                                     class="text-primary-11 hover:underline"
@@ -227,12 +221,83 @@
                                 <span class="text-primary-11">
                                     {{ __("Canceled by") }} :
                                 </span>
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit"
+                                >
+                                    <img
+                                        :alt="
+                                            responsibleUserForm.responsible_user
+                                                ?.name
+                                        "
+                                        src="/images/avatar.png"
+                                    />
+                                </div>
                                 <Link
                                     :href="'#'"
                                     class="text-primary-11 hover:underline"
                                 >
                                     {{ enrollment.canceled_by.name }}
                                 </Link>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-primary-11 flex-shrink-0">
+                                    {{ __("Responsible user") }} :
+                                </span>
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit"
+                                >
+                                    <img
+                                        :alt="
+                                            responsibleUserForm.responsible_user
+                                                ?.name
+                                        "
+                                        src="/images/avatar.png"
+                                    />
+                                </div>
+                                <div v-if="enrollment.status === 'canceled'">
+                                    <Link
+                                        v-if="enrollment.responsible_user"
+                                        :href="'#'"
+                                        class="text-primary-11 hover:underline"
+                                    >
+                                        {{ enrollment.responsible_user?.name }}
+                                    </Link>
+                                    <span v-else class="text-theme-21">
+                                        {{ __("Not selected") }}
+                                    </span>
+                                </div>
+                                <SearchSelect
+                                    v-else
+                                    :defaultOptionText="__('Not selected')"
+                                    v-model="
+                                        responsibleUserForm.responsible_user_id
+                                    "
+                                    :options="users"
+                                    track-by="id"
+                                    label="name"
+                                    class="btn-sm"
+                                >
+                                    <template #option="props">
+                                        <div class="flex items-start gap-2">
+                                            <div
+                                                class="flex-shrink-0 w-6 h-6 rounded-full overflow-hidden shadow-lg image-fit"
+                                            >
+                                                <img
+                                                    :alt="props.option.name"
+                                                    src="/images/avatar.png"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p>
+                                                    {{ props.option.name }}
+                                                </p>
+                                                <p class="text-xs mt-0.5">
+                                                    {{ props.option.email }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </SearchSelect>
                             </div>
                             <div
                                 v-if="enrollment.status === 'complete'"
@@ -629,16 +694,21 @@
 
 <script>
 import { fireConfirmationModal } from "@/helpers";
+import cash from "cash-dom";
 
 export default {
     props: {
         enrollment: Object,
+        users: Array,
     },
     data() {
         return {
             setAsCompleteForm: this.$inertia.form({
                 payment_method: null,
                 paid_at: this.$filters.formatDateForInput(new Date(), true),
+            }),
+            responsibleUserForm: this.$inertia.form({
+                responsible_user_id: this.enrollment.responsible_user_id,
             }),
         };
     },
@@ -648,6 +718,10 @@ export default {
                 resource: __("Enrollment"),
             });
         },
+    },
+    watch: {
+        "responsibleUserForm.responsible_user_id":
+            "handleUpdateResponsibleUser",
     },
     methods: {
         handleCancel() {
@@ -680,6 +754,20 @@ export default {
                 },
                 {
                     confirmButtonText: __("Confirm"),
+                }
+            );
+        },
+        handleUpdateResponsibleUser() {
+            this.responsibleUserForm.put(
+                route("admin.enrollments.responsible-user.update", [
+                    this.enrollment.id,
+                ]),
+                {
+                    onSuccess: () => {
+                        cash("#enrollments-edit-responsible-user").modal(
+                            "hide"
+                        );
+                    },
                 }
             );
         },

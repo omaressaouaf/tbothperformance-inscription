@@ -104,6 +104,37 @@
                     </option>
                 </select>
             </div>
+            <div class="col-span-4 lg:col-span-1">
+                <label class="form-label">{{ __("Responsible user") }} </label>
+                <SearchSelect
+                    v-model="filter.responsible_user_id"
+                    :options="$page.props.users"
+                    track-by="id"
+                    label="name"
+                    class="btn-sm"
+                >
+                    <template #option="props">
+                        <div class="flex items-start gap-2">
+                            <div
+                                class="flex-shrink-0 w-6 h-6 rounded-full overflow-hidden shadow-lg image-fit"
+                            >
+                                <img
+                                    :alt="props.option.name"
+                                    src="/images/avatar.png"
+                                />
+                            </div>
+                            <div>
+                                <p>
+                                    {{ props.option.name }}
+                                </p>
+                                <p class="text-xs mt-0.5">
+                                    {{ props.option.email }}
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+                </SearchSelect>
+            </div>
         </div>
         <div class="flex items-start gap-2">
             <button type="submit" class="btn btn-primary">
@@ -140,6 +171,7 @@ export default {
                 financing_type: null,
                 status: null,
                 processed: null,
+                responsible_user_id: null,
             }),
         };
     },

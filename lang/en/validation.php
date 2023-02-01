@@ -244,7 +244,8 @@ return [
         "cpf_dossier_number" => "dossier number",
         "lead" => "lead",
         "duration" => "duration",
-        "goals" => "goals"
+        "goals" => "goals",
+        "responsible_user_id" => "responsible user"
     ],
 
     /*

@@ -92,6 +92,7 @@
                             (modelValue && modelValue === option[trackBy]) ||
                             modelValue === option
                         "
+                        :class="customOptionClass(option)"
                         @click="handleSelect(option, true)"
                         @keydown.down.exact.prevent="selectNextOption"
                         @keydown.up.exact.prevent="selectPreviousOption"
@@ -161,6 +162,16 @@ export default {
         loading: Boolean,
         reset: Boolean,
         defaultOptionText: String,
+        closeOnSelect: {
+            type: Boolean,
+            default: true,
+        },
+        customOptionClass: {
+            type: Function,
+            default: function () {
+                return "";
+            },
+        },
     },
     data() {
         return {
@@ -295,27 +306,28 @@ export default {
         },
         presetSelectedOption() {
             // Only preselect if the selected option is not set yet (on page access , or modal open)
-            if (
-                this.selectedOption === null ||
-                typeof this.selectedOption === "undefined"
-            ) {
-                if (this.trackBy) {
-                    if (!this.bindWithTrackBy && this.modelValue) {
-                        this.selectedOption = this.allOptions.find(
-                            (option) =>
-                                option[this.trackBy] ===
-                                this.modelValue[this.trackBy]
-                        );
-                        return;
-                    }
-
+            // this condition was causing a bug that's why it's commented but at the same time it used to resolve another bug which we haven't figure it out yet
+            // if (
+            //     this.selectedOption === null ||
+            //     typeof this.selectedOption === "undefined"
+            // ) {
+            if (this.trackBy) {
+                if (!this.bindWithTrackBy && this.modelValue) {
                     this.selectedOption = this.allOptions.find(
-                        (option) => option[this.trackBy] === this.modelValue
+                        (option) =>
+                            option[this.trackBy] ===
+                            this.modelValue[this.trackBy]
                     );
-                } else {
-                    this.selectedOption = this.modelValue;
+                    return;
                 }
+
+                this.selectedOption = this.allOptions.find(
+                    (option) => option[this.trackBy] === this.modelValue
+                );
+            } else {
+                this.selectedOption = this.modelValue;
             }
+            // }
 
             if (
                 this.modelValue === null ||
@@ -326,8 +338,6 @@ export default {
             }
         },
         handleSelect(option, hideDropdown = false) {
-            this.selectedOption = option;
-
             this.$nextTick(() => {
                 this.$emit(
                     "update:modelValue",
@@ -338,7 +348,7 @@ export default {
                         : null
                 );
 
-                if (hideDropdown) {
+                if (hideDropdown && this.closeOnSelect) {
                     cash(`#select-dropdown-${this.componentId}`).dropdown(
                         "hide"
                     );

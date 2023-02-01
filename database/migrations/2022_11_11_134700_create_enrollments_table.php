@@ -31,6 +31,7 @@ return new class extends Migration
             $table->timestamp("paid_at")->nullable();
             $table->foreignId("completed_by_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
             $table->foreignId("canceled_by_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
+            $table->foreignId("responsible_user_id")->nullable()->constrained("users")->onDelete("set null")->onUpdate("set null");
             $table->foreignId("course_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");
             $table->foreignId("plan_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");
             $table->foreignId("lead_id")->nullable()->constrained()->onDelete("set null")->onUpdate("set null");

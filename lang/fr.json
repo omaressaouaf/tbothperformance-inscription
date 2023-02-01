@@ -1049,5 +1049,8 @@
     "Canceled by": "Annulée par",
     "Duration": "Durée",
     "Goals": "Objectifs",
-    "Processed": "Traitée"
+    "Processed": "Traitée",
+    "Responsible user": "Utilisateur responsable",
+    ":user has assigned you to process enrollment :enrollment": ":user vous a assigné pour traiter l'inscription :enrollment",
+    "New enrollment to process": "Nouvelle inscription à traiter"
 }

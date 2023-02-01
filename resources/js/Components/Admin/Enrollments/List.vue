@@ -57,9 +57,11 @@
                 />
             </Td>
             <Td>
-                <Badge class="bg-primary-11 text-xs">
-                    {{ enrollment.number }}
-                </Badge>
+                <Link :href="route('admin.enrollments.show', [enrollment.id])">
+                    <Badge class="bg-primary-11 text-xs">
+                        {{ enrollment.number }}
+                    </Badge>
+                </Link>
             </Td>
             <Td v-if="!currentLead">
                 <p

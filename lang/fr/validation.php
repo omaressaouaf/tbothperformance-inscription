@@ -240,7 +240,8 @@ return [
         "cpf_dossier_number" => "numéro de dossier",
         "lead" => "lead",
         "duration" => "durée",
-        "goals" => "objectifs"
+        "goals" => "objectifs",
+        "responsible_user_id" => "utilisateur responsable"
     ],
 
     /*

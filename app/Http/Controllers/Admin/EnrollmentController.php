@@ -10,6 +10,8 @@ use App\Enums\PaymentMethod;
 use App\Services\DataTableService;
 use App\Http\Controllers\Controller;
 use App\Jobs\FulFillEnrollment;
+use App\Models\User;
+use App\Notifications\UserAssignedToEnrollmentNotification;
 use Illuminate\Validation\Rules\Enum;
 
 class EnrollmentController extends Controller
@@ -17,14 +19,23 @@ class EnrollmentController extends Controller
     public function index()
     {
         return inertia("Admin/Enrollments/Index", [
-            "enrollments" => DataTableService::get(Enrollment::with(["lead", "course", "plan"]))
+            "enrollments" => DataTableService::get(Enrollment::with(["lead", "course", "plan"])),
+            "users" => User::all()
         ]);
     }
 
     public function show(Enrollment $enrollment)
     {
         return inertia("Admin/Enrollments/Show", [
-            "enrollment" => $enrollment->load(["completedBy", "canceledBy", "lead", "course", "plan"])
+            "enrollment" => $enrollment->load([
+                "completedBy",
+                "canceledBy",
+                "responsibleUser",
+                "lead",
+                "course",
+                "plan"
+            ]),
+            "users" => User::all()
         ]);
     }
 
@@ -78,6 +89,25 @@ class EnrollmentController extends Controller
             $request->paid_at,
             auth_user("web")
         );
+
+        return back();
+    }
+
+    public function updateResponsibleUser(Request $request, Enrollment $enrollment)
+    {
+        $request->validate([
+            "responsible_user_id" => "nullable",
+        ]);
+
+        $enrollment->update(["responsible_user_id" => $request->responsible_user_id]);
+
+        if ($request->responsible_user_id && auth_user("web")?->id !== $request->responsible_user_id) {
+            $enrollment->refresh();
+
+            $enrollment
+                ->responsibleUser
+                ->notify(new UserAssignedToEnrollmentNotification(auth_user("web"), $enrollment));
+        }
 
         return back();
     }
