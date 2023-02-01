@@ -26,6 +26,7 @@ class Enrollment extends Model
         "lead_data" => "array",
         "financing_type" => FinancingType::class,
         "status" => EnrollmentStatus::class,
+        "processed" => "boolean",
         "course_start_date" => "date:Y-m-d",
         "cpf_amount" => "decimal:2",
         "signature_request_data" => "array",
@@ -56,7 +57,7 @@ class Enrollment extends Model
         "completed_at",
     ];
 
-    public $exactFilters = ["financing_type", "status"];
+    public $exactFilters = ["financing_type", "status", "processed"];
 
     public $defaultSort = "-created_at";
 

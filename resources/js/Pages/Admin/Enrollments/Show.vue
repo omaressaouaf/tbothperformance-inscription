@@ -234,6 +234,33 @@
                                     {{ enrollment.canceled_by.name }}
                                 </Link>
                             </div>
+                            <div
+                                v-if="enrollment.status === 'complete'"
+                                class="flex items-center gap-2"
+                            >
+                                <div class="form-inline">
+                                    <input
+                                        v-model="enrollment.processed"
+                                        class="form-check-switch me-2 bg-gray-200"
+                                        type="checkbox"
+                                        @change="
+                                            $inertia.put(
+                                                route(
+                                                    'admin.enrollments.toggle-processed',
+                                                    [enrollment.id]
+                                                )
+                                            )
+                                        "
+                                        id="toggle-processed"
+                                    />
+                                    <label
+                                        class="form-label cursor-pointer"
+                                        for="toggle-processed"
+                                    >
+                                        {{ __("Processed") }}
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div

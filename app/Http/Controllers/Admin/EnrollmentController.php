@@ -47,6 +47,18 @@ class EnrollmentController extends Controller
         return back();
     }
 
+    public function toggleProcessed(Enrollment $enrollment)
+    {
+        abort_if(
+            $enrollment->status !== EnrollmentStatus::Complete,
+            403
+        );
+
+        $enrollment->update(["processed" => !$enrollment->processed]);
+
+        return back();
+    }
+
     public function complete(Request $request, Enrollment $enrollment)
     {
         abort_unless(

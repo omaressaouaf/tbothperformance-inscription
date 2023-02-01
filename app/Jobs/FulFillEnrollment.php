@@ -34,7 +34,9 @@ class FulFillEnrollment implements ShouldQueue
     {
         $this->enrollment->markAsComplete($this->paymentMethod, $this->paidAt, $this->completedBy);
 
-        if (!$this->completedBy) {
+        if ($this->completedBy) {
+            $this->enrollment->update(["processed" => true]);
+        } else {
             Notification::send(User::all(), new EnrollmentCompletedNotification($this->enrollment));
         }
     }

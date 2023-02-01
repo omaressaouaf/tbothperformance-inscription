@@ -49,6 +49,7 @@ class EnrollmentsExport implements FromCollection, WithMapping, WithHeadings
                 ? Date::dateTimeFromTimestamp($enrollment->course_start_date)
                 : "",
             __($enrollment->status?->value),
+            $enrollment->processed ? __("Yes") : __("No"),
             Date::dateTimeFromTimestamp($enrollment->created_at),
             $enrollment->completed_at ? Date::dateTimeFromTimestamp($enrollment->completed_at) : "",
         ];
@@ -68,6 +69,7 @@ class EnrollmentsExport implements FromCollection, WithMapping, WithHeadings
             __("Payment method"),
             __("Paid at"),
             __("Status"),
+            __("Processed"),
             __("Started at"),
             __("Finished at"),
         ];

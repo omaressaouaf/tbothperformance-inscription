@@ -187,6 +187,33 @@
                 >
                     {{ __(enrollment.status) }}
                 </Badge>
+                <div
+                    v-if="enrollment.status === 'complete'"
+                    class="flex items-center gap-2 mt-3"
+                >
+                    <div class="form-inline">
+                        <input
+                            v-model="enrollment.processed"
+                            class="form-check-switch me-2 bg-gray-200"
+                            type="checkbox"
+                            @change="
+                                $inertia.put(
+                                    route(
+                                        'admin.enrollments.toggle-processed',
+                                        [enrollment.id]
+                                    )
+                                )
+                            "
+                            :id="`toggle-processed-${enrollment.id}`"
+                        />
+                        <label
+                            class="form-label cursor-pointer"
+                            :for="`toggle-processed-${enrollment.id}`"
+                        >
+                            {{ __("Processed") }}
+                        </label>
+                    </div>
+                </div>
             </Td>
             <Td>
                 <Dropdown>

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string("cpf_amount")->nullable();
             $table->string("cpf_dossier_number")->nullable();
             $table->string("status")->default(EnrollmentStatus::Pending->value);
+            $table->boolean("processed")->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->json("signature_request_data")->nullable();
             $table->json("contract_files")->nullable();

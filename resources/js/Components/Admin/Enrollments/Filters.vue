@@ -89,6 +89,22 @@
                 />
             </div>
         </div>
+        <div class="grid grid-cols-4 gap-5">
+            <div class="col-span-4 lg:col-span-1">
+                <label class="form-label">{{ __("Processed") }} </label>
+                <select v-model="filter.processed" class="form-select">
+                    <option :value="null" selected>
+                        {{ __("Choose an option") }}
+                    </option>
+                    <option value="1">
+                        {{ __("Yes") }}
+                    </option>
+                    <option value="0">
+                        {{ __("No") }}
+                    </option>
+                </select>
+            </div>
+        </div>
         <div class="flex items-start gap-2">
             <button type="submit" class="btn btn-primary">
                 <FilterIcon class="w-4 h-4 me-2" />
@@ -123,6 +139,7 @@ export default {
                 completed_at: "",
                 financing_type: null,
                 status: null,
+                processed: null,
             }),
         };
     },
