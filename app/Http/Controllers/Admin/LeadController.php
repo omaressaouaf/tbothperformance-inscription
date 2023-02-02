@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Lead;
+use App\Models\User;
 use App\Services\DataTableService;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LeadController extends Controller
 {
@@ -18,9 +18,10 @@ class LeadController extends Controller
 
     public function show(Lead $lead)
     {
-        $lead->loadCount(["enrollments"])->loadRequestedTab(request("tab"));
-
-        return inertia("Admin/Leads/Show", compact("lead"));
+        return inertia("Admin/Leads/Show", [
+            "lead" => $lead->loadCount(["enrollments"])->loadRequestedTab(request("tab")),
+            "users" => User::all()
+        ]);
     }
 
     public function destroy(Lead $lead)
