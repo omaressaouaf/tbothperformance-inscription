@@ -19,7 +19,7 @@ class EnrollmentController extends Controller
     public function index()
     {
         return inertia("Admin/Enrollments/Index", [
-            "enrollments" => DataTableService::get(Enrollment::with(["lead", "course", "plan"])),
+            "enrollments" => DataTableService::get(Enrollment::with(["lead", "responsibleUser", "course", "plan"])),
             "users" => User::all()
         ]);
     }

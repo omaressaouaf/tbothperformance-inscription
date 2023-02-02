@@ -40,11 +40,10 @@
                         class="form-check-input bg-white"
                         type="checkbox"
                 /></Th>
-                <Th> {{ __("Number") }} </Th>
+                <Th> {{ __("General") }} </Th>
                 <Th v-if="!currentLead"> {{ __("Lead") }} </Th>
                 <Th> {{ __("Course") }} </Th>
                 <Th>{{ __("Financing") }}</Th>
-                <Th>{{ __("Status") }}</Th>
             </tr>
         </template>
         <Tr v-for="enrollment in enrollments.data" :key="enrollment.id">
@@ -57,11 +56,97 @@
                 />
             </Td>
             <Td>
-                <Link :href="route('admin.enrollments.show', [enrollment.id])">
-                    <Badge class="bg-primary-11 text-xs">
-                        {{ enrollment.number }}
-                    </Badge>
-                </Link>
+                <div class="space-y-3 mt-5">
+                    <div class="flex items-center">
+                        <Tippy tag="span" :content="__('Number')">
+                            <HashIcon class="w-4 h-4 me-2 text-primary-11" />
+                        </Tippy>
+                        <Link
+                            :href="
+                                route('admin.enrollments.show', [enrollment.id])
+                            "
+                        >
+                            <Badge class="bg-primary-11 text-xs">
+                                {{ enrollment.number }}
+                            </Badge>
+                        </Link>
+                        <Badge
+                            :class="{
+                                'bg-gray-300 text-gray-800':
+                                    enrollment.status === 'pending',
+                                'bg-orange-600':
+                                    enrollment.status === 'contract signed',
+                                'bg-green-600':
+                                    enrollment.status === 'complete',
+                                'bg-theme-21': enrollment.status === 'canceled',
+                            }"
+                            class="bg-primary-11 text-xs ms-2"
+                        >
+                            {{ __(enrollment.status) }}
+                        </Badge>
+                    </div>
+                    <div class="flex items-center">
+                        <Tippy tag="span" :content="__('Started at')">
+                            <CalendarIcon
+                                class="w-4 h-4 me-2 text-primary-11"
+                            />
+                        </Tippy>
+                        <span>
+                            {{ $filters.formatDateTime(enrollment.created_at) }}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div
+                            class="flex-shrink-0 w-6 h-6 rounded-full overflow-hidden shadow-lg image-fit"
+                        >
+                            <Tippy tag="span" :content="__('Responsible user')">
+                                <img
+                                    :alt="enrollment.responsible_user?.name"
+                                    src="/images/avatar.png"
+                                />
+                            </Tippy>
+                        </div>
+                        <div>
+                            <Link
+                                v-if="enrollment.responsible_user"
+                                :href="'#'"
+                                class="text-primary-11 hover:underline"
+                            >
+                                {{ enrollment.responsible_user?.name }}
+                            </Link>
+                            <span v-else class="text-theme-21">
+                                {{ __("Not selected") }}
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        v-if="enrollment.status === 'complete'"
+                        class="flex items-center gap-2"
+                    >
+                        <div class="form-inline">
+                            <input
+                                v-model="enrollment.processed"
+                                class="form-check-switch scale-75 me-1 bg-gray-200"
+                                type="checkbox"
+                                @change="
+                                    $inertia.put(
+                                        route(
+                                            'admin.enrollments.toggle-processed',
+                                            [enrollment.id]
+                                        )
+                                    )
+                                "
+                                id="toggle-processed"
+                            />
+                            <label
+                                class="form-label cursor-pointer"
+                                for="toggle-processed"
+                            >
+                                {{ __("Processed") }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </Td>
             <Td v-if="!currentLead">
                 <p
@@ -174,48 +259,6 @@
                         {{ $filters.formatDateTime(enrollment.paid_at) }}</span
                     >
                 </p>
-            </Td>
-            <Td>
-                <Badge
-                    :class="{
-                        'bg-gray-300 text-gray-800':
-                            enrollment.status === 'pending',
-                        'bg-orange-600':
-                            enrollment.status === 'contract signed',
-                        'bg-green-600': enrollment.status === 'complete',
-                        'bg-theme-21': enrollment.status === 'canceled',
-                    }"
-                    class="text-xs capitalize"
-                >
-                    {{ __(enrollment.status) }}
-                </Badge>
-                <div
-                    v-if="enrollment.status === 'complete'"
-                    class="flex items-center gap-2 mt-3"
-                >
-                    <div class="form-inline">
-                        <input
-                            v-model="enrollment.processed"
-                            class="form-check-switch me-2 bg-gray-200"
-                            type="checkbox"
-                            @change="
-                                $inertia.put(
-                                    route(
-                                        'admin.enrollments.toggle-processed',
-                                        [enrollment.id]
-                                    )
-                                )
-                            "
-                            :id="`toggle-processed-${enrollment.id}`"
-                        />
-                        <label
-                            class="form-label cursor-pointer"
-                            :for="`toggle-processed-${enrollment.id}`"
-                        >
-                            {{ __("Processed") }}
-                        </label>
-                    </div>
-                </div>
             </Td>
             <Td>
                 <Dropdown>
