@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "locale" => \App\Http\Middleware\SetLocale::class,
-        "enrollment" => \App\Http\Middleware\ValidateEnrollment::class
+        "enrollment" => \App\Http\Middleware\ValidateEnrollment::class,
+        "calendly.webhook" => \App\Http\Middleware\ValidateCalendlyWebhook::class,
     ];
 }

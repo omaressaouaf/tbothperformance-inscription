@@ -19,6 +19,8 @@ use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
+use App\Http\Controllers\CalendlyWebhookController;
+use App\Http\Controllers\Lead\Meetings\MeetingController;
 
 Route::inertia('/', "Welcome");
 
@@ -49,39 +51,41 @@ Route::middleware(["locale"])->group(function () {
             Route::post("/logout", [AuthenticatedSessionController::class, "destroy"])->name("logout");
 
             // Enrollment
-            Route::prefix("/enrollments")
-                ->as("enrollments.")
-                ->group(function () {
-                    Route::post("/", [EnrollmentController::class, "store"])->name("store");
+            Route::prefix("/enrollments")->as("enrollments.")->group(function () {
+                Route::post("/", [EnrollmentController::class, "store"])->name("store");
 
-                    Route::middleware(["enrollment"])->group(function () {
-                        Route::get("/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
-                            ->name("course.edit");
-                        Route::patch("/{enrollment}/course", [EnrollmentCourseController::class, "update"])
-                            ->name("course.update");
+                Route::middleware(["enrollment"])->group(function () {
+                    Route::get("/{enrollment}/course", [EnrollmentCourseController::class, "edit"])
+                        ->name("course.edit");
+                    Route::patch("/{enrollment}/course", [EnrollmentCourseController::class, "update"])
+                        ->name("course.update");
 
-                        Route::get("/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
-                            ->name("financing.edit");
-                        Route::patch("/{enrollment}/financing", [EnrollmentFinancingController::class, "update"])
-                            ->name("financing.update");
+                    Route::get("/{enrollment}/financing", [EnrollmentFinancingController::class, "edit"])
+                        ->name("financing.edit");
+                    Route::patch("/{enrollment}/financing", [EnrollmentFinancingController::class, "update"])
+                        ->name("financing.update");
 
-                        Route::get("/{enrollment}/plan", [EnrollmentPlanController::class, "edit"])
-                            ->name("plan.edit");
-                        Route::patch("/{enrollment}/plan", [EnrollmentPlanController::class, "update"])
-                            ->name("plan.update");
+                    Route::get("/{enrollment}/plan", [EnrollmentPlanController::class, "edit"])
+                        ->name("plan.edit");
+                    Route::patch("/{enrollment}/plan", [EnrollmentPlanController::class, "update"])
+                        ->name("plan.update");
 
-                        Route::get("/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
-                            ->name("validation.edit");
-                        Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
-                            ->name("validation.update");
+                    Route::get("/{enrollment}/validation", [EnrollmentValidationController::class, "edit"])
+                        ->name("validation.edit");
+                    Route::patch("/{enrollment}/validation", [EnrollmentValidationController::class, "update"])
+                        ->name("validation.update");
 
-                        Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
-                            ->name("payment.checkout");
-                    });
-
-                    Route::get("/{enrollment}/success", [EnrollmentPaymentController::class, "success"])
-                        ->name("payment.success");
+                    Route::get("/{enrollment}/payment", [EnrollmentPaymentController::class, "checkout"])
+                        ->name("payment.checkout");
                 });
+
+                Route::get("/{enrollment}/success", [EnrollmentPaymentController::class, "success"])
+                    ->name("payment.success");
+            });
+
+            Route::prefix("/meetings")->as("meetings.")->group(function () {
+                Route::resource("", MeetingController::class)->only(["create", "store"]);
+            });
         });
     });
 
@@ -143,3 +147,8 @@ Route::get("/files/{path}", [FileController::class, "serve"])
     ->where('path', '(.*)')
     ->name("files.serve")
     ->middleware(["auth:lead"]);
+
+// Calendly webhook
+Route::post("/calendly/webhook", CalendlyWebhookController::class)
+    ->middleware("calendly.webhook")
+    ->name("calendly.webhook");

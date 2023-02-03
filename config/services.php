@@ -31,4 +31,22 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'yousign' => [
+        'key' => env('YOUSIGN_KEY'),
+        'env' => env('YOUSIGN_ENV'),
+
+    ],
+
+    'calendly' => [
+        'key' => env('CALENDLY_KEY'),
+        'organization_url' => env('CALENDLY_ORGANIZATION_URL'),
+        'embeded_url' => env('CALENDLY_EMBEDED_URL'),
+        'webhook_signing_key' => env("CALENDLY_WEBHOOK_SIGNING_KEY")
+    ],
+
 ];

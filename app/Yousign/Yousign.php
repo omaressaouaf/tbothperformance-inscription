@@ -18,8 +18,8 @@ class Yousign
 
     public function __construct()
     {
-        $this->setApiKey(env("YOUSIGN_KEY"));
-        $this->setApiEnv(env("YOUSIGN_ENV"));
+        $this->setApiKey(config("services.yousign.key"));
+        $this->setApiEnv(config("services.yousign.env"));
     }
 
     public function getBaseUrl(): string
