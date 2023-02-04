@@ -1052,5 +1052,7 @@
     "Processed": "Traitée",
     "Responsible user": "Utilisateur responsable",
     ":user has assigned you to process enrollment :enrollment": ":user vous a assigné pour traiter l'inscription :enrollment",
-    "New enrollment to process": "Nouvelle inscription à traiter"
+    "New enrollment to process": "Nouvelle inscription à traiter",
+    "Meeting has been booked successfully": "La réunion a été réservée avec succès",
+    "Meeting has been booked in calendly. but an error happened in our server.": "La réunion a été réservée dans calendly. mais une erreur s'est produite sur notre serveur."
 }

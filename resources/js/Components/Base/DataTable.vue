@@ -207,34 +207,34 @@
                         </table>
                     </FloatingScroll>
                     <div
-                        v-if="(length || paginate) && !simpleTable"
+                        v-if="length || paginate"
                         class="flex flex-wrap sm:flex-nowrap items-center justify-between mt-2 px-1 py-4"
                     >
                         <div
-                            v-if="length && !simpleTable"
+                            v-if="length"
                             class="hidden md:block text-gray-600"
                         >
                             {{
                                 __("Showing :from to :to of :rows entries", {
                                     from: paginate
-                                        ? pagination.from || 0
+                                        ? pagination?.from || 0
                                         : $slots.default()[0].children.length
                                         ? 1
                                         : 0,
                                     to: paginate
-                                        ? pagination.to || 0
+                                        ? pagination?.to || 0
                                         : $slots.default()[0].children.length ||
                                           total,
                                     rows: paginate
-                                        ? pagination.total || 0
+                                        ? pagination?.total || 0
                                         : $slots.default()[0].children.length ||
                                           total,
                                 })
                             }}
                         </div>
                         <Pagination
-                            v-if="paginate && !simpleTable"
-                            :links="pagination.links"
+                            v-if="paginate"
+                            :links="pagination?.links"
                         />
                     </div>
                 </div>

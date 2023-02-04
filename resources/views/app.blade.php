@@ -18,8 +18,12 @@
    @inertiaHead
 
    <script src="https://cdn.yousign.tech/iframe-sdk-1.1.0.min.js"></script>
-   <script type="text/javascript"
-      src="https://assets.calendly.com/assets/external/widget.js"></script>
+
+   <link href="https://assets.calendly.com/assets/external/widget.css"
+      rel="stylesheet">
+   <script src="https://assets.calendly.com/assets/external/widget.js"
+      type="text/javascript"
+      async></script>
 </head>
 
 <body class="font-sans antialiased">

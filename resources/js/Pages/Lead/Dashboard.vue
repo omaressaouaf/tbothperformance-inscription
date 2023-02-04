@@ -52,23 +52,7 @@
                     <div
                         class="overflow-hidden shadow-sm sm:rounded-lg p-6 bg-white dark:bg-dark-3 border-b border-gray-200"
                     >
-                        <div class="mt-5">
-                            <div class="flex items-center justify-between">
-                                <h3
-                                    class="text-base font-semibold text-gray-700 dark:text-gray-200 flex gap-2 items-center"
-                                >
-                                    <CalendarIcon class="w-5 h-5" />
-                                    {{ __("All meetings") }}
-                                </h3>
-                                <Link
-                                    :href="route('lead.meetings.create')"
-                                    class="btn btn-primary"
-                                >
-                                    <PlusIcon class="w-4 h-4 me-2" />
-                                    {{ __("Book a meeting") }}
-                                </Link>
-                            </div>
-                        </div>
+                        <MeetingsList />
                     </div>
                 </div>
             </div>
@@ -79,17 +63,19 @@
 <script>
 import LeadCreateEdit from "@/Components/Lead/CreateEdit.vue";
 import EnrollmentsList from "@/Components/Lead/Enrollments/List.vue";
+import MeetingsList from "@/Components/Lead/Meetings/List.vue";
 import LeadLoggedInAlert from "@/Components/Lead/LoggedInAlert.vue";
 
 export default {
     components: {
         LeadCreateEdit,
         EnrollmentsList,
+        MeetingsList,
         LeadLoggedInAlert,
     },
     props: {
         pendingEnrollment: Object,
-        enrollments: Array,
+        enrollments: Object,
     },
 };
 </script>

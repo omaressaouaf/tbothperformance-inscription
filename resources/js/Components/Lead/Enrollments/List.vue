@@ -6,7 +6,12 @@
             <div class="p-1.5 rounded-full bg-green-600"></div>
             {{ __("Pending enrollment") }}
         </h3>
-        <DataTable :simple-table="true" class="mt-5 intro-x">
+        <DataTable
+            :simple-table="true"
+            :length="false"
+            :paginate="false"
+            class="mt-5 intro-x"
+        >
             <template #headings>
                 <tr class="bg-gray-200 dark:bg-dark-2 text-gray-700">
                     <Th class="whitespace-nowrap">{{
@@ -91,7 +96,18 @@
                 {{ __("New enrollment") }}
             </Link>
         </div>
-        <DataTable v-if="enrollments.length" :simple-table="true" class="mt-5 intro-x">
+        <DataTable
+            v-if="enrollments.data.length"
+            :simple-table="true"
+            :pagination="{
+                links: enrollments.links,
+                from: enrollments.from,
+                to: enrollments.to,
+                total: enrollments.total,
+                currentPage: enrollments.current_page,
+            }"
+            class="mt-5 intro-x"
+        >
             <template #headings>
                 <tr class="bg-gray-200 dark:bg-dark-2 text-gray-700">
                     <Th class="whitespace-nowrap">{{
@@ -108,7 +124,7 @@
                 </tr>
             </template>
             <Tr
-                v-for="enrollment in enrollments"
+                v-for="enrollment in enrollments.data"
                 :key="enrollment.id"
                 class="!bg-white dark:!bg-dark-3"
             >
@@ -177,7 +193,7 @@
 export default {
     props: {
         pendingEnrollment: Object,
-        enrollments: Array,
+        enrollments: Object,
     },
     mounted() {
         if (this.$page.props.flash.openCpfLink) {

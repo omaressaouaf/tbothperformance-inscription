@@ -53,7 +53,7 @@ class Calendly
 
         $response = $client->{$method}($this->getBaseUrl() . $path, [
             ...$params,
-            "organization" => env("CALENDLY_ORGANIZATION_URL")
+            "organization" => config("services.calendly.organization_url")
         ])
             ->throw();
 
@@ -63,6 +63,11 @@ class Calendly
     public function me(): mixed
     {
         return $this->makeRequest("get", "users/me");
+    }
+
+    public function getUser(string $userId): mixed
+    {
+        return $this->makeRequest("get", "users/{$userId}");
     }
 
     public function webhookIsValid(Request $request): bool
@@ -90,11 +95,6 @@ class Calendly
         return $this->makeRequest("delete", "webhook_subscriptions/{$webhookId}");
     }
 
-    public function getUser(string $userId): mixed
-    {
-        return $this->makeRequest("get", "users/{$userId}");
-    }
-
     public function getEvents(): mixed
     {
         return $this->makeRequest("get", "scheduled_events");
@@ -103,6 +103,11 @@ class Calendly
     public function getEvent(string $eventId): mixed
     {
         return $this->makeRequest("get", "scheduled_events/{$eventId}");
+    }
+
+    public function cancelEvent(string $eventId, array $data = []): mixed
+    {
+        return $this->makeRequest("post", "scheduled_events/{$eventId}/cancellation", $data);
     }
 
     public function getEventInvitees(string $eventId): mixed

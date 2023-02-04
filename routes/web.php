@@ -8,8 +8,10 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\SwitchLocaleController;
 use App\Http\Controllers\Lead\DashboardController;
+use App\Http\Controllers\CalendlyWebhookController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\CourseCategoryController;
+use App\Http\Controllers\Lead\Meetings\MeetingController;
 use App\Http\Controllers\Lead\AuthenticatedSessionController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentPlanController;
@@ -19,8 +21,6 @@ use App\Http\Controllers\Lead\Enrollments\EnrollmentPaymentController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentFinancingController;
 use App\Http\Controllers\Lead\Enrollments\EnrollmentValidationController;
 use App\Http\Controllers\Admin\EnrollmentController as AdminEnrollmentController;
-use App\Http\Controllers\CalendlyWebhookController;
-use App\Http\Controllers\Lead\Meetings\MeetingController;
 
 Route::inertia('/', "Welcome");
 
@@ -83,9 +83,7 @@ Route::middleware(["locale"])->group(function () {
                     ->name("payment.success");
             });
 
-            Route::prefix("/meetings")->as("meetings.")->group(function () {
-                Route::resource("", MeetingController::class)->only(["create", "store"]);
-            });
+            Route::post("/meetings", [MeetingController::class, "store"])->name("meetings.store");
         });
     });
 

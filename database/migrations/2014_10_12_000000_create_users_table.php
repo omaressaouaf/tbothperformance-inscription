@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string("locale")->nullable()->default(config("app.locale"));
+            $table->text("calendly_slug")->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
