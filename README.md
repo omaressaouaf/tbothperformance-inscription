@@ -19,6 +19,3 @@ This repository contains the core CRM for [T-Both Performance company](https://t
 - Run `npm install && npm run dev`
 - Launch the [inscription.t-bothperformance.test/lead](inscription.t-bothperformance.test/lead) for the lead app
 - Launch the [inscription.t-bothperformance.test/admin](inscription.t-bothperformance.test/admin) for the admin app
-
-
----
